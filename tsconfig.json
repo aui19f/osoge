@@ -18,10 +18,18 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".", // 루트 디렉토리 기준
+
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.js"
+  ],
   "exclude": ["node_modules"]
 }
