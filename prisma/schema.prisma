@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum EnumRole {
+  GUEST
+  ADMIN
+  MASTER
+}
+
+enum EnumUserStatus {
+  JOIN
+  WITHDRAW
+}
+
+enum EnumStatus {
+  READY
+  COMPLETED
+  CANCEL
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id         String          @id //@default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?       @default(now()) @db.Timestamp(6)
+  email      String          @unique
+  nickname   String?
+  role       EnumRole        @default(GUEST)
+  status     EnumUserStatus? @default(JOIN)
+  receive    receive[]
+}
+
+model receive {
+  id         String     @id @default(uuid())
+  created_at DateTime   @default(now())
+  updated_at DateTime?  @default(now())
+  phone      String
+  status     EnumStatus @default(READY)
+  users      users      @relation(fields: [usersId], references: [id])
+  usersId    String
+}
