@@ -6,10 +6,10 @@ export interface SelectOption {
 type SelectProps = {
   options: SelectOption[];
   value: string;
-  onChange: (id: string) => void;
+  onChange?: (id: string) => void;
 };
 
-export default function Select({ options, value, onChange }: SelectProps) {
+export default function Select({ options, value }: SelectProps) {
   console.log("options: ", options);
   return (
     <div className="relative flex-1 inline-block">
