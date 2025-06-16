@@ -22,15 +22,15 @@ export default function Search() {
     setValue("");
     setSearchType(id);
   };
-  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-    setValue(value);
-  };
-  const onClick = () => {
-    console.log(value);
-  };
+  // const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const {
+  //     target: { value },
+  //   } = e;
+  //   setValue(value);
+  // };
+  // const onClick = () => {
+  //   console.log(value);
+  // };
   return (
     <div className="flex flex-col gap-4 p-2 ">
       <Tabs

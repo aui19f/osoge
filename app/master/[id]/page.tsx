@@ -1,10 +1,10 @@
 "use client";
 
 import getItems from "@/app/master/[id]/actions";
-import SendCheck from "@/components/modals/sendChack";
+// import SendCheck from "@/components/modals/sendChack";
 import { EnumStatus } from "@/lib/constants/status";
 
-import { formatRelativeDate } from "@/lib/utils";
+// import { formatRelativeDate } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export default function Details({ params }: { params: { id: string } }) {
@@ -18,7 +18,6 @@ export default function Details({ params }: { params: { id: string } }) {
   };
   const statusLabels: Record<EnumStatus, string> = {
     [EnumStatus.READY]: "접수",
-    [EnumStatus.IN_PROGRESS]: "진행중",
     [EnumStatus.COMPLETED]: "완료",
     [EnumStatus.CANCEL]: "취소",
   };

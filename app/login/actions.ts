@@ -4,13 +4,17 @@ import { z } from "zod";
 import { supabase } from "@/lib/supabaseClient";
 import db from "@/lib/db";
 import getSession from "@/lib/sesstion";
+import { EnumRole } from "@prisma/client";
 
 const formSchema = z.object({
   email: z.string(),
   password: z.string(),
 });
-export default async function LoginForm(prevState: any, formData: FormData) {
-  console.log(">>>>", formData);
+
+export default async function LoginForm(
+  _prevState: unknown,
+  formData: FormData
+) {
   const data = {
     email: formData.get("email"),
     password: formData.get("password"),
@@ -23,8 +27,8 @@ export default async function LoginForm(prevState: any, formData: FormData) {
 
   const { data: loginData, error: loginError } =
     await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
+      email: data.email + "",
+      password: data.password + "",
     });
 
   if (loginError) {
@@ -40,7 +44,7 @@ export default async function LoginForm(prevState: any, formData: FormData) {
   const userInDb = await db.users.findUniqueOrThrow({
     where: { id: user.id }, // Supabase 유저 ID로 조회
   });
-  console.log("userInDb", userInDb);
+
   if (!userInDb) {
     throw new Error("User data not found in local DB");
   }
@@ -48,6 +52,7 @@ export default async function LoginForm(prevState: any, formData: FormData) {
   // //사용자 정보를 세션에 저장
   const session = await getSession();
   session.id = userInDb!.id;
-  session.role = userInDb.role;
+  session.role = userInDb.role as EnumRole;
+
   await session.save();
 }

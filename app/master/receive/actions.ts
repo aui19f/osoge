@@ -14,7 +14,10 @@ const phoneSchema = z
     "핸드폰 번호 형식이 올바르지 않습니다."
   );
 
-export default async function ReceiveForm(prevState: any, formData: FormData) {
+export default async function ReceiveForm(
+  prevState: unknown,
+  formData: FormData
+) {
   const inputData = formData.get("phone");
   const isAgree = formData.get("agree");
 
