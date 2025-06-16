@@ -1,30 +1,31 @@
 "use client";
 
-import getItems from "@/app/master/[id]/actions";
+// import getItems from "@/app/master/[id]/actions";
 // import SendCheck from "@/components/modals/sendChack";
-import { EnumStatus } from "@/lib/constants/status";
+// import { EnumStatus } from "@/lib/constants/status";
 
 // import { formatRelativeDate } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect } from "react"; //useState
 
-export default function Details({ params }: { params: { id: string } }) {
-  const [detailStatus, setDetailStatus] = useState(EnumStatus.READY);
-  const [items, setItems] = useState();
+//{ params }: { params: { id: string } }
+export default function Details() {
+  // const [detailStatus, setDetailStatus] = useState(EnumStatus.READY);
+  // const [items, setItems] = useState();
 
   const fetchGetItems = async () => {
-    const { id } = params;
-    const result = await getItems(id);
-    setItems(result);
+    // const { id } = params;
+    // const result = await getItems(id);
+    // setItems(result);
   };
-  const statusLabels: Record<EnumStatus, string> = {
-    [EnumStatus.READY]: "접수",
-    [EnumStatus.COMPLETED]: "완료",
-    [EnumStatus.CANCEL]: "취소",
-  };
+  // const statusLabels: Record<EnumStatus, string> = {
+  //   [EnumStatus.READY]: "접수",
+  //   [EnumStatus.COMPLETED]: "완료",
+  //   [EnumStatus.CANCEL]: "취소",
+  // };
 
-  const chnageStatus = (status: EnumStatus) => {
-    console.log("[status] ", status);
-  };
+  // const chnageStatus = (status: EnumStatus) => {
+  //   console.log("[status] ", status);
+  // };
   useEffect(() => {
     fetchGetItems();
   }, []);
@@ -43,7 +44,7 @@ export default function Details({ params }: { params: { id: string } }) {
 
         <div>
           <p className="w-24 text-lg ">상태</p>
-          <ul className="flex items-center flex-1">
+          {/* <ul className="flex items-center flex-1">
             {Object.values(EnumStatus).map((status, index) => (
               <li
                 key={status}
@@ -61,7 +62,7 @@ export default function Details({ params }: { params: { id: string } }) {
                 {statusLabels[status]}
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
 
         <div>
