@@ -8,7 +8,7 @@ import Button from "@/components/forms/form-button";
 import Input from "@/components/forms/form-Input";
 import Checkbox from "@/components/forms/form-checkbox";
 import ReceiveForm from "@/app/master/receive/actions";
-import { setConfig } from "next/config";
+
 // useFormState가 useActionState로 이름이 바뀐것 같습니다!
 
 export default function Receive() {
@@ -125,7 +125,7 @@ export default function Receive() {
           sutmsg={
             agree === "agree"
               ? ""
-              : "개인정보 수집 및 이용에 동의하지 않으면, 완료 안내 문자가발송되지 않습니다."
+              : "개11인정보 수집 및 이용에 동의하지 않으면, 완료 안내 문자가발송되지 않습니다."
           }
           textArr={configMsg}
           onClose={onClose}
