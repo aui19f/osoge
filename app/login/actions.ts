@@ -52,7 +52,7 @@ export default async function LoginForm(
   // //사용자 정보를 세션에 저장
   const session = await getSession();
   session.id = userInDb!.id;
-  session.role = userInDb.role as EnumRole;
+  // session.role = userInDb.role as EnumRole;
 
   await session.save();
 }
