@@ -42,6 +42,7 @@ export default function Search() {
         <div>
           <Input
             type="tel"
+            value={value}
             name="phone"
             errors={[]}
             placeholder="입력해주세요."

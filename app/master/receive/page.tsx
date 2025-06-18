@@ -1,15 +1,21 @@
 "use client";
+import ReceiveForm from "@/app/master/receive/actions";
 import Button from "@/components/form-button";
 import Checkbox from "@/components/form-checkbox";
 import Input from "@/components/form-input";
 import Confirm from "@/components/modal/confirm";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useActionState, useRef, useState } from "react";
 
 export default function Receive() {
   const [phone, setPhone] = useState("");
   const [agree, setAgree] = useState("");
   const [isModel, setIsModal] = useState(false);
+
+  const [state, actions] = useActionState(ReceiveForm, null);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
   // 오늘 날짜 셋팅
   dayjs.locale("ko");
 
@@ -53,17 +59,24 @@ export default function Receive() {
     setIsModal(false);
   };
 
-  const onClick = () => {
+  const onClick = async () => {
     //todo
     //1. 출력
     //2. 디비 저장
+    const form = formRef.current;
+    if (!form) return;
+
+    const formData = new FormData(form);
+    await actions(formData); // ✅ 수동으로 액션 실행
+    setIsModal(false); // 모달 닫기
     console.log("OK");
   };
 
   return (
     <div>
       <form
-        action=""
+        action="actions"
+        ref={formRef}
         className="flex flex-col gap-3 p-3 "
         onSubmit={handleSubmit}
       >
@@ -72,6 +85,7 @@ export default function Receive() {
 
         <Input
           name={"phone"}
+          errors={state?.fieldErrors?.formErrors}
           type={"tel"}
           maxLength={13}
           pattern={"d*"}
@@ -79,7 +93,6 @@ export default function Receive() {
           onChange={(e) => onChangeInput(e)}
           autoFocus
         />
-        {/* errors={state?.formErrors.toString()} */}
 
         <p>완료된 후 안내메시지(알림톡)을 전송합니다. </p>
         <div className="inline-flex items-center">

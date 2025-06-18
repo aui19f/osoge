@@ -13,6 +13,7 @@ export default function Input({
   value,
   ...rest
 }: IFormInput & InputHTMLAttributes<HTMLInputElement>) {
+  console.log("errors", errors);
   return (
     <div>
       <input
