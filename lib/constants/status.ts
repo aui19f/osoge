@@ -9,3 +9,8 @@ export const statusLabels: Record<EnumStatus, string> = {
   [EnumStatus.COMPLETED]: "완료",
   [EnumStatus.CANCEL]: "취소",
 };
+
+export const statusSelectOptions = Object.values(EnumStatus).map((status) => ({
+  id: status,
+  label: statusLabels[status],
+}));

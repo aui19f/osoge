@@ -8,7 +8,7 @@ export default function MasterLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
-  console.log("pathname", pathname);
+
   const masterMenu = [
     { name: "menu_home", path: "/master" },
     { name: "menu_list", path: "/master/list" },
@@ -19,10 +19,10 @@ export default function MasterLayout({
 
   return (
     <div>
-      <div className="flex items-center justify-center h-32 bg-slate-50">
+      <div className="flex items-center justify-center h-20 bg-slate-50">
         <h2 className="text-3xl font-bold text-slate-400">TITLE</h2>
       </div>
-      <main className="h-[calc(100vh-208px)] overflow-auto">{children}</main>
+      <main className="h-[calc(100vh-160px)] overflow-auto">{children}</main>
       <footer className="flex h-20">
         {masterMenu.map((item) => {
           // "/"는 정확히 일치해야만 홈으로 간주
