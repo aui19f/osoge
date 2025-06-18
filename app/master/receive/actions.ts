@@ -27,14 +27,10 @@ export default async function ReceiveForm(
 
   const result = await phoneSchema.safeParseAsync(inputData);
   if (!result.success) {
-    console.error("1 [ERROR] ", result.error.flatten());
-    console.error("2 [ERROR] ", result.error.flatten().fieldErrors);
     return {
       success: false,
       fieldErrors: result.error.flatten(),
     };
-  } else {
-    console.log("올바른 번호:", result.data);
   }
 
   //접수번호를 가져와야함.
@@ -43,7 +39,7 @@ export default async function ReceiveForm(
 
   const todayStart = now.startOf("day").toDate();
   const todayEnd = now.endOf("day").toDate();
-  console.log("날짜: ", todayStart, todayEnd);
+
   const todayCount = await db.receive.count({
     where: {
       created_at: {
@@ -53,9 +49,8 @@ export default async function ReceiveForm(
     },
   });
   const serialCode = `${todayCode}${String(todayCount + 1).padStart(2, "0")}`;
-  console.log("serialCode", serialCode);
+
   //디비저장 아이디출력
-  // const session = await getSession();
   const receive = await db.receive.create({
     data: {
       serialCode,
@@ -68,7 +63,7 @@ export default async function ReceiveForm(
       id: true,
     },
   });
-  console.log("receive", receive);
+
   return {
     success: true,
   };

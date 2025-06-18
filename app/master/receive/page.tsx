@@ -48,7 +48,6 @@ export default function Receive() {
   //전송
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("MODAL OPEN");
     if (agree === "agree") {
     } else {
     }
@@ -69,7 +68,6 @@ export default function Receive() {
     const formData = new FormData(form);
     await actions(formData); // ✅ 수동으로 액션 실행
     setIsModal(false); // 모달 닫기
-    console.log("OK");
   };
 
   return (
