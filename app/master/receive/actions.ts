@@ -51,7 +51,7 @@ export default async function ReceiveForm(
   const serialCode = `${todayCode}${String(todayCount + 1).padStart(2, "0")}`;
 
   //디비저장 아이디출력
-  const receive = await db.receive.create({
+  await db.receive.create({
     data: {
       serialCode,
       phone: agree === "agree" ? result.data : "",

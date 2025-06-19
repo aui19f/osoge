@@ -1,11 +1,17 @@
 import { IOption } from "@/types/options";
 
 type optionsProps = {
+  name: string;
   options: IOption[];
   selected: string[];
   onClick?: (id: string) => void;
 };
-export default function Tabs({ options, selected, onClick }: optionsProps) {
+export default function Tabs({
+  name,
+  options,
+  selected,
+  onClick,
+}: optionsProps) {
   return (
     <div className="flex h-12 border rounded-md border-slate-200">
       {options.map((option) => {
@@ -26,6 +32,7 @@ export default function Tabs({ options, selected, onClick }: optionsProps) {
           </div>
         );
       })}
+      <input type="hidden" value={selected} name={name} />
     </div>
   );
 }

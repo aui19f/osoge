@@ -1,17 +1,24 @@
 import { IOption } from "@/types/options";
 
 type SelectProps = {
+  name: string;
   options: IOption[];
   value: string;
 
   onChange: (value: string) => void; // 선택된 값 변경 시 호출
 };
 
-export default function Select({ options, value, onChange }: SelectProps) {
+export default function Select({
+  name,
+  options,
+  value,
+  onChange,
+}: SelectProps) {
   console.log("options: ", options);
   return (
     <div className="relative flex-1 inline-block">
       <select
+        name={name}
         value={value}
         className="w-full h-12 pl-2 pr-6 border rounded-md appearance-none border-slate-400"
         onChange={(e) => onChange(e.target.value)}
