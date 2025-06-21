@@ -1,7 +1,7 @@
 import { IOption } from "@/types/options";
 
 type optionsProps = {
-  name: string;
+  name?: string;
   options: IOption[];
   selected: string[];
   onClick?: (id: string) => void;

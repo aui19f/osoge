@@ -22,12 +22,12 @@ const statusMap: Record<string, EnumStatus> = {
 
 export default async function fetchReceiveList(
   prevState: unknown,
-  formDate: FormData
+  formData: FormData
 ) {
   // const session = await getSession();
   const data = {
-    date: formDate.get("date"),
-    status: formDate.get("status"),
+    date: formData.get("date"),
+    status: formData.get("status"),
   };
 
   const result = await selectSchema.safeParseAsync(data);
@@ -73,7 +73,7 @@ export default async function fetchReceiveList(
     select: {
       id: true,
       created_at: true,
-      updated_at: true,
+      // updated_at: true,
       status: true,
       phone: true,
       serialCode: true,

@@ -14,7 +14,6 @@ export default function Select({
   value,
   onChange,
 }: SelectProps) {
-  console.log("options: ", options);
   return (
     <div className="relative flex-1 inline-block">
       <select

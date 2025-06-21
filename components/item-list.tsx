@@ -1,17 +1,25 @@
-import { InitialReceive } from "@/app/master/list/actions";
 import { EnumNextStatus, statusLabels } from "@/lib/constants/status";
+import { EnumStatus } from "@prisma/client";
+import dayjs from "dayjs";
 
-type ItemProps = NonNullable<InitialReceive["data"]>[number];
-
+// type ItemProps = NonNullable<InitialReceive["data"]>[number];
+export interface ItemProps {
+  id: string;
+  serialCode: string;
+  created_at?: Date;
+  updated_at?: Date;
+  phone?: string;
+  status?: EnumStatus;
+  usersId?: string;
+}
 export default function ItemList({
   id,
-  status,
+  serialCode,
   created_at,
   // updated_at,
-  // phone,
-  serialCode,
+  phone,
+  status,
 }: ItemProps) {
-  console.log(status, typeof status);
   return (
     <li
       key={id}
@@ -36,14 +44,14 @@ export default function ItemList({
       </p>
       <p>
         <span>접수일</span>
-        <span>{created_at.toLocaleDateString()}</span>
+        <span>{dayjs(created_at).format("YYYY/MM/DD")}</span>
       </p>
-      {/* {phone && (
+      {phone && (
         <p>
           <span>연락처</span>
-          <span>{phone}</span>
+          <span>{phone.replace(/.(?=.{4})/g, "*")}</span>
         </p>
-      )} */}
+      )}
     </li>
   );
 }

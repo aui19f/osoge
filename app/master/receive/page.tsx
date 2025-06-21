@@ -3,6 +3,7 @@ import ReceiveForm from "@/app/master/receive/actions";
 import Button from "@/components/form-button";
 import Checkbox from "@/components/form-checkbox";
 import Input from "@/components/form-input";
+import Loading from "@/components/loading";
 import Confirm from "@/components/modal/confirm";
 import dayjs from "dayjs";
 import React, { useActionState, useRef, useState } from "react";
@@ -12,7 +13,7 @@ export default function Receive() {
   const [agree, setAgree] = useState("");
   const [isModel, setIsModal] = useState(false);
 
-  const [state, actions] = useActionState(ReceiveForm, null);
+  const [state, actions, isPending] = useActionState(ReceiveForm, null);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -72,6 +73,7 @@ export default function Receive() {
 
   return (
     <div>
+      {isPending && <Loading />}
       <form
         action="actions"
         ref={formRef}
