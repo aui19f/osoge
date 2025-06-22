@@ -4,14 +4,22 @@ import Button from "@/components/form-button";
 import Checkbox from "@/components/form-checkbox";
 import Input from "@/components/form-input";
 import Loading from "@/components/loading";
+import Complete from "@/components/modal/complete";
 import Confirm from "@/components/modal/confirm";
 import dayjs from "dayjs";
-import React, { useActionState, useRef, useState } from "react";
+import React, {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 export default function Receive() {
   const [phone, setPhone] = useState("");
   const [agree, setAgree] = useState("");
-  const [isModel, setIsModal] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const [state, actions, isPending] = useActionState(ReceiveForm, null);
 
@@ -52,30 +60,37 @@ export default function Receive() {
     if (agree === "agree") {
     } else {
     }
-    setIsModal(true);
+    setIsConfirm(true);
   };
 
-  const onClose = () => {
+  const closeModal = () => {
+    setPhone("");
+    setAgree("");
     setIsModal(false);
   };
 
   const onClick = async () => {
-    //todo
-    //1. 출력
-    //2. 디비 저장
-    const form = formRef.current;
-    if (!form) return;
+    startTransition(() => {
+      const form = formRef.current;
+      if (!form) return;
 
-    const formData = new FormData(form);
-    await actions(formData); // ✅ 수동으로 액션 실행
-    setIsModal(false); // 모달 닫기
+      const formData = new FormData(form);
+      actions(formData); // ✅ now allowed
+      setIsConfirm(false); // 모달 닫기
+    });
   };
+
+  useEffect(() => {
+    if (state?.success) {
+      // 모달추가
+      setIsModal(true);
+    }
+  }, [state]);
 
   return (
     <div>
       {isPending && <Loading />}
       <form
-        action="actions"
         ref={formRef}
         className="flex flex-col gap-3 p-3 "
         onSubmit={handleSubmit}
@@ -84,7 +99,8 @@ export default function Receive() {
         {/*  A hh:mm */}
 
         <Input
-          name={"phone"}
+          name="phone"
+          value={phone}
           errors={state?.fieldErrors?.formErrors}
           type={"tel"}
           maxLength={13}
@@ -108,7 +124,7 @@ export default function Receive() {
           출력/접수
         </Button>
       </form>
-      {isModel && (
+      {isConfirm && (
         <Confirm
           title={"접수하시겠습니까?"}
           icon={"modal_registration"}
@@ -118,8 +134,19 @@ export default function Receive() {
               : "개인정보 수집 및 이용에 동의하지 않으면, 완료 안내 문자가발송되지 않습니다."
           }
           textArr={configMsg}
-          onClose={onClose}
+          onClose={() => setIsConfirm(false)}
           onClick={onClick}
+        />
+      )}
+
+      {isModal && (
+        <Complete
+          txt={
+            agree === "agree"
+              ? "완료된 후 작성해주신 번호로 알림톡이 전송됩니다."
+              : "수선은 3~7일정도 소요됩니다."
+          }
+          onClose={closeModal}
         />
       )}
     </div>

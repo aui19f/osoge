@@ -44,11 +44,6 @@ export default async function SearchForm(
   }
 
   const result = await strategy({ value });
-  console.log("result", result);
-  console.log(">>>", {
-    success: true,
-    message: Array.isArray(result) ? [...result] : [],
-  });
 
   return { success: true, message: Array.isArray(result) ? [...result] : [] };
 }
