@@ -26,9 +26,13 @@ export default function List() {
     e.preventDefault();
     // FormData 객체를 생성하여 현재 상태 값들을 추가
     const formData = new FormData();
+    if (status.length === 0) {
+      return false;
+    }
     formData.append("date", option);
     formData.append("status", JSON.stringify(status));
-    // useActionState에서 반환된 formAction 함수를 직접 호출
+
+    // // useActionState에서 반환된 formAction 함수를 직접 호출
     // 이렇게 하면 폼의 input value에 직접 의존하지 않고 현재 React state를 기반으로 액션을 실행
     await actions(formData);
   };
@@ -42,36 +46,44 @@ export default function List() {
 
   return (
     <div>
-      <form
-        action={actions}
-        onSubmit={handleSubmit}
-        className="flex items-center h-20 gap-1 p-3"
-      >
-        <Select
-          name="date"
-          value={option}
-          options={options}
-          onChange={(val) => onChange(val)}
-        />
+      <div>
+        <form
+          action={actions}
+          onSubmit={handleSubmit}
+          className="flex items-center h-20 gap-1 p-3"
+        >
+          <Select
+            name="date"
+            value={option}
+            options={options}
+            onChange={(val) => onChange(val)}
+          />
 
-        <Tabs
-          name="status"
-          options={statusSelectOptions}
-          selected={status}
-          onClick={(id) => changeStatus(id)}
-        />
+          <Tabs
+            name="status"
+            options={statusSelectOptions}
+            selected={status}
+            onClick={(id) => changeStatus(id)}
+            isrequired={status.length === 0}
+          />
 
-        <div className="flex items-center justify-center border rounded-md size-12 border-slate-200">
-          <Image src="/images/sort.png" alt="sort" width={20} height={20} />
-        </div>
-        <Button type="submit" className="h-12">
-          조회
-        </Button>
-      </form>
+          <div className="flex items-center justify-center border rounded-md size-12 border-slate-200">
+            <Image src="/images/sort.png" alt="sort" width={20} height={20} />
+          </div>
+          <Button type="submit" className="h-12">
+            조회
+          </Button>
+        </form>
+        {status.length === 0 && (
+          <p className="px-3 mb-3 text-sm text-right text-red-400">
+            접수, 완료, 취소 중 하나를 선택해주세요.
+          </p>
+        )}
+      </div>
 
       {isPending && <Loading />}
 
-      <ul className="flex flex-col gap-2">
+      <ul className="flex flex-col gap-2 px-2 pt-3 border-t border-t-slate-200">
         {state?.data?.map((item) => (
           <ItemList key={item.id} {...item} />
         ))}

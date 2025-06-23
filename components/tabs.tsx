@@ -5,16 +5,25 @@ type optionsProps = {
   options: IOption[];
   selected: string[];
   onClick?: (id: string) => void;
+  className?: string;
+  isrequired?: boolean;
 };
 export default function Tabs({
   name,
   options,
   selected,
   onClick,
+  className = "",
+  isrequired,
 }: optionsProps) {
   return (
-    <div className="flex h-12 border rounded-md border-slate-200">
-      {options.map((option) => {
+    <div
+      className={`flex h-12 border  ${className} ${
+        isrequired ? "border-red-400  " : "border-slate-200"
+      } rounded-md `}
+    >
+      {options.map((option, index) => {
+        const isLastClass = index === options.length - 1;
         const isSelected = selected.includes(option.id);
         return (
           <div
@@ -25,7 +34,8 @@ export default function Tabs({
                 ? "bg-blue-400 text-blue-50"
                 : "bg-slate-50 text-slate-400 "
             }
-            last:border-r-0 last:rounded-r-md first:rounded-l-md`}
+               ${isLastClass ? "rounded-r-md " : ""}
+             first:rounded-l-md`}
             onClick={() => onClick?.(option.id)}
           >
             {option.label}

@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchReceiveById } from "@/app/master/search/[id]/actions";
 import MasterFooter from "@/components/master-footer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,10 +20,25 @@ export default function MasterLayout({
   const pathname = usePathname();
 
   useEffect(() => {
+    const pathParts = pathname.split("/");
+
+    // 1. "/master/receive/[id]" 형태인지 확인
+    if (pathname.startsWith("/master/search/") && pathParts.length === 4) {
+      const id = decodeURIComponent(pathParts[3]); // %인코딩 방지
+      fetchReceiveById(id).then((res) => {
+        if (res && res.serialCode) {
+          setTitle(res?.serialCode);
+        } else {
+          //없는 아이디이니 뒤로보내기..
+        }
+      });
+      return;
+    }
+
     const current = [...masterMenu]
       .sort((a, b) => b.path.length - a.path.length)
       .find((menu) => pathname.startsWith(menu.path));
-    setTitle(current?.title || "기본 타이틀");
+    setTitle(current?.title || "어서오게(OSOGE)");
   }, [pathname]); // pathname이 바뀔 때마다 실행됨
 
   return (

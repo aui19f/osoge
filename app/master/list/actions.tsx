@@ -14,11 +14,11 @@ const selectSchema = z.object({
   status: z.string({ required_error: "필수입력입니다." }),
 });
 
-const statusMap: Record<string, EnumStatus> = {
-  준비: EnumStatus.READY,
-  완료: EnumStatus.COMPLETED,
-  취소: EnumStatus.CANCEL,
-};
+// const statusMap: Record<string, EnumStatus> = {
+//   준비: EnumStatus.READY,
+//   완료: EnumStatus.COMPLETED,
+//   취소: EnumStatus.CANCEL,
+// };
 
 export default async function fetchReceiveList(
   prevState: unknown,
@@ -34,17 +34,20 @@ export default async function fetchReceiveList(
   if (!result.success) {
     return {};
   }
-
+  console.log("data.status", data.status);
   const enumStatuses: EnumStatus[] =
     typeof data.status === "string"
       ? data.status === ""
         ? []
         : data.status
+            .replace("[", "")
+            .replace("]", "")
+            .replace(/"/gi, "")
             .split(",")
-            .map((x) => statusMap[x])
+            // .map((x) => statusMap[x])
             .filter((x): x is EnumNextStatus => x !== undefined)
       : [];
-
+  console.log("enumStatuses: ", enumStatuses);
   const startDate = dayjs(data.date + "", "YYYY-MM")
     .startOf("month")
     .toDate();
@@ -54,7 +57,7 @@ export default async function fetchReceiveList(
 
   //   const enumStatuses = data.status!.split(',').map((txt) => statusMap[txt])
   //   .filter((x): x is EnumStatus => x !== undefined);
-
+  console.log("enumStatuses.length", enumStatuses.length);
   const listData = await db.receive.findMany({
     where: {
       usersId: "4ce3adff-a2fd-40c0-8dce-3037e5673f9b",
