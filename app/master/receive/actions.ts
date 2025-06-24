@@ -7,7 +7,7 @@ import { z } from "zod";
 import validator from "validator";
 import dayjs from "dayjs";
 import db from "@/lib/db";
-// import getSession from "@/lib/sesstion";
+import getSession from "@/lib/sesstion";
 import { EnumStatus } from "@prisma/client";
 
 const phoneSchema = z
@@ -49,15 +49,14 @@ export default async function ReceiveForm(
     },
   });
   const serialCode = `${todayCode}${String(todayCount + 1).padStart(2, "0")}`;
-
+  const session = await getSession();
   //디비저장 아이디출력
   await db.receive.create({
     data: {
       serialCode,
       phone: agree === "agree" ? result.data : "",
       status: "READY" as EnumStatus,
-      usersId: "4ce3adff-a2fd-40c0-8dce-3037e5673f9b",
-      //usersId: session.id!,
+      usersId: session.id!,
     },
     select: {
       id: true,
@@ -66,5 +65,9 @@ export default async function ReceiveForm(
 
   return {
     success: true,
+    data: {
+      message: "",
+      serialCode,
+    },
   };
 }

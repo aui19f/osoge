@@ -2,6 +2,7 @@
 
 import { EnumNextStatus } from "@/lib/constants/status";
 import db from "@/lib/db";
+import getSession from "@/lib/sesstion";
 // import getSession from "@/lib/sesstion";
 import { EnumStatus, Prisma } from "@prisma/client";
 import dayjs from "dayjs";
@@ -24,7 +25,7 @@ export default async function fetchReceiveList(
   prevState: unknown,
   formData: FormData
 ) {
-  // const session = await getSession();
+  const session = await getSession();
   const data = {
     date: formData.get("date"),
     status: formData.get("status"),
@@ -57,11 +58,10 @@ export default async function fetchReceiveList(
 
   //   const enumStatuses = data.status!.split(',').map((txt) => statusMap[txt])
   //   .filter((x): x is EnumStatus => x !== undefined);
-  console.log("enumStatuses.length", enumStatuses.length);
+
   const listData = await db.receive.findMany({
     where: {
-      usersId: "4ce3adff-a2fd-40c0-8dce-3037e5673f9b",
-      // usersId: session.id!,
+      usersId: session.id!,
       created_at: {
         gte: startDate, // Greater Than or Equal (시작일 포함)
         lte: endDate, // Less Than or Equal (마지막일 포함)

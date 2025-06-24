@@ -33,7 +33,6 @@ export default function Receive() {
   ];
 
   const configMsg = [
-    { id: "number", icon: "", label: "접수번호", txt: "TEST" },
     {
       id: "date",
       icon: "",
@@ -102,9 +101,9 @@ export default function Receive() {
           name="phone"
           value={phone}
           errors={state?.fieldErrors?.formErrors}
-          type={"tel"}
+          type="tel"
           maxLength={13}
-          pattern={"d*"}
+          pattern="[0-9]*"
           placeholder="핸드폰번호를입력해주세요"
           onChange={(e) => onChangeInput(e)}
           autoFocus
@@ -141,10 +140,11 @@ export default function Receive() {
 
       {isModal && (
         <Complete
+          title={`접수번호 ${state?.data?.serialCode}`}
           txt={
             agree === "agree"
-              ? "완료된 후 작성해주신 번호로 알림톡이 전송됩니다."
-              : "수선은 3~7일정도 소요됩니다."
+              ? `완료된 후 작성해주신 번호로 알림톡이 전송됩니다.`
+              : `수선은 3~7일정도 소요됩니다.`
           }
           onClose={closeModal}
         />

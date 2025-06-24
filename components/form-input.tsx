@@ -18,9 +18,9 @@ export default function Input({
       <input
         name={name}
         value={value}
-        placeholder={rest.placeholder}
         onChange={onChange}
         className="w-full p-3 border rounded-md border-slate-400 placeholder:text-slate-200"
+        {...rest}
       />
       {errors
         ? errors.map((err, index) => (
