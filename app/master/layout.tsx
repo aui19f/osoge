@@ -19,20 +19,22 @@ export default function MasterLayout({
   const [title, setTitle] = useState("어서오게(OSOGE)");
   const pathname = usePathname();
 
+  const getId = async (id: string) => {
+    const result = await fetchReceiveById(id);
+    if (result && result.serialCode) {
+      setTitle(result.serialCode);
+    } else {
+      //없는 페이지
+    }
+  };
+
   useEffect(() => {
     const pathParts = pathname.split("/");
 
     // 1. "/master/receive/[id]" 형태인지 확인
     if (pathname.startsWith("/master/search/") && pathParts.length === 4) {
       const id = decodeURIComponent(pathParts[3]); // %인코딩 방지
-      fetchReceiveById(id).then((res) => {
-        if (res && res.serialCode) {
-          setTitle(res.serialCode + "");
-        } else {
-          //없는 아이디이니 뒤로보내기..
-        }
-      });
-      return;
+      getId(id);
     }
 
     const current = [...masterMenu]
