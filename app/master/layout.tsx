@@ -27,7 +27,7 @@ export default function MasterLayout({
       const id = decodeURIComponent(pathParts[3]); // %인코딩 방지
       fetchReceiveById(id).then((res) => {
         if (res && res.serialCode) {
-          setTitle(res?.serialCode);
+          setTitle(res.serialCode + "");
         } else {
           //없는 아이디이니 뒤로보내기..
         }
