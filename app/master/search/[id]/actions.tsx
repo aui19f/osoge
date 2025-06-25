@@ -4,10 +4,6 @@ import { EnumNextStatus } from "@/lib/constants/status";
 import db from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
-export type InitialReceiveDetail = Prisma.PromiseReturnType<
-  typeof fetchReceiveById
->;
-
 export async function fetchReceiveById(id: string) {
   return await db.receive.findUnique({
     where: {
@@ -15,6 +11,10 @@ export async function fetchReceiveById(id: string) {
     },
   });
 }
+
+export type InitialReceiveDetail = Prisma.PromiseReturnType<
+  typeof fetchReceiveById
+>;
 
 export async function updateReceiveStatus(id: string, status: EnumNextStatus) {
   return await db.receive.update({
