@@ -1,5 +1,5 @@
 "use client";
-
+// ype error: Type '{ params: { id: string; }; }' does not satisfy the constraint 'PageProps'.
 import {
   fetchReceiveById,
   InitialReceiveDetail,
@@ -13,7 +13,13 @@ import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-export default function Details({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Details({ params }: PageProps) {
   const { id } = params;
   const [isLoading, setIsLoading] = useState(true);
 
