@@ -26,7 +26,11 @@ export default function Login() {
           </div>
         </div>
         <form action={actions} className="flex flex-col gap-4 my-4 w-96">
-          <Input name="email" placeholder="이메일" />
+          <Input
+            name="email"
+            placeholder="이메일"
+            errors={state?.fieldErrors?.email}
+          />
           <Input name="password" placeholder="비밀번호" />
           <Button type="submit" className="h-12">
             로그인

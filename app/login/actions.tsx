@@ -20,7 +20,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
   const result = await formSchema.safeParseAsync(inputData);
 
   if (!result.success) {
-    return { code: 400, ...result.error.flatten() };
+    return result.error.flatten();
   }
 
   const { data: loginData, error: loginError } =
@@ -31,7 +31,11 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
 
   if (loginError) {
     console.log("에러발생", loginError);
-    return { code: 400, message: "에러발생" };
+    return {
+      code: 400,
+      message: "에러발생",
+      fieldErrors: { email: [], password: [] },
+    };
   }
 
   const user = loginData.user;
@@ -43,7 +47,11 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
   });
 
   if (!userInDb) {
-    return { code: 400, message: "User data not found in local DB" };
+    return {
+      code: 400,
+      message: "User data not found in local DB",
+      fieldErrors: { email: [], password: [] },
+    };
     // throw new Error("User data not found in local DB");
   }
 
@@ -53,7 +61,6 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
   session.role = userInDb.role as EnumRole;
   await session.save();
 
-  console.log(">>>>", session.id, session.role);
   if (session.role === EnumRole.MASTER) {
     redirect("/master");
   } else {
