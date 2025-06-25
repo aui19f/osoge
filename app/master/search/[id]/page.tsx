@@ -11,6 +11,7 @@ import Tabs from "@/components/tabs";
 import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 
 import dayjs from "dayjs";
+// import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface SearchPageProps {
@@ -19,7 +20,9 @@ interface SearchPageProps {
 }
 
 export default function Details({ params }: SearchPageProps) {
-  const { id } = params;
+  const id = params.id;
+  // const pathname = usePathname();
+  // console.log(">>>>>", pathname);
 
   const [isLoading, setIsLoading] = useState(true);
 
