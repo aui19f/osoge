@@ -12,15 +12,14 @@ import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 
 import dayjs from "dayjs";
 // import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
-interface SearchPageProps {
-  params: { id: string };
-  // searchParams?: { [key: string]: string | string[] | undefined }; // 필요하다면 searchParams도 추가
-}
-
-export default function Details({ params }: SearchPageProps) {
-  const id = params.id;
+export default function Details({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
   // const pathname = usePathname();
   // console.log(">>>>>", pathname);
 
