@@ -13,14 +13,8 @@ import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default function Details({ params }: PageProps) {
-  const { id } = params;
+export default function Details({ params }: { params: { id: string } }) {
+  const [id, setId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [item, setItem] = useState<InitialReceiveDetail>();
@@ -36,9 +30,8 @@ export default function Details({ params }: PageProps) {
   };
 
   useEffect(() => {
-    console.log("???");
-
     const getItem = async () => {
+      setId(params.id);
       const result = await fetchReceiveById(id);
       if (!result) {
         return false;
