@@ -10,6 +10,6 @@ interface ISessionContent {
 export default async function getSession() {
   return getIronSession<ISessionContent>(await cookies(), {
     cookieName: "osoge",
-    password: process.env.NEXT_PUBLIC_COOKIE_PASSWORD!,
+    password: process.env.COOKIE_PASSWORD!,
   });
 }
