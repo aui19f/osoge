@@ -24,13 +24,14 @@ export default function MasterLayout({
     if (result && result.serialCode) {
       setTitle(result.serialCode);
     } else {
-      //없는 페이지
+      //없는 페이지 알림메시지를 줄것인가?
+      alert("잘못된 정보입니다.");
+      return false;
     }
   };
 
   useEffect(() => {
     const pathParts = pathname.split("/");
-
     // 1. "/master/receive/[id]" 형태인지 확인
     if (pathname.startsWith("/master/search/") && pathParts.length === 4) {
       const id = decodeURIComponent(pathParts[3]); // %인코딩 방지
