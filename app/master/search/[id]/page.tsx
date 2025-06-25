@@ -13,12 +13,12 @@ import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-interface PageProps {
+interface SearchPageProps {
   params: { id: string };
   // searchParams?: { [key: string]: string | string[] | undefined }; // 필요하다면 searchParams도 추가
 }
 
-export default function Details({ params }: PageProps) {
+export default function Details({ params }: SearchPageProps) {
   const { id } = params;
 
   const [isLoading, setIsLoading] = useState(true);
