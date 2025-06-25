@@ -10,7 +10,8 @@ interface ISessionContent {
 export default async function getSession() {
   const password = process.env.COOKIE_PASSWORD;
   if (!password) {
-    throw new Error("Missing COOKIE_PASSWORD environment variables.");
+    console.error("❌ Missing COOKIE_PASSWORD environment variable.");
+    throw new Error("Missing COOKIE_PASSWORD.");
   }
 
   return getIronSession<ISessionContent>(await cookies(), {
