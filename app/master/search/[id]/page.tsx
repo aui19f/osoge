@@ -13,11 +13,11 @@ import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-interface PageProps {
+type PageProps = {
   params: {
     id: string;
   };
-}
+};
 
 export default function Details({ params }: PageProps) {
   const { id } = params;
