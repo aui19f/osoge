@@ -47,7 +47,7 @@ export default async function fetchReceiveList(
             // .map((x) => statusMap[x])
             .filter((x): x is EnumNextStatus => x !== undefined)
       : [];
-  console.log("enumStatuses: ", enumStatuses);
+
   const startDate = dayjs(data.date + "", "YYYY-MM")
     .startOf("month")
     .toDate();

@@ -8,8 +8,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
+  email: z.string().min(1, "이메일을 입력해주세요."),
+  password: z.string().min(1, "비밀번호를 입력해주세요."),
 });
 
 export default async function LoginForm(prev: unknown, formData: FormData) {
@@ -34,12 +34,14 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
     return {
       code: 400,
       message: "에러발생",
-      fieldErrors: { email: [], password: [] },
+      fieldErrors: {
+        email: [],
+        password: ["아이디와 비밀번호를 확인해주세요."],
+      },
     };
   }
 
   const user = loginData.user;
-  console.log("[loginData]", loginData.user); // 로그인한 사용자 정보 (id, email 등)
 
   // 디비조회
   const userInDb = await db.users.findUniqueOrThrow({
@@ -52,7 +54,6 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
       message: "User data not found in local DB",
       fieldErrors: { email: [], password: [] },
     };
-    // throw new Error("User data not found in local DB");
   }
 
   // //사용자 정보를 세션에 저장

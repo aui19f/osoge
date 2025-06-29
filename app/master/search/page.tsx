@@ -5,27 +5,31 @@ import Button from "@/components/form-button";
 import Input from "@/components/form-input";
 import Select from "@/components/form-select";
 import ItemList from "@/components/item-list";
-import Loading from "@/components/loading";
+import ItemListSkeleton from "@/components/ItemListSkeleton";
+import Alert from "@/components/modal/alert";
 import Tabs from "@/components/tabs";
 
 import React, { useActionState, useState } from "react";
 
-const initialState = { success: false, message: [] };
+const initialState = { success: false, data: [], message: "" };
 
 export default function Search() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
 
-  const [state, actions, isPending] = useActionState(SearchForm, initialState);
+  const [state, actions] = useActionState(SearchForm, initialState);
 
   const [searchType, setSearchType] = useState("code");
 
   const [codeValue, setCodeValue] = useState("2025-06");
 
   const dateOptions = [
-    { id: "25", label: "2025" },
-    { id: "26", label: "2026" },
-    { id: "27", label: "2027" },
+    { id: "25", label: "2025년" },
+    // { id: "26", label: "2026" },
+    // { id: "27", label: "2027" },
   ];
 
   const typeOptiosn = [
@@ -36,6 +40,10 @@ export default function Search() {
   const changeType = (id: string) => {
     const formData = new FormData();
     formData.set("reset", "true");
+
+    setPhone("");
+    setCode("");
+
     actions(formData);
     setSearchType(id);
   };
@@ -47,14 +55,27 @@ export default function Search() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // FormData 객체를 생성하여 현재 상태 값들을 추가
+
     const formData = new FormData();
+    if (
+      (searchType === "phone" && phone.replace(/ /gi, "").length === 0) ||
+      (searchType === "code" && code.replace(/ /gi, "").length === 0)
+    ) {
+      setIsModal(true);
+      return false;
+    }
     formData.append("type", searchType);
     formData.append("phone", phone);
     formData.append("year", codeValue);
     formData.append("code", code);
     // useActionState에서 반환된 formAction 함수를 직접 호출
     // 이렇게 하면 폼의 input value에 직접 의존하지 않고 현재 React state를 기반으로 액션을 실행
-    await actions(formData);
+    try {
+      await setIsLoading(true);
+      await actions(formData);
+    } finally {
+      await setIsLoading(false);
+    }
   };
 
   const onChangeCode = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,45 +105,65 @@ export default function Search() {
           selected={[searchType]}
           onClick={(id: string) => changeType(id)}
         />
+        <div className="flex gap-2">
+          {searchType === "phone" && (
+            <div className="flex-1">
+              <Input
+                name="phone"
+                value={phone}
+                errors={[]}
+                onChange={(e) => onChangePhone(e)}
+                placeholder="핸드폰번호를 입력해주세요."
+              />
+            </div>
+          )}
+          {searchType === "code" && (
+            <div className="flex flex-1 gap-2">
+              <div>
+                <Select
+                  name="year"
+                  options={dateOptions}
+                  value={codeValue}
+                  onChange={(id) => chnageCode(id)}
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  name="code"
+                  value={code}
+                  errors={[]}
+                  onChange={(e) => onChangeCode(e)}
+                  placeholder="접수번호를 입력해주세요."
+                />
+              </div>
+            </div>
+          )}
 
-        {searchType === "phone" && (
-          <>
-            <Input
-              name="phone"
-              value={phone}
-              errors={[]}
-              onChange={(e) => onChangePhone(e)}
-            />
-          </>
-        )}
-        {searchType === "code" && (
-          <>
-            <Select
-              name="year"
-              options={dateOptions}
-              value={codeValue}
-              onChange={(id) => chnageCode(id)}
-            />
-            <Input
-              name="code"
-              value={code}
-              errors={[]}
-              onChange={(e) => onChangeCode(e)}
-            />
-          </>
-        )}
-
-        <Button type="submit" className={"h-12"}>
-          검색
-        </Button>
+          <Button type="submit" className={"h-12"} disabled={isLoading}>
+            검색
+          </Button>
+        </div>
       </form>
 
-      {isPending && <Loading />}
       <ul className="flex flex-col gap-2">
-        {state?.message.map((item) => (
-          <ItemList key={item.id} {...item} />
-        ))}
+        {isLoading ? (
+          <ItemListSkeleton length={5} />
+        ) : (
+          state?.data.map((item) => <ItemList key={item.id} {...item} />)
+        )}
+        {state?.message && (
+          <p className="my-2 text-center text-red-400">데이터가 없습니다.</p>
+        )}
       </ul>
+
+      {isModal && (
+        <Alert
+          icon="warning"
+          txt="핸드폰 또는 접수번호를 입력해주세요."
+          btn="확인"
+          onClose={() => setIsModal(false)}
+        />
+      )}
     </div>
   );
 }

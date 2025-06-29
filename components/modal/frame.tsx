@@ -6,8 +6,8 @@ type modalProps = {
 
 export function Frame({ header, body, footer }: modalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="overflow-hidden bg-white rounded-lg shadow-lg w-96">
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60">
+      <div className="w-4/5 overflow-hidden bg-white rounded-lg shadow-lg md:w-96">
         {header && (
           <div className="flex flex-col items-center py-10 bg-slate-50 gap-2.5 rounded-t-lg p-6">
             {header}

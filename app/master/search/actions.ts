@@ -5,7 +5,8 @@ import { ItemProps } from "@/components/item-list";
 
 export type SearchState = {
   success: boolean;
-  message: ItemProps[];
+  message: string;
+  data: ItemProps[];
 };
 
 export type SearchParams = {
@@ -31,7 +32,7 @@ export default async function SearchForm(
 ): Promise<SearchState> {
   const reset = formData.get("reset");
   if (reset === "true") {
-    return { success: false, message: [] };
+    return { success: false, data: [], message: "" };
   }
 
   const type = formData.get("type") as "code" | "phone"; // 타입 확장
@@ -44,6 +45,10 @@ export default async function SearchForm(
   }
 
   const result = await strategy({ value });
-
-  return { success: true, message: Array.isArray(result) ? [...result] : [] };
+  const data = Array.isArray(result) ? [...result] : [];
+  return {
+    success: true,
+    message: data.length === 0 ? "데이터가 없습니다." : "",
+    data,
+  };
 }

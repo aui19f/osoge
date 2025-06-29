@@ -1,3 +1,4 @@
+import ItemListSkeleton from "@/components/ItemListSkeleton";
 import { EnumNextStatus, statusLabels } from "@/lib/constants/status";
 import { EnumStatus } from "@prisma/client";
 import dayjs from "dayjs";
@@ -29,31 +30,28 @@ export default function ItemList({
       >
         <div
           className={`
-    ${status === EnumNextStatus.READY && "bg-red-400"} 
-    ${status === EnumNextStatus.COMPLETED && "bg-emerald-600"} 
+      ${status === EnumNextStatus.READY && "bg-red-400"} 
+      ${status === EnumNextStatus.COMPLETED && "bg-emerald-600"} 
      ${status === EnumNextStatus.CANCEL && "bg-gray-400"}  
      absolute flex items-center gap-1 px-2 rounded-md top-2 right-2`}
         >
-          {/**/}
           <p className="text-sm font-bold text-white">
             {" "}
             {statusLabels[status as EnumNextStatus]}
           </p>
         </div>
-        <p>
-          <span>접수번호</span>
-          <span>{serialCode}</span>
-        </p>
-        <p>
-          <span>접수일</span>
-          <span>{dayjs(created_at).format("YYYY/MM/DD")}</span>
-        </p>
+        <h3 className="text-2xl font-bold">{serialCode}</h3>
+
         {phone && (
           <p>
             <span>연락처</span>
             <span>{phone.replace(/.(?=.{4})/g, "*")}</span>
           </p>
         )}
+        <p>
+          <span>접수일</span>
+          <span>{dayjs(created_at).format("YYYY/MM/DD")}</span>
+        </p>
       </li>
     </Link>
   );
