@@ -1,19 +1,15 @@
+"use client";
+
+import { masterMenu } from "@/components/master-header";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-type menu = {
-  name: string;
-  path: string;
-  title?: string;
-};
-type menusType = {
-  menus: menu[];
-  pathname: string;
-};
-export default function MasterFooter({ menus, pathname }: menusType) {
+export default function MasterFooter() {
+  const pathname = usePathname();
   return (
     <footer className="flex h-20">
-      {menus.map((item) => {
+      {masterMenu.map((item) => {
         // "/"는 정확히 일치해야만 홈으로 간주
         const isActive =
           item.path === "/master"
