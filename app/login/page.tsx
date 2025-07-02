@@ -1,23 +1,39 @@
 "use client";
-import LoginForm from "@/app/login/actions";
+import LoginForm, { userInfo } from "@/app/login/actions";
 import Button from "@/components/form-button";
 import Input from "@/components/form-input";
 import Loading from "@/components/loading";
+
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { redirect } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState(true);
   const [state, actions, isPending] = useActionState(LoginForm, null);
   const [email, setEmail] = useState("");
+
   const onEmailCahnge = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
     setEmail(value);
   };
+
+  useEffect(() => {
+    (async () => {
+      const session = await userInfo();
+      if (session?.id) {
+        redirect("/");
+      } else {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-blue-600">
-      {isPending && <Loading />}
+      {isPending || (isLoading && <Loading />)}
       <div className="px-4 py-12 bg-white rounded-md shadow-sm w-72 shadow-gray-50 md:w-96">
         <div className="flex items-end">
           <Image

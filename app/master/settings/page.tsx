@@ -1,12 +1,14 @@
-"use client";
 import { userLogin } from "@/app/master/settings/actions";
 import Button from "@/components/form-button";
+import getSession from "@/lib/sesstion";
+import { fetchUserById } from "@/lib/user";
+import { userInfo } from "os";
+import { useEffect } from "react";
+// export const revalidate = 3600;//"use client";에서 사용못함
 
-export default function Settings() {
-  const logout = () => {
-    console.log("??");
-    userLogin();
-  };
+export default async function Settings() {
+  const user = userInfo();
+
   return (
     <div className="flex flex-col gap-3 px-3 py-4">
       <div className="border rounded-md shadow-md border-slate-100">
@@ -42,7 +44,6 @@ export default function Settings() {
             <p>주소</p>
             <p></p>
           </div>
-          {/* 더보기 */}
         </div>
       </div>
 
@@ -57,21 +58,9 @@ export default function Settings() {
         </div>
       </div>
 
-      {/* <div className="border rounded-md shadow-md border-slate-100">
-        <div className="flex p-2">
-          <h3 className="flex-1 text-lg font-bold">비밀번호</h3>
-          <Button>저장</Button>
-        </div>
-        <div className="flex flex-col gap-3 p-2">
-          <Input name="beforePw" errors={[]} placeholder={"현재비밀번호"} />
-          <Input name="pw" errors={[]} placeholder={"비밀번호"} />
-          <Input name="pwCheck" errors={[]} placeholder={"비밀번호확인"} />
-        </div>
-      </div> */}
-
-      <Button className="h-12" onClick={() => logout()}>
+      {/* <Button className="h-12" onClick={() => userLogin()}>
         로그아웃
-      </Button>
+      </Button> */}
     </div>
   );
 }

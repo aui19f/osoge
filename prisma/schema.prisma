@@ -31,6 +31,24 @@ model receive {
   users      users      @relation(fields: [usersId], references: [id])
 }
 
+model store {
+  id         String    @id @default(uuid())
+  created_at DateTime  @default(now())
+  updated_at DateTime? @default(now())
+
+  name    String
+  Address String
+
+  phone          String
+  business_hours Json
+
+  homepage    String
+  sns         Json
+  //  [{name: '', value:''}, ...] 
+  image       String[]
+  description String
+}
+
 enum EnumRole {
   GUEST
   ADMIN

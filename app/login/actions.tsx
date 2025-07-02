@@ -67,3 +67,8 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
   } else {
   }
 }
+
+export async function userInfo() {
+  const session = await getSession();
+  return { ...session };
+}
