@@ -1,26 +1,18 @@
+import { ItemOfInitialgetList } from "@/app/actions/getList";
 import { EnumNextStatus, statusLabels } from "@/lib/constants/status";
-import { EnumStatus } from "@prisma/client";
+
 import dayjs from "dayjs";
 import Link from "next/link";
 
 // type ItemProps = NonNullable<InitialReceive["data"]>[number];
-export interface ItemProps {
-  id: string;
-  serialCode: string;
-  created_at?: Date;
-  updated_at?: Date;
-  phone?: string;
-  status?: EnumStatus;
-  usersId?: string;
-}
+
 export default function ItemList({
   id,
-  serialCode,
   created_at,
-  // updated_at,
   phone,
   status,
-}: ItemProps) {
+  serialCode,
+}: ItemOfInitialgetList) {
   return (
     <Link href={`/master/search/${id}`}>
       <li

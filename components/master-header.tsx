@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchReceiveById } from "@/app/master/search/[id]/actions";
+import { fetchReceiveById } from "@/app/(auth)/master/search/[id]/actions";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 

@@ -10,14 +10,17 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model users {
-  id         String          @id
-  created_at DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at DateTime?       @default(now()) @db.Timestamp(6)
-  email      String          @unique
+  id         String         @id
+  created_at DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?      @default(now()) @db.Timestamp(6)
+  email      String         @unique
   nickname   String?
-  role       EnumRole        @default(GUEST)
-  status     EnumUserStatus? @default(JOIN)
+  role       EnumRole       @default(GUEST)
+  status     EnumUserStatus @default(JOIN)
   receive    receive[]
+  store      store[]
+  plan       EnumPlan       @default(BASICS)
+  settings   settings[]
 }
 
 model receive {
@@ -32,21 +35,39 @@ model receive {
 }
 
 model store {
-  id         String    @id @default(uuid())
-  created_at DateTime  @default(now())
-  updated_at DateTime? @default(now())
+  id               String    @id @default(uuid())
+  created_at       DateTime  @default(now())
+  updated_at       DateTime? @default(now())
+  name             String
+  address          String
+  //{types: 'sido', name: '경기도', code: ''}, ... SIGUGUN DONGMYUN types ROAD_NAME BUILDING_NUMBER BUILDING_NAME naver map
+  address_elements Json
 
-  name    String
-  Address String
+  phone           String
+  //영업시간작성하기, {요일: 월, 오픈여부: true, 오픈시간: 00:00, 마감시간:00:00, 점심시간: 00:00~00:00}..
+  business_hours  Json
+  //쉬는날 공휴일 쉬는날 여부확인
+  holiday         String
+  //공식홈페이지
+  homepage        String
+  //{이름: 인스타그램, url: ~~~}...
+  sns             Json
+  //순서, 맨앞이 메인
+  image           String[]
+  description     String
+  business_number String[]
+  users           users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  usersId         String
+}
 
-  phone          String
-  business_hours Json
+model settings {
+  id      String @id @default(uuid())
+  usersId String @unique
+  users   users  @relation(fields: [usersId], references: [id], onDelete: Cascade)
 
-  homepage    String
-  sns         Json
-  //  [{name: '', value:''}, ...] 
-  image       String[]
-  description String
+  statsPeriod   Int @default(3) // 통계 기간 (월 단위)
+  average_start Int
+  average_end   Int
 }
 
 enum EnumRole {
@@ -65,4 +86,10 @@ enum EnumStatus {
   IN_PROGRESS
   COMPLETED
   CANCEL
+}
+
+enum EnumPlan {
+  BASICS //  접수만 가능 (문자 보내기X)
+  PLUS // 접수 , 출력 가능
+  PREMIUM // 접수, 출력, 문자 모두 가능
 }
