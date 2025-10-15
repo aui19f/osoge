@@ -1,8 +1,8 @@
 "use client";
 import ReceiveForm from "@/app/(auth)/master/receive/actions";
-import Button from "@/components/form-button";
-import Checkbox from "@/components/form-checkbox";
-import Input from "@/components/form-input";
+import Button from "@/components/forms/Button";
+import Checkbox from "@/components/forms/form-checkbox";
+import Input from "@/components/forms/Input";
 import Loading from "@/components/loading";
 import Complete from "@/components/modal/complete";
 import Confirm from "@/components/modal/confirm";

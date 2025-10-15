@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Button from "@/components/form-button";
-import Input from "@/components/form-input";
+import Button from "@/components/forms/Button";
+import Input from "@/components/forms/Input";
 import { Frame } from "@/components/modal/frame";
 import { updateUserPassword, validatePassword } from "@/app/actions/updateUser";
 import Image from "next/image";

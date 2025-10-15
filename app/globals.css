@@ -27,16 +27,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* input,
+input,
 button {
-  border: 1px solid #94a3b8; border-slate-400 
-  border-radius: 8px;
-  height: 48px;
-  padding: 4px;
-  ::placeholder {
-    color: #94a3b8;
-  }
-} */
+  @apply h-12 rounded-sm px-2 border text-gray-600 disabled:bg-gray-400 disabled:text-white placeholder:text-gray-300;
+}
+input {
+  @apply dark:bg-gray-950 dark:border-gray-900 dark:placeholder:text-gray-600 dark:text-gray-500;
+}
 
 /* // <input type="number" /> 사용 시 브라우저는 기본적으로 숫자 증감 화살표(스핀 버튼)를 표시합니다. 이를 제거하려면 브라우저 별로 CSS를 통해 숨겨줘야 합니다. */
 /* styles/globals.css */

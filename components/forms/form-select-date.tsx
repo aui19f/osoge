@@ -1,6 +1,6 @@
 "use client";
 
-import Select from "@/components/form-select";
+import Select from "@/components/forms/form-select";
 import { IOption } from "@/types/options";
 import dayjs from "dayjs";
 import { useMemo } from "react";

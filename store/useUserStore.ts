@@ -1,23 +1,10 @@
 // store/useUserStore.ts
-import { EnumNextPlan } from "@/lib/constants/plan";
-import { EnumRole } from "@/lib/constants/roles";
-import { EnumNextStatus } from "@/lib/constants/status";
+import { typeUsers } from "@/app/actions/getUser";
 import { create } from "zustand";
 
-export interface IUser {
-  id: string;
-  email: string;
-  created_at: Date;
-  updated_at?: Date | null;
-  nickname?: string | null;
-  role: EnumRole;
-  status: EnumNextStatus | null;
-  plan: EnumNextPlan;
-}
-
 interface UserStore {
-  user: IUser | null;
-  setUser: (user: IUser) => void;
+  user: typeUsers | null;
+  setUser: (user: typeUsers) => void;
   resetUser: () => void;
 }
 

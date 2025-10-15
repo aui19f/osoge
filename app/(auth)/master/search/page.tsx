@@ -1,9 +1,9 @@
 "use client";
 
 import SearchForm from "@/app/(auth)/master/search/actions";
-import Button from "@/components/form-button";
-import Input from "@/components/form-input";
-import Select from "@/components/form-select";
+import Button from "@/components/forms/Button";
+import Input from "@/components/forms/Input";
+import Select from "@/components/forms/form-select";
 import ItemList from "@/components/item-list";
 import ItemListSkeleton from "@/components/ItemListSkeleton";
 import Alert from "@/components/modal/alert";

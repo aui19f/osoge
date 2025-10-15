@@ -1,13 +1,15 @@
-import { EnumNextPlan } from "@/lib/constants/plan";
 import { EnumRole } from "@/lib/constants/roles";
 import { EnumNextStatus } from "@/lib/constants/status";
 import db from "@/lib/db";
+import { Prisma } from "@prisma/client";
 
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 export const createServerSupabaseClient = () =>
   createServerComponentClient({ cookies });
+
+export type typeUsers = Prisma.PromiseReturnType<typeof getUser>;
 
 export async function getUser() {
   const supabase = createServerSupabaseClient();
@@ -28,7 +30,6 @@ export async function getUser() {
       ...userDB,
       status: userDB.status as EnumNextStatus,
       role: userDB.role as EnumRole,
-      plan: userDB.plan as EnumNextPlan,
     };
   } catch (error) {
     throw new Error("No user information.", { cause: error });

@@ -12,32 +12,34 @@ datasource db {
 model users {
   id         String         @id
   created_at DateTime       @default(now()) @db.Timestamptz(6)
-  updated_at DateTime?      @default(now()) @db.Timestamp(6)
+  updated_at DateTime?      @default(now()) @updatedAt @db.Timestamp(6)
   email      String         @unique
   nickname   String?
   role       EnumRole       @default(GUEST)
   status     EnumUserStatus @default(JOIN)
   receive    receive[]
   store      store[]
-  plan       EnumPlan       @default(BASICS)
   settings   settings[]
+  plan       plan?          @relation(fields: [planId], references: [id])
+  planId     String?
 }
 
 model receive {
-  id         String     @id @default(uuid())
-  serialCode String     @unique
-  created_at DateTime   @default(now())
-  updated_at DateTime?  @default(now())
-  phone      String
-  status     EnumStatus @default(READY)
-  usersId    String
-  users      users      @relation(fields: [usersId], references: [id])
+  id               String             @id @default(uuid())
+  serialCode       String             @unique
+  created_at       DateTime           @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @default(now()) @updatedAt @db.Timestamp(6)
+  phone            String
+  status           EnumStatus         @default(READY)
+  usersId          String
+  users            users              @relation(fields: [usersId], references: [id])
+  receiveStatusLog receiveStatusLog[]
 }
 
 model store {
   id               String    @id @default(uuid())
-  created_at       DateTime  @default(now())
-  updated_at       DateTime? @default(now())
+  created_at       DateTime  @default(now()) @db.Timestamp(6)
+  updated_at       DateTime? @default(now()) @updatedAt @db.Timestamp(6)
   name             String
   address          String
   //{types: 'sido', name: '경기도', code: ''}, ... SIGUGUN DONGMYUN types ROAD_NAME BUILDING_NUMBER BUILDING_NAME naver map
@@ -70,6 +72,29 @@ model settings {
   average_end   Int
 }
 
+model receiveStatusLog {
+  id         String     @id @default(uuid())
+  receiveId  String
+  receive    receive    @relation(fields: [receiveId], references: [id], onDelete: Cascade)
+  status     EnumStatus
+  changed_at DateTime   @default(now())
+}
+
+// enum EnumPlan {
+//   BASICS //  접수만 가능 (문자 보내기X)
+//   PLUS // 접수 , 출력 가능
+//   PREMIUM // 접수, 출력, 문자 모두 가능
+// }
+
+model plan {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  features Json
+  // [{ "접수": true, "출력": false, "문자": true }]
+  // {"receipt": true, "print": false, "send": false}
+  users    users[]
+}
+
 enum EnumRole {
   GUEST
   ADMIN
@@ -86,10 +111,4 @@ enum EnumStatus {
   IN_PROGRESS
   COMPLETED
   CANCEL
-}
-
-enum EnumPlan {
-  BASICS //  접수만 가능 (문자 보내기X)
-  PLUS // 접수 , 출력 가능
-  PREMIUM // 접수, 출력, 문자 모두 가능
 }

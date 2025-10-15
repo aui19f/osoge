@@ -5,7 +5,7 @@ import {
   InitialReceiveDetail,
   updateReceiveStatus,
 } from "@/app/(auth)/master/search/[id]/actions";
-import Button from "@/components/form-button";
+import Button from "@/components/forms/Button";
 import Loading from "@/components/loading";
 import Tabs from "@/components/tabs";
 import { EnumNextStatus, statusSelectOptions } from "@/lib/constants/status";

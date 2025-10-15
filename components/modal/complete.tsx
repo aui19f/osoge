@@ -1,4 +1,4 @@
-import Button from "@/components/form-button";
+import Button from "@/components/forms/Button";
 import { Frame } from "@/components/modal/frame";
 import Image from "next/image";
 

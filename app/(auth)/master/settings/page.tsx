@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/components/form-button";
-import Input from "@/components/form-input";
-import Select from "@/components/form-select";
+import Button from "@/components/forms/Button";
+import Input from "@/components/forms/Input";
+import Select from "@/components/forms/form-select";
 import { planLabel } from "@/lib/constants/plan";
 
 import { useUserStore } from "@/store/useUserStore";

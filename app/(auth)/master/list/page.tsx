@@ -1,8 +1,8 @@
 "use client";
 import fetchReceiveList from "@/app/(auth)/master/list/actions";
 import { getList } from "@/app/actions/getList";
-import Button from "@/components/form-button";
-import DateSelect from "@/components/form-select-date";
+import Button from "@/components/forms/Button";
+import DateSelect from "@/components/forms/form-select-date";
 import ItemList from "@/components/item-list";
 import ItemListSkeleton from "@/components/ItemListSkeleton";
 import Tabs from "@/components/tabs";
