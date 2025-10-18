@@ -27,6 +27,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@layer base {
+  p {
+    @apply text-gray-600;
+  }
+  .dark p {
+    @apply text-gray-200;
+  }
+}
+
 input,
 button {
   @apply h-12 rounded-sm px-2 border text-gray-600 disabled:bg-gray-400 disabled:text-white placeholder:text-gray-300;
