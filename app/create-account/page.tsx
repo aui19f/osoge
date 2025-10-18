@@ -4,14 +4,13 @@ import { CreateAccountForm } from "@/app/create-account/actions";
 import Button from "@/components/forms/Button";
 
 import Input from "@/components/forms/Input";
-import Loading from "@/components/loading";
 
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
-  const [state, actions, isPending] = useActionState(CreateAccountForm, null);
+  const [state, actions] = useActionState(CreateAccountForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_check, setPassword_check] = useState("");
@@ -24,7 +23,6 @@ export default function Login() {
   }, [state]);
   return (
     <div className="h-screen bg-blue-600 ">
-      {isPending && <Loading />}
       <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image

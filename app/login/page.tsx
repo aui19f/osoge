@@ -3,7 +3,7 @@ import LoginForm from "@/app/login/actions";
 import Button from "@/components/forms/Button";
 
 import Input from "@/components/forms/Input";
-import Loading from "@/components/loading";
+
 import { useUserStore } from "@/store/useUserStore";
 
 import Image from "next/image";
@@ -11,7 +11,7 @@ import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
   const { setUser } = useUserStore();
-  const [state, actions, isPending] = useActionState(LoginForm, null);
+  const [state, actions] = useActionState(LoginForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {
@@ -21,7 +21,6 @@ export default function Login() {
   }, [state, setUser]); // useEffect 의존성 배열에 setUser를 추가합니다.
   return (
     <div className="h-screen bg-blue-600 ">
-      {isPending && <Loading />}
       <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
