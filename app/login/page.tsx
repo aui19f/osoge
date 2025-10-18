@@ -4,13 +4,10 @@ import Button from "@/components/forms/Button";
 
 import Input from "@/components/forms/Input";
 
-import { useUserStore } from "@/store/useUserStore";
-
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
-  const { setUser } = useUserStore();
   const [state, actions] = useActionState(LoginForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +15,7 @@ export default function Login() {
     if (state?.status === 200 && state.data) {
       console.log("state", state.data);
     }
-  }, [state, setUser]); // useEffect 의존성 배열에 setUser를 추가합니다.
+  }, [state]);
   return (
     <div className="h-screen bg-blue-600 ">
       <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
