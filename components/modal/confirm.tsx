@@ -26,7 +26,7 @@ export default function Confirm({
         <>
           <div className="size-16">
             <Image
-              src={`/images/${icon}.png`}
+              src={`/images/icons/${icon}.png`}
               width={56}
               height={56}
               alt="icon"
@@ -50,16 +50,8 @@ export default function Confirm({
       }
       footer={
         <>
-          <Button
-            variant="secondary-line"
-            className={"h-12 flex-1"}
-            onClick={onClose}
-          >
-            취소
-          </Button>
-          <Button className={"h-12 flex-1"} onClick={onClick}>
-            접수
-          </Button>
+          <Button onClick={onClose}>취소</Button>
+          <Button onClick={onClick}>접수</Button>
         </>
       }
     />

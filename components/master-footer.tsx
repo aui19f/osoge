@@ -24,8 +24,8 @@ export default function MasterFooter() {
             <Image
               src={
                 isActive
-                  ? `/images/${item.name}_active.png`
-                  : `/images/${item.name}.png`
+                  ? `/images/icons/${item.name}_active.png`
+                  : `/images/icons/${item.name}.png`
               }
               alt={`${item.name} icon`}
               width={32}

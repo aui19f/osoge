@@ -1,4 +1,4 @@
-import { BASE_STYLE, FormIButton } from "@/types/forms";
+import { FormIButton } from "@/types/forms";
 
 export const variants = {
   base: "border-gray-400",
@@ -12,13 +12,16 @@ export const variants = {
   dark: "bg-gray-900 text-white",
 } as const; // 'as const'를 사용 > 객체의 속성을 읽기 전용으로 만든다.(정확한 문자열 리터럴 타입으로 추론)
 
+// variants 객체의 키를 기반으로 Variant 타입을 동적으로 생성합니다.
+export type Variant = keyof typeof variants;
+
 export default function Button({
   type = "button",
   children,
   onClick,
   variant = "base",
   disabled = false,
-}: FormIButton) {
+}: Omit<FormIButton, "variant"> & { variant?: Variant }) {
   const variantStyle = variants[variant];
 
   return (
@@ -26,7 +29,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`${BASE_STYLE} ${variantStyle} `}
+      className={`${variantStyle} `}
     >
       {children}
     </button>

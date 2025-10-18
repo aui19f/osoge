@@ -23,7 +23,7 @@ export default function Alert({
         <>
           <div className="size-16">
             <Image
-              src={`/images/${icon}.png`}
+              src={`/images/icons/${icon}.png`}
               width={56}
               height={56}
               alt="icon"
@@ -35,11 +35,7 @@ export default function Alert({
         </>
       }
       body={<p className="text-center break-keep">{txt}</p>}
-      footer={
-        <Button className={"h-12 flex-1"} onClick={onClose}>
-          {btn}
-        </Button>
-      }
+      footer={<Button onClick={onClose}>{btn}</Button>}
     />
   );
 }

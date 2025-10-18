@@ -25,7 +25,7 @@ export default function Login() {
       <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
-            src="/images/logo_main.png"
+            src="/images/icons/logo_main.png"
             alt="logo"
             width={72}
             height={72}

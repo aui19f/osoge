@@ -15,7 +15,7 @@ export default function Complete({ title = "", txt, onClose }: confirmProps) {
         <>
           <div className="size-16">
             <Image
-              src={`/images/checked.png`}
+              src={`/images/icons/checked.png`}
               width={56}
               height={56}
               alt="icon"
@@ -27,11 +27,7 @@ export default function Complete({ title = "", txt, onClose }: confirmProps) {
         </>
       }
       body={<p className="text-center break-keep">{txt}</p>}
-      footer={
-        <Button className={"h-12 flex-1"} onClick={onClose}>
-          완료
-        </Button>
-      }
+      footer={<Button onClick={onClose}>완료</Button>}
     />
   );
 }
