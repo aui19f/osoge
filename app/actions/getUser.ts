@@ -8,6 +8,7 @@ export type typeUsers = Prisma.PromiseReturnType<typeof getUser>;
 export async function getUser() {
   const supabase = await createClient();
   try {
+    console.log("==getUser 호출 ===");
     const {
       data: { user },
     } = await supabase.auth.getUser();

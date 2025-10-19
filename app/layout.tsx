@@ -5,6 +5,7 @@ import "./globals.css";
 import { getUser } from "@/app/actions/getUser";
 import HydrateUser from "@/components/hydrators/HydrateUser";
 import RouteLoadingWatcher from "@/components/layout/RouteLoadingWatcher";
+import RouteGuard from "@/components/hydrators/RouteGuard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,14 +25,15 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  // const user = await getUser();
+  const user = await getUser();
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen bg-gray-100 dark:bg-gray-950`}
       >
-        {/* <HydrateUser initialUser={user} /> */}
+        <HydrateUser initialUser={user} />
+        <RouteGuard />
         <RouteLoadingWatcher />
 
         {children}
