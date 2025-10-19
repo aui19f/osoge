@@ -3,13 +3,9 @@ import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
 import { loginSchema } from "@/lib/schemas/auth";
 
-import { LoginResponse } from "@/types/users";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function LoginForm(
-  prev: unknown,
-  formData: FormData
-): Promise<LoginResponse> {
+export default async function LoginForm(prev: unknown, formData: FormData) {
   try {
     const supabase = await createClient();
     //1. 유효성확인
@@ -60,14 +56,14 @@ export default async function LoginForm(
       data: userDB,
     };
   } catch (error) {
-    // Sentry.captureException(error, {
-    //   tags: { module: "login" },
-    //   extra: {
-    //     formData: { email: formData.get("email") },
-    //     message: "로그인 중 중 오류 발생",
-    //     systemErr: error,
-    //   },
-    // });
+    Sentry.captureException(error, {
+      tags: { module: "login" },
+      extra: {
+        formData: { email: formData.get("email") },
+        message: "로그인 중 중 오류 발생",
+        systemErr: error,
+      },
+    });
     console.log("[ERROR] ", error);
     return {
       status: 401,
