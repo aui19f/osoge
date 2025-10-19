@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/forms/Button";
+
 import Image from "next/image";
 
 export default function Home() {

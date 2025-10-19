@@ -1,26 +1,20 @@
-import { IOption } from "@/types/options";
-
-type SelectProps = {
-  name: string;
-  options: IOption[];
-  value: string;
-
-  onChange: (value: string) => void; // 선택된 값 변경 시 호출
-};
+import { FormSelectbox, size } from "@/types/forms";
 
 export default function Select({
   name,
   options,
-  value,
+  selected,
   onChange,
-}: SelectProps) {
+  sizes = "md",
+}: FormSelectbox) {
+  const sizeStyle = size[sizes];
   return (
     <div className="relative flex-1 inline-block">
       <select
         name={name}
-        value={value}
-        className="w-full h-12 pl-2 pr-6 border rounded-md appearance-none border-slate-400"
-        onChange={(e) => onChange(e.target.value)}
+        value={selected}
+        className={`${sizeStyle} w-fit mr-1`}
+        onChange={onChange}
       >
         {options.map((opt) => (
           <option key={opt.id} value={opt.id}>

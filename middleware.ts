@@ -1,17 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
-export function middleware(request: NextRequest) {
-  console.log("=====function middleware()=====");
-  // //쿠키가져오기
-  // const cookie = request.cookies.get("osoge");
-  // if (!cookie) {
-  //   console.log("쿠키정보없음");
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+import { createClient } from "@/lib/supabase/server";
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // 로그인 페이지에 접근했는데 이미 로그인된 경우
+  if (req.nextUrl.pathname === "/login" && user) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  return res;
 }
 
-// middleware.ts 마지막에 추가
 export const config = {
-  matcher: [
-    "/((?!login|_next|favicon.ico).*)", // ✅ login 제외
-  ],
+  matcher: ["/admin/:path*", "/master/:path*", "/login"],
 };

@@ -1,12 +1,14 @@
 "use server";
 import db from "@/lib/db";
 import { signupSchema } from "@/lib/schemas/auth";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/server";
+
 import { EnumRole, EnumUserStatus } from "@prisma/client";
 import * as Sentry from "@sentry/nextjs";
 
 export async function CreateAccountForm(prev: unknown, formData: FormData) {
   try {
+    const supabase = await createClient();
     const inputData = {
       email: formData.get("email"),
       password: formData.get("password"),

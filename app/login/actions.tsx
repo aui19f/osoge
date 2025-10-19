@@ -1,19 +1,17 @@
 "use server";
 import * as Sentry from "@sentry/nextjs";
-import { EnumNextStatus } from "@/lib/constants/status";
 import db from "@/lib/db";
 import { loginSchema } from "@/lib/schemas/auth";
 
-import { supabase } from "@/lib/supabaseClient";
-
 import { LoginResponse } from "@/types/users";
-import { EnumRole } from "@/lib/constants/roles";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function LoginForm(
   prev: unknown,
   formData: FormData
 ): Promise<LoginResponse> {
   try {
+    const supabase = await createClient();
     //1. 유효성확인
     const inputData = {
       email: formData.get("email"),
@@ -56,25 +54,21 @@ export default async function LoginForm(
     }
 
     //4. 완료
-    console.log("userDB", userDB);
     return {
       status: 200,
       message: "",
-      data: {
-        ...userDB,
-        status: userDB.status as EnumNextStatus,
-        role: userDB.role as EnumRole,
-      },
+      data: userDB,
     };
   } catch (error) {
-    Sentry.captureException(error, {
-      tags: { module: "login" },
-      extra: {
-        formData: { email: formData.get("email") },
-        message: "로그인 중 중 오류 발생",
-        systemErr: error,
-      },
-    });
+    // Sentry.captureException(error, {
+    //   tags: { module: "login" },
+    //   extra: {
+    //     formData: { email: formData.get("email") },
+    //     message: "로그인 중 중 오류 발생",
+    //     systemErr: error,
+    //   },
+    // });
+    console.log("[ERROR] ", error);
     return {
       status: 401,
       message:

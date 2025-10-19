@@ -1,37 +1,39 @@
-import { EnumRole } from "@/lib/constants/roles";
-import { EnumNextStatus } from "@/lib/constants/status";
 import db from "@/lib/db";
+import * as Sentry from "@sentry/nextjs";
 import { Prisma } from "@prisma/client";
-
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-
-export const createServerSupabaseClient = () =>
-  createServerComponentClient({ cookies });
+import { createClient } from "@/lib/supabase/server";
 
 export type typeUsers = Prisma.PromiseReturnType<typeof getUser>;
 
 export async function getUser() {
-  const supabase = createServerSupabaseClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return null;
-
+  const supabase = await createClient();
   try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error("No user (auth) information.");
+    }
+
     const userDB = await db.users.findUnique({
       where: { id: user.id },
     });
-
-    if (!userDB) return null;
-    return {
-      ...userDB,
-      status: userDB.status as EnumNextStatus,
-      role: userDB.role as EnumRole,
-    };
+    if (!userDB) {
+      throw new Error("No user (de) information.");
+    }
+    return userDB;
   } catch (error) {
-    throw new Error("No user information.", { cause: error });
+    console.log("ERROR", error);
+    Sentry.captureException(error, {
+      tags: { module: "create-aacount" },
+      extra: {
+        formData: {},
+        message: "[에러] 유저정보 불러오기",
+        systemErr: error,
+      },
+    });
+
+    return null;
   }
 }

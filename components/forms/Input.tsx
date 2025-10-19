@@ -1,13 +1,14 @@
-import { FormInput } from "@/types/forms";
+import { FormInput, size } from "@/types/forms";
 
 export default function Input({
   name,
   onChange,
   value,
-  className,
   errors = [],
+  sizes = "md",
   ...rest //  기본 스타일 외에 필요한 모든 HTML 속성 사용
 }: FormInput) {
+  const sizeStyle = size[sizes];
   return (
     <>
       <input
@@ -15,7 +16,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         {...rest}
-        className={` border-gray-400  w-full ${className}`}
+        className={` border-gray-400  w-full ${sizeStyle}`}
       />
       {errors.length > 0 && <></>}
     </>

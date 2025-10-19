@@ -96,19 +96,22 @@ model plan {
 }
 
 enum EnumRole {
-  GUEST
-  ADMIN
-  MASTER
+  GUEST  @map("GUEST")
+  ADMIN  @map("ADMIN")
+  MASTER @map("MASTER")
 }
 
 enum EnumUserStatus {
-  JOIN
-  WITHDRAW
+  JOIN     @map("JOIN")
+  WITHDRAW @map("WITHDRAW")
 }
 
 enum EnumStatus {
-  READY
-  IN_PROGRESS
-  COMPLETED
-  CANCEL
+  READY       @map("READY")
+  IN_PROGRESS @map("IN_PROGRESS")
+  COMPLETED   @map("COMPLETED")
+  CANCEL      @map("CANCEL")
 }
+
+// npx prisma migrate dev
+// npx prisma db push 또는 prisma db push

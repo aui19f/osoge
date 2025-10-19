@@ -5,20 +5,30 @@ import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
-  const [state, actions] = useActionState(LoginForm, null);
+  const router = useRouter();
+  const [state, actions, isPending] = useActionState(LoginForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {
     if (state?.status === 200 && state.data) {
-      console.log("state", state.data);
+      if (state.data.role === "MASTER") {
+        router.replace("/master");
+      } else if (state.data.role === "ADMIN") {
+        router.replace("/admin");
+      }
     }
-  }, [state]);
+  }, [router, state]);
   return (
-    <div className="h-screen bg-blue-600 ">
-      <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
+    /**
+     * 로딩 이미지 추가
+     */
+    <div className="flex flex-col items-center justify-center h-screen ">
+      <div className="flex flex-col items-center justify-center w-full h-full sm:w-3xl">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
             src="/images/icons/logo_main.png"
@@ -54,7 +64,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <p className="text-sm text-red-400">{state?.message}</p>
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={isPending}>
             로그인
           </Button>
         </form>
