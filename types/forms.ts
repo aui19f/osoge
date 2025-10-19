@@ -34,6 +34,7 @@ export interface FormMultiProp<T = string[] | string> {
   selected: T;
   disabled?: boolean;
   sizes?: Size;
+  className?: string;
 }
 
 // 텍스트 입력 필드나 단일 선택 컴포넌트의 공통 프롭
@@ -41,6 +42,7 @@ export interface FormSingleProp {
   //name, value => 중복되서 삭제
   errors?: string[];
   sizes?: Size;
+  className?: string;
 }
 
 // 내부적으론 type ChangeEventHandler<T = Element> = (event: React.ChangeEvent<T>) => void; 이렇게 작성되어있지만,
@@ -72,4 +74,5 @@ export interface FormIButton {
   onClick?: () => void;
   variant?: Variant;
   sizes?: Size;
+  className?: string;
 }

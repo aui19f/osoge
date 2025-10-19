@@ -38,13 +38,15 @@ body {
 
 input,
 button,
-select {
+select,
+.form-tabs {
   @apply rounded-sm  
   disabled:bg-gray-400 disabled:text-white 
   placeholder:text-gray-300;
 }
 input,
-select {
+select,
+.form-tabs {
   @apply min-w-16 bg-white border border-gray-200 appearance-none
   dark:bg-gray-900 dark:border-gray-900 
   dark:placeholder:text-gray-600 dark:text-gray-500;

@@ -6,6 +6,7 @@ export default function Input({
   value,
   errors = [],
   sizes = "md",
+  className = "",
   ...rest //  기본 스타일 외에 필요한 모든 HTML 속성 사용
 }: FormInput) {
   const sizeStyle = size[sizes];
@@ -16,7 +17,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         {...rest}
-        className={` border-gray-400  w-full ${sizeStyle}`}
+        className={` border-gray-400  w-full ${sizeStyle} ${className}`}
       />
       {errors.length > 0 && <></>}
     </>

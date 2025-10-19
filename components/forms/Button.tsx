@@ -7,6 +7,7 @@ export default function Button({
   variant = "base",
   disabled = false,
   sizes = "md",
+  className = "",
 }: FormIButton) {
   const variantStyle = variants[variant];
   const sizeStyle = size[sizes];
@@ -16,7 +17,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`${variantStyle}  ${sizeStyle}`}
+      className={`${variantStyle}  ${sizeStyle} ${className}`}
     >
       {children}
     </button>

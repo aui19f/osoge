@@ -2,43 +2,89 @@
 import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 import Select from "@/components/forms/Select";
-import { START_SERVICE_YEAR } from "@/lib/constant";
-import { useMemo, useState } from "react";
+import Tabs from "@/components/forms/Tabs";
+import ListItem from "@/components/master/ListItem";
+
+import { getYearList } from "@/lib/dateOption";
+import { FormOption } from "@/types/forms";
+import { StatusOptions } from "@/types/StatusOptions";
+import { useState } from "react";
 
 export default function Search() {
+  const [type, setType] = useState("receipt");
+  const [status, setStatus] = useState<string[]>(["READY"]);
   const [receiptNum, setReceiptNum] = useState("");
+  const [phone, setPhone] = useState("");
   const [year, setYear] = useState(new Date().getFullYear().toString());
 
-  const yearRangeArray = Array(Number(year) - START_SERVICE_YEAR + 1).fill(
-    null
-  );
+  const typeOptions = [
+    { id: "receipt", label: "접수번호" },
+    { id: "phone", label: "핸드폰" },
+  ];
+  const changeStatus = (e: FormOption) => {
+    if (status.includes(e.id)) {
+      setStatus(status.filter((item) => item !== e.id));
+    } else {
+      setStatus([...status, e.id]);
+    }
+  };
 
-  const options = yearRangeArray.reduce((acc, _, index) => {
-    const currentYear = START_SERVICE_YEAR + index;
-    const yearString = currentYear.toString();
-    acc.push({ id: yearString, label: yearString });
-    return acc;
-  }, []);
-
+  // useEffect(() => {
+  //   const initValue = StatusOptions.map((x) => x.id);
+  //   setStatus(initValue);
+  // }, []);
   return (
     <div>
-      <div>상태</div>
-      <div className="flex gap-2">
-        {options && (
-          <Select
-            name="year"
-            selected={year}
-            options={[{ id: "2025", label: "2025" }]}
-            onChange={(e) => setYear(e.target.value)}
+      <form className="flex flex-col gap-1 p-2 mb-2 shadow-md dark:border dark:border-gray-800">
+        <Tabs
+          options={typeOptions}
+          selected={type}
+          onClick={(e) => setType(e.id)}
+        />
+        {type === "receipt" && (
+          <div className="flex gap-2">
+            <Select
+              name="startYear"
+              options={getYearList()}
+              selected={year.toString()}
+              className="flex-1"
+              onChange={(e) => setYear(e.target.value)}
+            />
+
+            <Input
+              name="receipt"
+              value={receiptNum}
+              className="flex-2"
+              onChange={(e) => setReceiptNum(e.target.value)}
+              placeholder="접수번호"
+            />
+          </div>
+        )}
+
+        {type === "phone" && (
+          <Input
+            name="phone"
+            value={phone}
+            placeholder="핸드폰번호"
+            onChange={(e) => setPhone(e.target.value)}
           />
         )}
-        <Input
-          name="receipt"
-          value={receiptNum}
-          onChange={(e) => setReceiptNum(e.target.value)}
+        <Tabs
+          options={StatusOptions}
+          selected={status}
+          onClick={(e) => changeStatus(e)}
         />
-      </div>
-      <Button>조회</Button>
+        <Button variant="primary" type="button">
+          조회
+        </Button>
+      </form>
+      <ul className="flex flex-col gap-2 ">
+        {Array(10)
+          .fill(null)
+          .map((x) => (
+            <ListItem key={x} />
+          ))}
+      </ul>
     </div>
   );
 }

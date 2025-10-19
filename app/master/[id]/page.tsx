@@ -1,3 +1,3 @@
 export default function Details() {
-  return <></>;
+  return <div></div>;
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import MinHeader from "@/components/layout/MainHeader";
+
 import { getUser } from "@/app/actions/getUser";
 import HydrateUser from "@/components/hydrators/HydrateUser";
 import RouteLoadingWatcher from "@/components/layout/RouteLoadingWatcher";
@@ -24,20 +24,17 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const user = await getUser();
+  // const user = await getUser();
 
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen bg-gray-100 dark:bg-gray-950`}
       >
-        <HydrateUser initialUser={user} />
+        {/* <HydrateUser initialUser={user} /> */}
         <RouteLoadingWatcher />
 
-        <div className="w-screen h-screen bg-gray-100 dark:bg-gray-950">
-          <MinHeader />
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

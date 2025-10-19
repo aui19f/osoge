@@ -1,10 +1,29 @@
-import { IOption } from "@/types/options";
+import { START_SERVICE_YEAR } from "@/lib/constant";
+import { FormOption } from "@/types/forms";
 
-export function getMonthOptions(start: string): IOption[] {
+export function getYearList(): FormOption[] {
+  const currentYear = new Date().getFullYear();
+  return Array.from(
+    { length: currentYear - START_SERVICE_YEAR + 1 },
+    (_, index) => {
+      const year = START_SERVICE_YEAR + index;
+      const yearString = year.toString();
+      return { id: yearString, label: `${yearString}년` };
+    }
+  );
+}
+
+export function getMonthList(): FormOption[] {
+  return Array(12)
+    .fill(0)
+    .map((_, x) => ({ id: (x + 1).toString(), label: `${x + 1}월` }));
+}
+
+export function getMonthOptions(start: string): FormOption[] {
   const startDate = new Date(`${start}-01`);
   const endDate = new Date();
 
-  const options: IOption[] = [];
+  const options: FormOption[] = [];
   const current = new Date(startDate);
 
   while (current <= endDate) {
@@ -16,11 +35,11 @@ export function getMonthOptions(start: string): IOption[] {
   return options;
 }
 
-export function getYearOptions(startYear: string): IOption[] {
+export function getYearOptions(startYear: string): FormOption[] {
   const start = parseInt(startYear, 10);
   const end = new Date().getFullYear();
 
-  const options: IOption[] = [];
+  const options: FormOption[] = [];
 
   for (let y = start; y <= end; y++) {
     const yearStr = String(y);

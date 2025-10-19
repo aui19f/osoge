@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function MinHeader() {
-  const { getUser } = useUserStore();
+  const { user } = useUserStore();
 
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
@@ -15,9 +15,9 @@ export default function MinHeader() {
     router.push("/login");
   };
   const serviceClick = () => {
-    if (getUser?.role === "ADMIN") {
+    if (user?.role === "ADMIN") {
       router.replace("/admind"); //현재 페이지를 /login으로 대체하여 뒤로 가기를 할 경우 이전 페이지(현재 페이지)로 돌아오지 않음
-    } else if (getUser?.role === "MASTER") {
+    } else if (user?.role === "MASTER") {
       router.replace("/master");
     }
   };
@@ -59,7 +59,7 @@ export default function MinHeader() {
       `}
     >
       <nav className="flex items-center justify-end h-full px-8">
-        {getUser ? (
+        {user ? (
           <Button variant="primary" sizes="sm" onClick={serviceClick}>
             시작하기
           </Button>
