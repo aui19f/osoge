@@ -1,3 +1,3 @@
 export default function Setting() {
-  return <>Setting</>;
+  return <>기획</>;
 }

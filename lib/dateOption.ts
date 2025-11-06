@@ -19,6 +19,12 @@ export function getMonthList(): FormOption[] {
     .map((_, x) => ({ id: (x + 1).toString(), label: `${x + 1}월` }));
 }
 
+export function getDayList(): FormOption[] {
+  return Array(31)
+    .fill(0)
+    .map((_, x) => ({ id: (x + 1).toString(), label: `${x + 1}일` }));
+}
+
 export function getMonthOptions(start: string): FormOption[] {
   const startDate = new Date(`${start}-01`);
   const endDate = new Date();

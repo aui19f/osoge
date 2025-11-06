@@ -107,10 +107,10 @@ enum EnumUserStatus {
 }
 
 enum EnumStatus {
-  READY       @map("READY")
-  IN_PROGRESS @map("IN_PROGRESS")
-  COMPLETED   @map("COMPLETED")
-  CANCEL      @map("CANCEL")
+  READY     @map("READY")
+  // IN_PROGRESS @map("IN_PROGRESS")
+  COMPLETED @map("COMPLETED")
+  CANCEL    @map("CANCEL")
 }
 
 // npx prisma migrate dev

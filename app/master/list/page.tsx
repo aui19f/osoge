@@ -1,12 +1,13 @@
 "use client";
 import Button from "@/components/forms/Button";
-import Select from "@/components/forms/Select";
+
 import SelectDate from "@/components/forms/SelectDate";
 import Sort from "@/components/forms/Sort";
 import Tabs from "@/components/forms/Tabs";
 import ListItem from "@/components/master/ListItem";
 import { FormOption } from "@/types/forms";
 import { StatusOptions } from "@/types/StatusOptions";
+import Link from "next/link";
 
 import { useState } from "react";
 
@@ -21,6 +22,7 @@ export default function List() {
       setStatus([...status, e.id]);
     }
   };
+
   return (
     <div>
       <div className="flex flex-col gap-2 p-2 mb-2 shadow-md dark:border dark:border-gray-800">
@@ -50,8 +52,15 @@ export default function List() {
       <ul className="flex flex-col gap-2 ">
         {Array(10)
           .fill(null)
-          .map((x) => (
-            <ListItem key={x} />
+          .map((_, index) => (
+            <li
+              className="relative p-2 border border-gray-400 rounded-lg"
+              key={index}
+            >
+              <Link href={`list/123`} scroll={false}>
+                <ListItem />
+              </Link>
+            </li>
           ))}
       </ul>
     </div>

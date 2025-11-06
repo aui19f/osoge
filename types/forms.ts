@@ -69,7 +69,7 @@ export interface FormInput
 
 export interface FormIButton {
   type?: "button" | "submit" | "reset";
-  disabled?: boolean;
+  isDisabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
   variant?: Variant;

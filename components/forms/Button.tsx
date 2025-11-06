@@ -5,7 +5,7 @@ export default function Button({
   children,
   onClick,
   variant = "base",
-  disabled = false,
+  isDisabled = false,
   sizes = "md",
   className = "",
 }: FormIButton) {
@@ -15,7 +15,7 @@ export default function Button({
   return (
     <button
       type={type}
-      disabled={disabled}
+      disabled={isDisabled}
       onClick={onClick}
       className={`${variantStyle}  ${sizeStyle} ${className}`}
     >

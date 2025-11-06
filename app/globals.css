@@ -39,13 +39,14 @@ body {
 input,
 button,
 select,
-.form-tabs {
+textarea .form-tabs {
   @apply rounded-sm  
   disabled:bg-gray-400 disabled:text-white 
   placeholder:text-gray-300;
 }
-input,
+input:not([type="checkbox"]):not([type="radio"]),
 select,
+textarea,
 .form-tabs {
   @apply min-w-16 bg-white border border-gray-200 appearance-none
   dark:bg-gray-900 dark:border-gray-900 
