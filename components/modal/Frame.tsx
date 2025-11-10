@@ -3,14 +3,13 @@ import Image from "next/image";
 type modalProps = {
   title?: string;
   onClose: () => void;
-  body: React.ReactNode;
-  footer?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export function ModalFrame({
   title = "",
-  body,
-  footer = "",
+  children,
+
   onClose,
 }: modalProps) {
   return (
@@ -25,11 +24,11 @@ export function ModalFrame({
           </div>
         )}
 
-        {body}
+        {children}
 
-        {footer && (
+        {/* {footer && (
           <div className=" p-4 flex gap-2.5 rounded-b-lg">{footer}</div>
-        )}
+        )} */}
       </div>
     </div>
   );

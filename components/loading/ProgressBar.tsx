@@ -24,9 +24,9 @@ export default function CountdownBar({ duration }: { duration: number }) {
   }, [duration]);
 
   return (
-    <div className="w-full h-2 overflow-hidden bg-gray-600 rounded-full">
+    <div className="w-full h-2 overflow-hidden bg-gray-400 rounded-full ">
       <div
-        className="h-full transition-all duration-100 ease-linear bg-lime-400"
+        className="h-full transition-all duration-100 ease-linear bg-blue-600"
         style={{ width: `${progress}%` }}
       />
     </div>

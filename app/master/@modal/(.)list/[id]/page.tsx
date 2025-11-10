@@ -17,5 +17,5 @@ export default function ListModalPage({ params }: { params: { id: string } }) {
       <ItemDetails onClose={onClose} />
     </div>
   );
-  return <ModalFrame onClose={() => router.back()} body={bodyContents} />;
+  return <ModalFrame onClose={() => router.back()}>{bodyContents}</ModalFrame>;
 }

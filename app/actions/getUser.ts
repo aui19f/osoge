@@ -9,6 +9,7 @@ export async function getUser() {
   const supabase = await createClient();
   try {
     console.log("==getUser 호출 ===");
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -19,10 +20,18 @@ export async function getUser() {
 
     const userDB = await db.users.findUnique({
       where: { id: user.id },
+      include: {
+        store: {
+          select: {
+            id: true, // store의 id만 가져오기
+          },
+        },
+      },
     });
     if (!userDB) {
       throw new Error("No user (de) information.");
     }
+
     return userDB;
   } catch (error) {
     console.log("ERROR", error);

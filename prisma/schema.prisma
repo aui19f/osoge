@@ -17,23 +17,28 @@ model users {
   nickname   String?
   role       EnumRole       @default(GUEST)
   status     EnumUserStatus @default(JOIN)
-  receive    receive[]
   store      store[]
-  settings   settings[]
-  plan       plan?          @relation(fields: [planId], references: [id])
-  planId     String?
+
+  plan     plan?      @relation(fields: [planId], references: [id])
+  planId   String?
+  settings settings[]
 }
 
 model receive {
   id               String             @id @default(uuid())
-  serialCode       String             @unique
+  serialCode       String
   created_at       DateTime           @default(now()) @db.Timestamp(6)
   updated_at       DateTime?          @default(now()) @updatedAt @db.Timestamp(6)
-  phone            String
   status           EnumStatus         @default(READY)
-  usersId          String
-  users            users              @relation(fields: [usersId], references: [id])
   receiveStatusLog receiveStatusLog[]
+
+  // 🔥 customer와의 1:M 관계 (customerId 필드 추가)
+  customer   customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+
+  // 🔥 store와의 1:M 관계 (storeId 필드 추가)
+  storeId String // @unique 속성은 1:1 관계를 만듭니다.
+  store   store  @relation(fields: [storeId], references: [id])
 }
 
 model store {
@@ -41,31 +46,37 @@ model store {
   created_at       DateTime  @default(now()) @db.Timestamp(6)
   updated_at       DateTime? @default(now()) @updatedAt @db.Timestamp(6)
   name             String
-  address          String
-  //{types: 'sido', name: '경기도', code: ''}, ... SIGUGUN DONGMYUN types ROAD_NAME BUILDING_NUMBER BUILDING_NAME naver map
-  address_elements Json
+  address          String?
+  address_elements Json?
+  phone            String?
+  business_hours   Json?
+  holiday          String?
+  homepage         String?
+  sns              Json?
+  image            String[]
+  description      String?
+  business_number  String[]
 
-  phone           String
-  //영업시간작성하기, {요일: 월, 오픈여부: true, 오픈시간: 00:00, 마감시간:00:00, 점심시간: 00:00~00:00}..
-  business_hours  Json
-  //쉬는날 공휴일 쉬는날 여부확인
-  holiday         String
-  //공식홈페이지
-  homepage        String
-  //{이름: 인스타그램, url: ~~~}...
-  sns             Json
-  //순서, 맨앞이 메인
-  image           String[]
-  description     String
-  business_number String[]
-  users           users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  usersId         String
+  // 🔥 users 관계 임시 제거
+  // users           users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  // usersId         String
+
+  receives receive[]
+  users    users?    @relation(fields: [usersId], references: [id])
+  usersId  String?
+}
+
+model customer {
+  id         String    @id @default(uuid())
+  phone      String    @unique // 핸드폰 번호는 고객을 식별하는 고유 키
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  receives   receive[]
 }
 
 model settings {
   id      String @id @default(uuid())
   usersId String @unique
-  users   users  @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  users   users  @relation(fields: [usersId], references: [id])
 
   statsPeriod   Int @default(3) // 통계 기간 (월 단위)
   average_start Int
@@ -92,6 +103,8 @@ model plan {
   features Json
   // [{ "접수": true, "출력": false, "문자": true }]
   // {"receipt": true, "print": false, "send": false}
+  // {"receipt": true, "print": false, "send": false}
+  //  {"receipt": true, "print": false, "send": false}
   users    users[]
 }
 
@@ -113,5 +126,6 @@ enum EnumStatus {
   CANCEL    @map("CANCEL")
 }
 
+// npx prisma migrate reset
 // npx prisma migrate dev
-// npx prisma db push 또는 prisma db push
+// npx prisma db push 

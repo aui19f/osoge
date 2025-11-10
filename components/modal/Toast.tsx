@@ -38,12 +38,12 @@ export default function Toast({
       }`}
     >
       <div
-        className={`fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-6 rounded-xl shadow-lg
-      bg-gray-800 text-white text-sm transition-all duration-500 ease-in-out
+        className={`fixed bottom-1/2 left-1/2 -translate-x-1/2 px-6 py-6 rounded-xl shadow-lg
+      bg-gray-800 text-white text-sm transition-all duration-500 ease-in-out flex flex-col gap-4
       `}
       >
         <CountdownBar duration={duration} />
-        <p>{message}</p>
+        <p className="text-gray-200">{message}</p>
       </div>
     </div>
   );

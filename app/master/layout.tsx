@@ -25,7 +25,7 @@ export default function MasterLayout({
 
   return (
     <div className="flex flex-col h-screen">
-      <main className="flex-1 pb-18">
+      <main className={`flex-1 ${pathname !== "/master/register" && "pb-18"}`}>
         {children}
         {modal}
       </main>

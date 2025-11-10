@@ -22,6 +22,7 @@ export default function Keypad({ onNumberClick, onDelete, onSubmit }: Props) {
             return (
               <button
                 key={item}
+                type="button"
                 className={`text-2xl font-semibold py-5 rounded-xl shadow-sm transition
                   ${
                     isSubmit

@@ -15,8 +15,12 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   useEffect(() => {
+    console.log("state", state);
+
     if (state?.status === 200 && state.data) {
-      if (state.data.role === "MASTER") {
+      if (state.data.role === "GUEST") {
+        router.replace("/");
+      } else if (state.data.role === "MASTER") {
         router.replace("/master");
       } else if (state.data.role === "ADMIN") {
         router.replace("/admin");
@@ -64,7 +68,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <p className="text-sm text-red-400">{state?.message}</p>
-          <Button type="submit" variant="primary" disabled={isPending}>
+          <Button type="submit" variant="primary" isDisabled={isPending}>
             로그인
           </Button>
         </form>

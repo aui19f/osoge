@@ -55,6 +55,8 @@ export async function CreateAccountForm(prev: unknown, formData: FormData) {
         },
       });
     }
+
+    // 4. 디비 저장
     await db.users.create({
       data: {
         id: user!.id,
@@ -65,7 +67,8 @@ export async function CreateAccountForm(prev: unknown, formData: FormData) {
         planId: plan?.id,
       },
     });
-    //4. 완료 (로그인페이지이동)
+
+    // 5. 완료 (로그인페이지이동)
     return {
       status: 200,
       message: "회원가입이 완료되었습니다.",
