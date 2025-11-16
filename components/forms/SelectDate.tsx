@@ -1,42 +1,52 @@
 "use client";
 import Select from "@/components/forms/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { getDayList, getMonthList, getYearList } from "@/lib/dateOption";
 
 interface selectDateProps {
-  selectedDate?: string;
-  isDay: boolean;
+  year: string;
+  month: string;
+  day?: string;
+
+  onChange: (date: { year: string; month: string; day?: string }) => void;
 }
 export default function SelectDate({
-  isDay = true,
-  selectedDate = dayjs().format("YYYY/MM/DD"),
+  year,
+  month,
+  day,
+  onChange,
 }: selectDateProps) {
-  const [year, setYear] = useState(dayjs(selectedDate).format("YYYY"));
-  const [month, setMonth] = useState(dayjs(selectedDate).format("MM"));
-  const [day, setDay] = useState(dayjs(selectedDate).format("DD") && "all");
-
+  const [inputYear, setYear] = useState(year);
+  const [inputMonth, setMonth] = useState(month);
+  const [inputDay, setDay] = useState(day);
+  useEffect(() => {
+    if (year !== inputYear || month !== inputMonth || day !== inputDay) {
+      onChange({ year: inputYear, month: inputMonth, day: inputDay });
+    }
+  }, [inputYear, inputMonth, inputDay, onChange]);
   return (
     <div className="flex gap-1 ">
       <Select
         name="year"
         options={getYearList()}
-        selected={year.toString()}
+        selected={inputYear}
         className="flex-1"
         onChange={(e) => setYear(e.target.value)}
       />
+
       <Select
         name="month"
         options={getMonthList()}
-        selected={month.toString()}
+        selected={inputMonth}
         className="flex-1"
         onChange={(e) => setMonth(e.target.value)}
       />
-      {isDay && (
+      {inputDay && (
         <Select
           name="day"
           options={[...[{ id: "all", label: "전체" }], ...getDayList()]}
-          selected={day.toString()}
+          selected={inputDay}
           className="flex-1"
           onChange={(e) => setDay(e.target.value)}
         />

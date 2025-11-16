@@ -1,8 +1,8 @@
 "use client";
 import MenuItem from "@/components/layout/MenuItem";
 import { usePathname } from "next/navigation";
-import path from "path";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 export default function MasterLayout({
   children,
   modal,
@@ -10,8 +10,8 @@ export default function MasterLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
+  const [queryClient] = useState(() => new QueryClient());
   const pathname = usePathname();
-  console.log("[[pathname]]", pathname);
 
   const menu = [
     { label: "홈", icon: "menu_home", url: "/master" },
@@ -24,19 +24,23 @@ export default function MasterLayout({
   // const isRegister =
 
   return (
-    <div className="flex flex-col h-screen">
-      <main className={`flex-1 ${pathname !== "/master/register" && "pb-18"}`}>
-        {children}
-        {modal}
-      </main>
+    <QueryClientProvider client={queryClient}>
+      <div className="flex flex-col h-screen">
+        <main
+          className={`flex-1  pb-16 ${pathname !== "/master/register" && ""}`}
+        >
+          {children}
+          {modal}
+        </main>
 
-      {pathname !== "/master/register" && (
-        <ul className="fixed bottom-0 left-0 right-0 flex h-16 bg-gray-100 border-t border-t-white">
-          {menu.map((item) => (
-            <MenuItem key={item.url.replace("/", "")} {...item} />
-          ))}
-        </ul>
-      )}
-    </div>
+        {pathname !== "/master/register" && (
+          <ul className="fixed bottom-0 left-0 right-0 flex h-16 bg-gray-100 border-t border-t-white">
+            {menu.map((item) => (
+              <MenuItem key={item.url.replace("/", "")} {...item} />
+            ))}
+          </ul>
+        )}
+      </div>
+    </QueryClientProvider>
   );
 }

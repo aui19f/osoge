@@ -10,11 +10,11 @@ export default function Select({
 }: FormSelectbox) {
   const sizeStyle = size[sizes];
   return (
-    <div className={`relative inline-block  ${className}`}>
+    <div className={`relative  flex ${className}`}>
       <select
         name={name}
         value={selected}
-        className={`${sizeStyle} w-full mr-4`}
+        className={`${sizeStyle} w-full`}
         onChange={onChange}
       >
         {options.map((opt) => (

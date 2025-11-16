@@ -5,3 +5,5 @@ export const PHONE_REGEX_KO =
 // 휴대전화 번호에만 집중하는 정규식 (010-XXXX-XXXX, 11자리)
 export const PHONE_REGEX_KO_HYPHEN = /^01([0|1|6|7|8|9])\d{7,8}$/;
 // 01로 시작, 다음 자리는 0, 1, 6, 7, 8, 9 중 하나, 이후 7자리 또는 8자리 숫자
+
+export const OUTPUT_PHONE_REGEX = /(\d{3})(\d{4})(\d{4})/;

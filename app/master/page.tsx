@@ -1,4 +1,5 @@
 "use client";
+import HourlySubmissionChart from "@/components/charts/HourlySubmissionChart";
 import Button from "@/components/forms/Button";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
@@ -11,7 +12,7 @@ export default function Master() {
   };
   return (
     <article className="flex flex-col h-[calc(100vh-64px)]  bg-sky-600">
-      <aside className="h-[34vh] flex items-center justify-center  flex-col py-8">
+      <aside className="h-[34vh] flex items-center justify-center  flex-col py-8 gap-3">
         <div className="flex flex-col items-center flex-1 gap-2">
           <div className="w-20 h-20 bg-white rounded-full"></div>
           <div className="*:text-gray-100 text-center">
@@ -20,32 +21,32 @@ export default function Master() {
           </div>
         </div>
         <div className="flex w-full">
-          <div className="flex flex-col items-center justify-center flex-1 gap-2">
+          <div className="flex flex-col items-center justify-center flex-1 gap-1">
             <Image
-              src="/images/icons/play.png"
+              src="/images/icons/use.png"
               width={24}
               height={24}
               alt="접수사용중"
             />
-            <p className="text-gray-100">접수 </p>
+            <p className="text-sm text-gray-100">접수 </p>
           </div>
-          <div className="flex flex-col items-center justify-center flex-1 gap-2">
+          <div className="flex flex-col items-center justify-center flex-1 gap-1">
             <Image
-              src="/images/icons/play.png"
+              src="/images/icons/use.png"
               width={24}
               height={24}
               alt="접수사용중"
             />
-            <p className="text-gray-100">라벨출력</p>
+            <p className="text-sm text-gray-100">라벨출력</p>
           </div>
-          <div className="flex flex-col items-center justify-center flex-1 gap-2">
+          <div className="flex flex-col items-center justify-center flex-1 gap-1">
             <Image
-              src="/images/icons/play.png"
+              src="/images/icons/use.png"
               width={24}
               height={24}
               alt="접수사용중"
             />
-            <p className="text-gray-100">완료메시지</p>
+            <p className="text-sm text-gray-100">완료메시지</p>
           </div>
 
           {/* /Users/ssuzy/Downloads/pause.png /Users/ssuzy/Downloads/play.png /Users/ssuzy/Downloads/stop.png */}
@@ -59,6 +60,14 @@ export default function Master() {
           <div className="w-full px-2 py-4 border-white rounded-md shadow-2xl bg-gray-50">
             <p className="text-4xl font-bold text-center ">00</p>
           </div>
+        </aside>
+
+        <aside>
+          <h3 className="text-xl font-bold">
+            {new Date().toLocaleDateString("ko-KR", { weekday: "long" })}
+            <span className="pl-1">시간대별 접수 현황</span>
+          </h3>
+          <HourlySubmissionChart />
         </aside>
         <aside className="flex flex-col gap-2">
           <h3 className="text-xl font-bold">3개월 상태현황</h3>

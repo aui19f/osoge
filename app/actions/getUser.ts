@@ -1,45 +1,59 @@
 import db from "@/lib/db";
 import * as Sentry from "@sentry/nextjs";
-import { Prisma } from "@prisma/client";
 import { createClient } from "@/lib/supabase/server";
+import { Prisma } from "@prisma/client";
+import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
 
-export type typeUsers = Prisma.PromiseReturnType<typeof getUser>;
+// ✅ 캐시 타입 정의
+let cachedUser: SupabaseAuthUser | null = null;
+let lastFetchTime = 0;
 
-export async function getUser() {
-  const supabase = await createClient();
+// ✅ 1:N 관계 반영된 include 타입
+export type UserWithStores = Prisma.usersGetPayload<{
+  include: {
+    store: {
+      select: { id: true };
+    };
+  };
+}>;
+
+export async function getUser(): Promise<UserWithStores | null> {
   try {
-    console.log("==getUser 호출 ===");
+    const now = Date.now();
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    if (cachedUser && now - lastFetchTime < 60_000) {
+      // 1분 내 캐시 사용
+    } else {
+      const supabase = await createClient();
 
-    if (!user) {
-      throw new Error("No user (auth) information.");
+      console.log("== getUser 호출 ==");
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      cachedUser = user;
     }
 
-    const userDB = await db.users.findUnique({
-      where: { id: user.id },
-      include: {
-        store: {
-          select: {
-            id: true, // store의 id만 가져오기
-          },
-        },
-      },
-    });
+    if (!cachedUser) {
+      console.warn("⚠️ cachedUser 없음 (auth 미로그인 상태)");
+      return null;
+    }
+
+    const userDB = await getDBUser(cachedUser.id);
+
     if (!userDB) {
-      throw new Error("No user (de) information.");
+      throw new Error("⚠️ DB에서 해당 사용자 정보를 찾을 수 없습니다.");
     }
 
+    lastFetchTime = now;
     return userDB;
   } catch (error) {
-    console.log("ERROR", error);
+    console.error("❌ ERROR", error);
     Sentry.captureException(error, {
-      tags: { module: "create-aacount" },
+      tags: { module: "get-user" },
       extra: {
-        formData: {},
-        message: "[에러] 유저정보 불러오기",
+        message: "[에러] 유저정보 불러오기 실패",
         systemErr: error,
       },
     });
@@ -47,3 +61,17 @@ export async function getUser() {
     return null;
   }
 }
+
+export const getDBUser = async (id: string): Promise<UserWithStores | null> => {
+  return db.users.findUnique({
+    where: { id },
+    include: {
+      store: {
+        select: { id: true },
+      },
+    },
+  });
+};
+
+// ✅ 반환 타입 동기화용
+export type typeUsers = Prisma.PromiseReturnType<typeof getDBUser>;

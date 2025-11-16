@@ -1,6 +1,8 @@
 "use client";
-import LoadingLink from "@/components/layout/LoadingLink";
+
+import { useLoadingStore } from "@/store/useLoading";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface ItemProps {
@@ -9,6 +11,7 @@ interface ItemProps {
   url: string;
 }
 export default function MenuItem(item: ItemProps) {
+  const { setLoading } = useLoadingStore();
   const pathname = usePathname();
   const isActive = (path: string) => {
     if (path === "/master") {
@@ -17,18 +20,21 @@ export default function MenuItem(item: ItemProps) {
     return pathname.startsWith(path);
   };
   return (
-    <li className="flex flex-col items-center justify-center flex-1">
-      <LoadingLink href={item.url}>
-        <div className="relative size-6">
-          <Image
-            src={`/images/icons/${
-              isActive(item.url) ? item.icon + "_active" : item.icon
-            }.png`}
-            alt={item.label}
-            fill
-          />
-        </div>
-      </LoadingLink>
+    <li className="flex items-center justify-center flex-1">
+      <Link
+        href={item.url}
+        className="flex items-center justify-center"
+        onClick={() => setLoading(true)}
+      >
+        <Image
+          src={`/images/icons/${
+            isActive(item.url) ? item.icon + "_active" : item.icon
+          }.png`}
+          alt={item.label}
+          width={24}
+          height={24}
+        />
+      </Link>
     </li>
   );
 }

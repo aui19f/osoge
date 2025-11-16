@@ -1,3 +1,7 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
 export function formatToWon(price: number): string {
   return price.toLocaleString("ko-KR");
 }
@@ -21,3 +25,9 @@ export function formatRelativeDate(date: string): string {
   }
 }
 // 서비스 이용약관과 개인정보 처리참여에 동의합니다.
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
+
+export default dayjs.tz;

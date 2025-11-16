@@ -4,7 +4,7 @@
 import { EnumStatus } from "@prisma/client";
 
 // Enum 값(영문)을 한국어 레이블로 맵핑하는 객체
-const StatusLabels: Record<EnumStatus, string> = {
+export const StatusLabels: Record<EnumStatus, string> = {
   [EnumStatus.READY]: "접수",
   // [EnumStatus.IN_PROGRESS]: "진행",
   [EnumStatus.COMPLETED]: "완료",

@@ -17,28 +17,24 @@ model users {
   nickname   String?
   role       EnumRole       @default(GUEST)
   status     EnumUserStatus @default(JOIN)
+  planId     String?
+  settings   settings?
   store      store[]
-
-  plan     plan?      @relation(fields: [planId], references: [id])
-  planId   String?
-  settings settings[]
+  plan       plan?          @relation(fields: [planId], references: [id])
 }
 
 model receive {
   id               String             @id @default(uuid())
-  serialCode       String
   created_at       DateTime           @default(now()) @db.Timestamp(6)
   updated_at       DateTime?          @default(now()) @updatedAt @db.Timestamp(6)
   status           EnumStatus         @default(READY)
+  customerId       String?
+  storeId          String
+  serialCode       String
+  store            store              @relation(fields: [storeId], references: [id])
   receiveStatusLog receiveStatusLog[]
-
-  // 🔥 customer와의 1:M 관계 (customerId 필드 추가)
-  customer   customer? @relation(fields: [customerId], references: [id])
-  customerId String?
-
-  // 🔥 store와의 1:M 관계 (storeId 필드 추가)
-  storeId String // @unique 속성은 1:1 관계를 만듭니다.
-  store   store  @relation(fields: [storeId], references: [id])
+  phone            String?
+  sendCount        Int?               @default(0)
 }
 
 model store {
@@ -56,55 +52,32 @@ model store {
   image            String[]
   description      String?
   business_number  String[]
-
-  // 🔥 users 관계 임시 제거
-  // users           users    @relation(fields: [usersId], references: [id], onDelete: Cascade)
-  // usersId         String
-
-  receives receive[]
-  users    users?    @relation(fields: [usersId], references: [id])
-  usersId  String?
-}
-
-model customer {
-  id         String    @id @default(uuid())
-  phone      String    @unique // 핸드폰 번호는 고객을 식별하는 고유 키
-  created_at DateTime  @default(now()) @db.Timestamp(6)
-  receives   receive[]
+  usersId          String?
+  receives         receive[]
+  users            users?    @relation(fields: [usersId], references: [id])
 }
 
 model settings {
-  id      String @id @default(uuid())
-  usersId String @unique
-  users   users  @relation(fields: [usersId], references: [id])
-
-  statsPeriod   Int @default(3) // 통계 기간 (월 단위)
+  id            String @id @default(uuid())
+  usersId       String @unique
+  statsPeriod   Int    @default(3)
   average_start Int
   average_end   Int
+  users         users  @relation(fields: [usersId], references: [id])
 }
 
 model receiveStatusLog {
   id         String     @id @default(uuid())
   receiveId  String
-  receive    receive    @relation(fields: [receiveId], references: [id], onDelete: Cascade)
   status     EnumStatus
   changed_at DateTime   @default(now())
+  receive    receive    @relation(fields: [receiveId], references: [id], onDelete: Cascade)
 }
-
-// enum EnumPlan {
-//   BASICS //  접수만 가능 (문자 보내기X)
-//   PLUS // 접수 , 출력 가능
-//   PREMIUM // 접수, 출력, 문자 모두 가능
-// }
 
 model plan {
   id       String  @id @default(uuid())
   name     String  @unique
   features Json
-  // [{ "접수": true, "출력": false, "문자": true }]
-  // {"receipt": true, "print": false, "send": false}
-  // {"receipt": true, "print": false, "send": false}
-  //  {"receipt": true, "print": false, "send": false}
   users    users[]
 }
 
@@ -121,11 +94,6 @@ enum EnumUserStatus {
 
 enum EnumStatus {
   READY     @map("READY")
-  // IN_PROGRESS @map("IN_PROGRESS")
   COMPLETED @map("COMPLETED")
   CANCEL    @map("CANCEL")
 }
-
-// npx prisma migrate reset
-// npx prisma migrate dev
-// npx prisma db push 

@@ -5,7 +5,7 @@ import Checkbox from "@/components/forms/Checkbox";
 import Keypad from "@/components/keyboard/Keypad";
 import PhoneInputDisplay from "@/components/keyboard/PhoneInputDisplay";
 import dayjs from "dayjs";
-import { useActionState, useEffect, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 
 import "dayjs/locale/ko";
 
@@ -13,6 +13,9 @@ import { ModalFrame } from "@/components/modal/Frame";
 import { registerForm } from "@/app/master/register/actions";
 import LoadingGif from "@/components/layout/LoadingGif";
 import Image from "next/image";
+import { useUserStore } from "@/store/useUserStore";
+import { UserWithStores } from "@/app/actions/getUser";
+import { OUTPUT_PHONE_REGEX } from "@/lib/utils/regex";
 
 export default function Register() {
   dayjs.locale("ko");
@@ -22,6 +25,10 @@ export default function Register() {
   const [isAlert, setIsAlert] = useState(false);
   const [phone, setPhone] = useState("010");
   const [agree, setAgree] = useState<string[]>([]);
+  const [iscloseBtn, setIsCloseBtn] = useState(false);
+
+  const { user }: { user: UserWithStores | null } = useUserStore();
+  const store = user?.store[0];
 
   const agreeChange = (target: HTMLInputElement) => {
     const { checked, value } = target;
@@ -41,30 +48,28 @@ export default function Register() {
   const handleDelete = () => setPhone((prev) => prev.slice(0, -1));
 
   const reset = () => {
-    setPhone("010");
-    setAgree([]);
     setIsAlert(false);
-    // if (phone.length < 10) {
-    //   alert("휴대폰 번호를 모두 입력해주세요");
-    //   return;
-    // }
-    // alert(`입력한 번호: ${phone}`);
+    setPhone("010");
+    setIsCloseBtn(false);
+    setAgree([]);
   };
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = (formData: FormData) => {
+    startTransition(() => {
+      formData.set("phone", phone);
+      formData.set("agree", agree.toString());
+      formData.set("store_id", store?.id || "");
+      actions(formData);
+    });
     setIsConfirm(false);
     setIsAlert(true);
-    formData.set("phone", phone);
-    formData.set("agree", agree.toString());
-    await actions(formData);
-    setPhone("010");
-    setAgree([]);
   };
 
   useEffect(() => {
-    if (state?.status === 200) {
-      reset();
+    if (state?.status !== 200) {
+      alert("접수 도중 에러가 발생했습니다. 수동접수로 진행하겠습니다.");
     }
+    setIsCloseBtn(true);
   }, [state]);
 
   return (
@@ -76,7 +81,7 @@ export default function Register() {
         {dayjs().format("YYYY년 M월 D일 dddd")}
       </p>
 
-      <div className="p-4 border border-gray-200 shadow-md">
+      <div className="p-4 mt-4">
         <PhoneInputDisplay value={phone} />
       </div>
       <Keypad
@@ -108,12 +113,20 @@ export default function Register() {
         <ModalFrame onClose={() => reset()}>
           <div className="p-4 bg-gray-50">
             {agree.includes("agree") ? (
-              <div>
-                <p>핸드폰번호: {phone}</p>
-                <p>
-                  완료시 해당 번호로 안내메시지를 전송합니다.
-                  <span>진행하시겠습니까?</span>
-                </p>
+              <div className="flex flex-col items-center justify-center gap-4 py-8 text-xl text-center">
+                <Image
+                  src="/images/icons/send.png"
+                  width={96}
+                  height={96}
+                  alt="완료_후_안내메시지_전송"
+                />
+                <div>
+                  <p className="my-4 text-2xl font-bold text-blue-600">
+                    {phone.replace(OUTPUT_PHONE_REGEX, "$1-$2-$3")}
+                  </p>
+                  <p>완료시 해당 번호로 안내메시지를 전송합니다.</p>
+                </div>
+                <p>진행하시겠습니까?</p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4 py-8 text-xl text-center">
@@ -159,7 +172,9 @@ export default function Register() {
         <LoadingGif
           file="register_loading"
           message="접수가 완료되었습니다."
-          onClose={() => setIsAlert(false)}
+          duration={7000}
+          isBtn={iscloseBtn}
+          onClose={() => reset()}
         />
       )}
     </form>
