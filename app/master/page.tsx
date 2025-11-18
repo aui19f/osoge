@@ -11,7 +11,7 @@ export default function Master() {
     window.location.href = "/master/register";
   };
   return (
-    <article className="flex flex-col h-[calc(100vh-64px)]  bg-sky-600">
+    <article className="flex flex-col bg-sky-600">
       <aside className="h-[34vh] flex items-center justify-center  flex-col py-8 gap-3">
         <div className="flex flex-col items-center flex-1 gap-2">
           <div className="w-20 h-20 bg-white rounded-full"></div>
@@ -52,13 +52,15 @@ export default function Master() {
           {/* /Users/ssuzy/Downloads/pause.png /Users/ssuzy/Downloads/play.png /Users/ssuzy/Downloads/stop.png */}
         </div>
       </aside>
-      <div className="flex flex-col flex-1 gap-4 px-4 pt-4 bg-gray-100 rounded-tl-2xl rounded-tr-2xl">
+      <div className="flex flex-col flex-1 gap-4 px-4 pt-4 bg-gray-50 rounded-tl-2xl rounded-tr-2xl dark:bg-gray-800">
         <aside className="flex flex-col gap-2">
           <h3 className="text-xl font-bold">
             {dayjs().format("YYYY년 M월 D일 dddd")} 접수 현황
           </h3>
-          <div className="w-full px-2 py-4 border-white rounded-md shadow-2xl bg-gray-50">
-            <p className="text-4xl font-bold text-center ">00</p>
+          <div className="w-full px-2 py-4 border-white rounded-md shadow-2xl ">
+            <p className="text-4xl font-bold text-center dark:text-gray-400">
+              00
+            </p>
           </div>
         </aside>
 
@@ -71,17 +73,19 @@ export default function Master() {
         </aside>
         <aside className="flex flex-col gap-2">
           <h3 className="text-xl font-bold">3개월 상태현황</h3>
-          <ul className="flex gap-2">
-            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl bg-gray-50">
+          <ul className="flex gap-2 *:**:dark:text-gray-400">
+            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl ">
               <p>접수</p>
 
+              <p className="text-4xl font-bold text-center text-gray-600 ">
+                00
+              </p>
+            </li>
+            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl ">
+              <p className="">완료</p>
               <p className="text-4xl font-bold text-center text-gray-600">00</p>
             </li>
-            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl bg-gray-50">
-              <p>완료</p>
-              <p className="text-4xl font-bold text-center text-gray-600">00</p>
-            </li>
-            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl bg-gray-50">
+            <li className="flex-1 px-3 py-4 border-white rounded-md shadow-xl">
               <p>취소</p>
               <p className="text-4xl font-bold text-center text-gray-600">00</p>
             </li>

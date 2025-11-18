@@ -31,7 +31,7 @@ export default function Login() {
     /**
      * 로딩 이미지 추가
      */
-    <div className="flex flex-col items-center justify-center h-screen ">
+    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800">
       <div className="flex flex-col items-center justify-center w-full h-full sm:w-3xl">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
@@ -58,6 +58,8 @@ export default function Login() {
             name="email"
             value={email}
             placeholder="이메일"
+            autoCapitalize="none"
+            inputMode="email"
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input

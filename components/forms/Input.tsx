@@ -16,6 +16,7 @@ export default function Input({
         name={name}
         value={value}
         onChange={onChange}
+        // autocapitalize="off"
         {...rest}
         className={` border-gray-400  w-full ${sizeStyle} ${className}`}
       />

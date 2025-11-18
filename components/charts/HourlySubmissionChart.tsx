@@ -25,7 +25,7 @@ const data = [
 
 export default function HourlyChart() {
   return (
-    <div className="w-full h-[320px] flex items-center justify-center bg-white rounded-xl shadow p-4">
+    <div className="w-full h-[320px] flex items-center justify-center bg-gray-100 rounded-xl shadow p-4 dark:bg-gray-800 dark:shadow-lg">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}

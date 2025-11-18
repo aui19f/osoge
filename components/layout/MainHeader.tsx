@@ -19,6 +19,8 @@ export default function MinHeader() {
       router.replace("/admind"); //현재 페이지를 /login으로 대체하여 뒤로 가기를 할 경우 이전 페이지(현재 페이지)로 돌아오지 않음
     } else if (user?.role === "MASTER") {
       router.replace("/master");
+    } else {
+      alert("가입이 진행중입니다.");
     }
   };
 
@@ -48,13 +50,12 @@ export default function MinHeader() {
     <header
       className={`
         fixed top-0 inset-x-0 z-50 
-        h-[80px] w-full 
-         shadow-md border-b border-gray-400  
+        h-16 w-full 
         transition-opacity duration-300 ease-in-out
         ${
           isVisible
             ? "bg-gray-800/40 pointer-events-auto" // 보일 때
-            : "opacity-0 pointer-events-none" // 숨길 때 (클릭 방지)
+            : "bg-gray-50/40 pointer-events-auto" // 숨길 때 (클릭 방지) opacity-0 pointer-events-none
         }
       `}
     >

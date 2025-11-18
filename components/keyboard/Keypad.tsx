@@ -28,8 +28,8 @@ export default function Keypad({ onNumberClick, onDelete, onSubmit }: Props) {
                     isSubmit
                       ? "bg-blue-500 text-white active:bg-blue-600"
                       : isDelete
-                      ? "bg-red-100 text-red-500 active:bg-red-200"
-                      : "bg-white active:bg-gray-100"
+                      ? "bg-red-100 text-red-500 active:bg-red-200 "
+                      : "bg-white active:bg-gray-100 dark:bg-gray-500"
                   }`}
                 onClick={() => {
                   if (isDelete) onDelete();

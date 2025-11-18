@@ -66,7 +66,7 @@ export default function Register() {
   };
 
   useEffect(() => {
-    if (state?.status !== 200) {
+    if (Number(state?.status) > 200) {
       alert("접수 도중 에러가 발생했습니다. 수동접수로 진행하겠습니다.");
     }
     setIsCloseBtn(true);

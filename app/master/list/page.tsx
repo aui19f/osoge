@@ -11,9 +11,7 @@ import { StatusOptions } from "@/types/StatusOptions";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
-import Link from "next/link";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function List() {
   const [selectedDate, setSelectedDate] = useState({
@@ -32,7 +30,7 @@ export default function List() {
     sort,
   });
 
-  const { data, refetch, isFetching, isError } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["recipes", filters], // filters 상태에만 의존
     queryFn: async () => await getListRegister(filters),
     staleTime: 1000 * 60, // 1분 캐시 유지
@@ -57,6 +55,10 @@ export default function List() {
     });
     refetch();
   };
+
+  useEffect(() => {
+    console.log("data: ", data);
+  }, [data]);
 
   return (
     <div>
@@ -85,26 +87,28 @@ export default function List() {
               }
             />
 
-            <Button variant="primary" onClick={handleSearch}>
-              조회
+            <Button
+              variant="primary"
+              isDisabled={isFetching}
+              onClick={handleSearch}
+            >
+              조회({data?.length || 0})
             </Button>
           </div>
         </div>
       </div>
 
       <ul className="flex flex-col gap-2 px-2">
-        {data &&
-          data.map((item: any) => (
-            <li
-              className="relative px-2 py-4 border-b border-b-gray-200"
-              key={item.id}
-            >
-              <Link href={`list/123`} scroll={false}>
-                <ListItem {...item} />
-              </Link>
-            </li>
-          ))}
+        {data && data.map((item: any) => <ListItem key={item.id} {...item} />)}
       </ul>
     </div>
   );
 }
+// <li
+//   className="relative px-2 py-4 border-b border-b-gray-200"
+//   key={item.id}
+// >
+//   <Link href={`list/123`} scroll={false}>
+//     <ListItem {...item} />
+//   </Link>
+// </li>

@@ -23,7 +23,7 @@ export default function Login() {
   }, [state]);
   return (
     <div className="h-screen bg-blue-600 ">
-      <div className="flex flex-col items-center justify-center w-full h-full bg-white dark:bg-black">
+      <div className="flex flex-col items-center justify-center w-full h-full smbg-white dark:bg-gray-800">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
             src="/images/icons/logo_main.png"
