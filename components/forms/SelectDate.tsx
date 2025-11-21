@@ -1,54 +1,55 @@
 "use client";
 import Select from "@/components/forms/Select";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
 import { getDayList, getMonthList, getYearList } from "@/lib/dateOption";
 
 interface selectDateProps {
   year: string;
   month: string;
   day?: string;
-
   onChange: (date: { year: string; month: string; day?: string }) => void;
 }
+
 export default function SelectDate({
   year,
   month,
   day,
   onChange,
 }: selectDateProps) {
-  const [inputYear, setYear] = useState(year);
-  const [inputMonth, setMonth] = useState(month);
-  const [inputDay, setDay] = useState(day);
-  useEffect(() => {
-    if (year !== inputYear || month !== inputMonth || day !== inputDay) {
-      onChange({ year: inputYear, month: inputMonth, day: inputDay });
-    }
-  }, [inputYear, inputMonth, inputDay, onChange]);
+  const dateChange = (type: "year" | "month" | "day", value: string) => {
+    const params = {
+      year,
+      month,
+      day,
+    };
+    params[type] = value;
+    onChange(params);
+  };
   return (
     <div className="flex gap-1 ">
       <Select
         name="year"
         options={getYearList()}
-        selected={inputYear}
+        selected={year}
         className="flex-1"
-        onChange={(e) => setYear(e.target.value)}
+        onChange={(e) => dateChange("year", e.target.value)}
       />
 
       <Select
         name="month"
         options={getMonthList()}
-        selected={inputMonth}
+        selected={month}
         className="flex-1"
-        onChange={(e) => setMonth(e.target.value)}
+        onChange={(e) => dateChange("month", e.target.value)}
       />
-      {inputDay && (
+
+      {day && (
         <Select
           name="day"
-          options={[...[{ id: "all", label: "전체" }], ...getDayList()]}
-          selected={inputDay}
+          options={[{ id: "all", label: "전체" }, ...getDayList()]}
+          selected={day}
           className="flex-1"
-          onChange={(e) => setDay(e.target.value)}
+          onChange={(e) => dateChange("day", e.target.value)}
         />
       )}
     </div>

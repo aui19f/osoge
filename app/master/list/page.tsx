@@ -1,5 +1,5 @@
 "use client";
-import { getListRegister } from "@/app/master/list/actions";
+import { getListRegister, TypeRegisterItem } from "@/app/master/list/actions";
 import Button from "@/components/forms/Button";
 
 import SelectDate from "@/components/forms/SelectDate";
@@ -11,7 +11,7 @@ import { StatusOptions } from "@/types/StatusOptions";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function List() {
   const [selectedDate, setSelectedDate] = useState({
@@ -35,6 +35,7 @@ export default function List() {
     queryFn: async () => await getListRegister(filters),
     staleTime: 1000 * 60, // 1분 캐시 유지
     enabled: false, // 수동 실행
+    gcTime: 0, // 페이지 떠날 때 캐시 삭제
   });
 
   const changeStatus = (e: FormOption) => {
@@ -46,19 +47,16 @@ export default function List() {
   };
 
   // 버튼 클릭 시 refetch 실행
-  const handleSearch = () => {
-    // 현재 UI의 필터 값들로 실제 쿼리 필터를 업데이트합니다.
-    setFilters({
+  const handleSearch = async () => {
+    // 현재 UI의 필터 값들로 실제 쿼리 필터를 업데이트
+    await setFilters({
       selectedDate,
       status,
       sort,
     });
-    refetch();
-  };
 
-  useEffect(() => {
-    console.log("data: ", data);
-  }, [data]);
+    await refetch();
+  };
 
   return (
     <div>
@@ -99,16 +97,11 @@ export default function List() {
       </div>
 
       <ul className="flex flex-col gap-2 px-2">
-        {data && data.map((item: any) => <ListItem key={item.id} {...item} />)}
+        {data &&
+          data.map((item: TypeRegisterItem) => (
+            <ListItem key={item.id} {...item} />
+          ))}
       </ul>
     </div>
   );
 }
-// <li
-//   className="relative px-2 py-4 border-b border-b-gray-200"
-//   key={item.id}
-// >
-//   <Link href={`list/123`} scroll={false}>
-//     <ListItem {...item} />
-//   </Link>
-// </li>

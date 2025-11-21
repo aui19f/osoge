@@ -1,15 +1,21 @@
 "use server";
 import { getUser } from "@/app/actions/getUser";
 import db from "@/lib/db";
+import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 
-export async function getListRegister({ selectedDate, status, sort }) {
-  console.log("selectedDate", selectedDate);
+// export interface searchReceiptListProps {
+//   type: SearchType;
+//   value: string;
+//   sort: SortOrder;
+// }
 
+export async function getListRegister({ selectedDate, status, sort }) {
+  console.log("selectedDate, status, sort", selectedDate, status, sort);
   try {
     const user = await getUser();
     const store = user?.store;
-    console.log("user", user);
+
     if (!store) {
       throw "상점 정보가 존재하지 않습니다.";
     }
@@ -35,13 +41,6 @@ export async function getListRegister({ selectedDate, status, sort }) {
       };
     }
 
-    console.log("조건: ", {
-      storeId: store[0].id,
-      status: {
-        in: status, // 배열 내 하나라도 일치하면 매칭됨
-      },
-      ...whereCondition,
-    });
     const result = await db.receive.findMany({
       where: {
         storeId: store[0].id,
@@ -60,3 +59,6 @@ export async function getListRegister({ selectedDate, status, sort }) {
     console.log("[error]", error);
   }
 }
+
+export type typeRegister = Prisma.PromiseReturnType<typeof getListRegister>;
+export type TypeRegisterItem = NonNullable<typeRegister>[number];

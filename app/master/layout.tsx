@@ -27,7 +27,9 @@ export default function MasterLayout({
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-950">
         <main
-          className={`flex-1  pb-16 ${pathname !== "/master/register" && ""}`}
+          className={`flex-1 overflow-y-auto pb-16 ${
+            pathname !== "/master/register" && ""
+          }`}
         >
           {children}
           {modal}

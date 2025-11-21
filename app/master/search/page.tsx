@@ -1,95 +1,117 @@
 "use client";
+import { TypeRegisterItem } from "@/app/master/list/actions";
+import { searchReceiptList } from "@/app/master/search/actions";
 import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 import Select from "@/components/forms/Select";
 import Sort from "@/components/forms/Sort";
-import Tabs from "@/components/forms/Tabs";
+import Loading from "@/components/layout/Loading";
 import ListItem from "@/components/master/ListItem";
 
-import { FormOption } from "@/types/forms";
-import { StatusOptions } from "@/types/StatusOptions";
+import { SearchType, SortOrder } from "@/types/common";
+
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useState } from "react";
 
 export default function Search() {
-  const [type, setType] = useState("receipt");
-  const [status, setStatus] = useState<string[]>(["READY"]);
-  const [receiptNum, setReceiptNum] = useState("");
-  const [phone, setPhone] = useState("");
-
-  const [sort, setSort] = useState<"desc" | "asc">("desc");
-
-  const [filters, setFilters] = useState({
-    type,
-    sort,
-  });
-
-  const {} = useQuery({
-    queryKey: ["", filters],
-  });
+  const [type, setType] = useState<SearchType>("receipt");
+  const [value, setValue] = useState("");
+  const [sort, setSort] = useState<SortOrder>("desc");
+  const [searchParams, setSearchParams] = useState({ type, value, sort });
 
   const typeOptions = [
     { id: "receipt", label: "접수번호" },
     { id: "phone", label: "핸드폰" },
   ];
-  // const changeStatus = (e: FormOption) => {
-  //   if (status.includes(e.id)) {
-  //     setStatus(status.filter((item) => item !== e.id));
-  //   } else {
-  //     setStatus([...status, e.id]);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   const initValue = StatusOptions.map((x) => x.id);
-  //   setStatus(initValue);
-  // }, []);
+  const { data, refetch, isFetching } = useQuery({
+    queryKey: ["search", searchParams],
+    queryFn: async () => await searchReceiptList({ type, value, sort }),
+    staleTime: 1000 * 60,
+    enabled: false, // 핵심!
+    gcTime: 0, // 페이지 떠날 때 캐시 삭제
+  });
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSearch();
+  };
+
+  const changeType = (type: string) => {
+    setType(type as SearchType);
+  };
+
+  const handleSearch = async () => {
+    await setSearchParams({ type, value, sort });
+    await refetch();
+  };
+
+  const isValidInput = value.trim().length >= 3;
   return (
-    <div>
+    <>
       <div className="flex gap-1 p-2 mb-2 shadow-md dark:border dark:border-gray-800">
         <Select
           name="type"
           options={typeOptions}
           selected={type}
           className="w-22"
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) => changeType(e.target.value)}
         />
 
         <div className="flex-1">
-          {type === "receipt" && (
-            <Input
-              name="receipt"
-              value={receiptNum}
-              className="flex-2"
-              onChange={(e) => setReceiptNum(e.target.value)}
-              placeholder="접수번호"
-            />
-          )}
-
-          {type === "phone" && (
-            <Input
-              name="phone"
-              value={phone}
-              placeholder="핸드폰번호"
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          )}
+          <Input
+            name="phone"
+            value={value}
+            placeholder={`${
+              type === "phone"
+                ? "핸드폰번호를 입력해주세요"
+                : "접수번호를 입력해주세요."
+            }`}
+            onKeyDown={handleKeyDown}
+            onChange={(e) => setValue(e.target.value)}
+          />
         </div>
+
         <Sort
           value={sort}
           isLabel={false}
           onClick={() => setSort((prev) => (prev === "desc" ? "asc" : "desc"))}
         />
-        <Button variant="primary" type="button" className="w-16" onClick={}>
+        <Button
+          variant="primary"
+          type="button"
+          className="w-16"
+          isDisabled={!isValidInput || isFetching}
+          onClick={handleSearch}
+        >
           조회
         </Button>
       </div>
-      {/* <ul className="flex flex-col gap-2 ">
-        {Array(10)
-          .fill(null)
-          .map((x) => <ListItem key={x.id} ...{x}/>)}
-      </ul> */}
-    </div>
+
+      {!isValidInput && value && (
+        <p className="text-sm text-center text-gray-500 ">
+          최소 3자 이상 입력하세요
+        </p>
+      )}
+
+      {data?.length === 0 && (
+        <p className="my-6 text-sm text-center text-red-400">
+          검색 결과가 없습니다
+        </p>
+      )}
+
+      <ul className="flex flex-col gap-2 px-2">
+        {data?.map((item: TypeRegisterItem) => (
+          <ListItem
+            key={item.id}
+            {...item}
+            type={searchParams.type}
+            word={searchParams.value}
+          />
+        ))}
+      </ul>
+      {isFetching && <Loading />}
+    </>
   );
 }
+
+// 검색은 기본 1년전까지만 확인 하고 더 필요한 경우는 별도 페이지 제작

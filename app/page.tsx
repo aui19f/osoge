@@ -14,7 +14,7 @@ export default function Home() {
       <MinHeader />
 
       <div>
-        <div className="bg-[rgb(28,81,145)] h-[32vh] flex relative">
+        <div className="bg-[rgb(28,81,145)] h-[32vh] flex relative md:h-100vw">
           <Image src="/images/intro_01.jpg" alt="intro_osoge_01" fill />
           <div className="absolute w-full text-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
             <h4 className="mb-2 text-4xl font-bold text-center text-[rgb(28,81,145)]">
