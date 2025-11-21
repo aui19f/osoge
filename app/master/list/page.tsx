@@ -1,5 +1,9 @@
 "use client";
-import { getListRegister, TypeRegisterItem } from "@/app/master/list/actions";
+import {
+  getListRegister,
+  searchReceiptListProps,
+  TypeRegisterItem,
+} from "@/app/master/list/actions";
 import Button from "@/components/forms/Button";
 
 import SelectDate from "@/components/forms/SelectDate";
@@ -8,23 +12,30 @@ import Tabs from "@/components/forms/Tabs";
 import ListItem from "@/components/master/ListItem";
 import { FormOption } from "@/types/forms";
 import { StatusOptions } from "@/types/StatusOptions";
+import { EnumStatus } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
 import { useState } from "react";
 
+interface DateSelection {
+  year: string;
+  month: string;
+  day?: string;
+}
+
 export default function List() {
-  const [selectedDate, setSelectedDate] = useState({
+  const [selectedDate, setSelectedDate] = useState<DateSelection>({
     year: dayjs().format("YYYY"),
     month: dayjs().format("MM"),
     day: dayjs().format("DD"),
   });
 
-  const [status, setStatus] = useState<string[]>(["READY"]);
+  const [status, setStatus] = useState<EnumStatus[]>(["READY"]);
   const [sort, setSort] = useState<"desc" | "asc">("desc");
 
   // 실제 쿼리에 사용될 필터 상태
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<searchReceiptListProps>({
     selectedDate,
     status,
     sort,
@@ -39,10 +50,11 @@ export default function List() {
   });
 
   const changeStatus = (e: FormOption) => {
-    if (status.includes(e.id)) {
-      setStatus(status.filter((item) => item !== e.id));
+    const id = e.id as EnumStatus;
+    if (status.includes(id)) {
+      setStatus(status.filter((item) => item !== id));
     } else {
-      setStatus([...status, e.id]);
+      setStatus([...status, id]);
     }
   };
 

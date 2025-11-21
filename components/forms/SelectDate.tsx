@@ -1,6 +1,6 @@
 "use client";
 import Select from "@/components/forms/Select";
-import { useEffect, useState } from "react";
+
 import { getDayList, getMonthList, getYearList } from "@/lib/dateOption";
 
 interface selectDateProps {

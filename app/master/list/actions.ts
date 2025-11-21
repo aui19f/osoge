@@ -1,16 +1,21 @@
 "use server";
 import { getUser } from "@/app/actions/getUser";
 import db from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { SortOrder } from "@/types/common";
+import { EnumStatus, Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 
-// export interface searchReceiptListProps {
-//   type: SearchType;
-//   value: string;
-//   sort: SortOrder;
-// }
+export interface searchReceiptListProps {
+  selectedDate: { year: string; month: string; day?: string };
+  status: EnumStatus[];
+  sort: SortOrder;
+}
 
-export async function getListRegister({ selectedDate, status, sort }) {
+export async function getListRegister({
+  selectedDate,
+  status,
+  sort,
+}: searchReceiptListProps) {
   console.log("selectedDate, status, sort", selectedDate, status, sort);
   try {
     const user = await getUser();

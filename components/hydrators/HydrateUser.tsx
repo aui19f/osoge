@@ -20,10 +20,11 @@ export default function HydrateUser({ initialUser }: userProps) {
     const { data: subscription } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (_event === "SIGNED_IN") {
-          const data = await db.users.findUnique({
-            where: { id: session?.user.id },
-          });
-          setUser(data);
+          console.log("session?.user.id", session?.user.id);
+          // const data = await db.users.findUnique({
+          //   where: { id: session?.user.id },
+          // });
+          // setUser(data);
         } else if (_event === "SIGNED_OUT") {
           setUser(null);
         }

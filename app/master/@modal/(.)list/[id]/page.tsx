@@ -4,11 +4,12 @@ import { ModalFrame } from "@/components/modal/Frame";
 import ItemDetails from "@/components/modal/ItemDetails";
 import { useRouter } from "next/navigation";
 
-export default function ListModalPage({ params }: { params: { id: string } }) {
+export default function ListModalPage() {
+  //{ params }: { params: { id: string } }
   const router = useRouter();
 
-  const { id } = params;
-  console.log(id);
+  // const { id } = params;
+  // console.log(id);
   const onClose = () => {
     router.back();
   };
