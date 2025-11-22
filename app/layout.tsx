@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "어서오게; OSOGE",
+  title: "어서오게 #OSOGE",
   description: "접수시스템",
   themeColor: "#3b82f6",
 };
