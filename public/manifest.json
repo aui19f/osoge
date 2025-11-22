@@ -1,0 +1,20 @@
+{
+  "name": "오소게",
+  "short_name": "접수시스템",
+  "icons": [
+    {
+      "src": "/images/osoge_main_01.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/osoge_main_01.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#009adc"
+}

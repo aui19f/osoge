@@ -33,6 +33,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <link rel="manifest" href="/manifest.json" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
+      <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+      />
+
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen bg-gray-100 dark:bg-gray-950`}
       >
