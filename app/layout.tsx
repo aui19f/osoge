@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   themeColor: "#3b82f6",
 };
 
+//RootLayout이 항상 서버에서 동적으로 렌더링되도록 설정
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
