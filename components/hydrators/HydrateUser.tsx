@@ -1,6 +1,5 @@
 "use client";
 import { typeUsers } from "@/app/actions/getUser";
-import db from "@/lib/db";
 import { supabase } from "@/lib/supabase/clinet";
 
 import { useUserStore } from "@/store/useUserStore";

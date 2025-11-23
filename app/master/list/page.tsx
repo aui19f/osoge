@@ -102,7 +102,7 @@ export default function List() {
               isDisabled={isFetching}
               onClick={handleSearch}
             >
-              조회({data?.length || 0})
+              조회
             </Button>
           </div>
         </div>

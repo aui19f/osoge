@@ -39,7 +39,6 @@ export interface FormMultiProp<T = string[] | string> {
 
 // 텍스트 입력 필드나 단일 선택 컴포넌트의 공통 프롭
 export interface FormSingleProp {
-  //name, value => 중복되서 삭제
   errors?: string[];
   sizes?: Size;
   className?: string;

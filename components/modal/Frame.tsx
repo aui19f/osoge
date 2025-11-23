@@ -2,7 +2,7 @@ import Image from "next/image";
 
 type modalProps = {
   title?: string;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
 };
 
@@ -18,6 +18,7 @@ export function ModalFrame({
         {title && (
           <div className="py-4 px-2 flex items-center  gap-2.5 rounded-t-lg border-b border-b-gray-300">
             <h4 className="flex-1 text-xl font-bold ">{title}</h4>
+
             <div className="relative m-2 size-6 " onClick={onClose}>
               <Image src="/images/icons/close.png" fill={true} alt="닫기" />
             </div>

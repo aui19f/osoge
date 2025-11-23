@@ -47,3 +47,45 @@ export async function searchReceiptList({
     return [];
   }
 }
+
+export async function searchRegisterById(id: string) {
+  try {
+    console.log(id);
+    const user = await getUser();
+    const store = user?.store;
+
+    if (!store) {
+      throw "상점 정보가 존재하지 않습니다.";
+    }
+    const result = await db.receive.findUnique({
+      where: {
+        storeId: store[0].id,
+        id,
+      },
+    });
+    console.log("[result]", result);
+    return result;
+  } catch (error) {
+    console.log("[ERR]", error);
+    return null;
+  }
+}
+
+// interface updateRegisterItemProps {
+//   id: string
+//   type: 'save' | 'saveToSend'
+//   price: string | number
+
+//   paymentMethod: string
+// }
+
+// export async function updateRegisterItem({params}:updateRegisterItemProps) {
+
+//   //전송여부 확인해서 전송할경우, 전송횟수증가
+//   //수정되는 부분 수정하기
+//   //리턴
+
+//   //가격, 방법, 상태, 전송횟수
+// //completionAt
+// //sendCount
+// }

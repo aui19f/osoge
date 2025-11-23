@@ -35,6 +35,10 @@ model receive {
   receiveStatusLog receiveStatusLog[]
   phone            String?
   sendCount        Int?               @default(0)
+
+  price         Int?      @default(0)
+  paymentMethod String?
+  completionAt  DateTime?
 }
 
 model store {

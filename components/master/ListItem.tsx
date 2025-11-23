@@ -5,7 +5,6 @@ import { EnumStatus } from "@prisma/client";
 import Link from "next/link";
 import { TypeRegisterItem } from "@/app/master/list/actions";
 import { highlightText } from "@/components/common/highlightText";
-import { OUTPUT_PHONE_REGEX } from "@/lib/utils/regex";
 import { highlightPhone } from "@/components/common/highlightPhone";
 import { formatPhone } from "@/lib/utils/format";
 
@@ -15,6 +14,7 @@ interface ListItemProps extends TypeRegisterItem {
 }
 
 export default function ListItem({
+  id,
   serialCode,
   created_at,
   status,
@@ -25,7 +25,7 @@ export default function ListItem({
 }: ListItemProps) {
   return (
     <li className="relative px-2 py-4 border-b border-b-gray-200">
-      <Link href={`list/${serialCode}`} scroll={false}>
+      <Link href={`list/${id}`} scroll={false}>
         <div className="absolute flex items-center gap-1 rounded-md top-2 right-2">
           {customerId && (
             <Image
