@@ -1,6 +1,9 @@
 "use client";
 import { TypeRegisterItem } from "@/app/master/list/actions";
-import { searchRegisterById } from "@/app/master/search/actions";
+import {
+  searchRegisterById,
+  updateRegisterItem,
+} from "@/app/master/search/actions";
 import Button from "@/components/forms/Button";
 
 import NumberInput from "@/components/forms/InputNumber";
@@ -76,12 +79,20 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const save = () => {
+  const save = async () => {
     setConfirmType("save");
     setConfirmModal(true);
     console.log("저장만");
     console.log(data);
     console.log(price, selected, status);
+
+    await updateRegisterItem({
+      id,
+      type: "save",
+      price,
+      paymentMethod: selected[0],
+      status,
+    });
   };
   const saveToSend = () => {
     setConfirmType("saveToSend");
@@ -197,19 +208,55 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
 
       {confirmModal && (
         <Confirm cancel={resetModal} ok={() => {}}>
-          <ul>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            {confirmType === "save" ? (
+              <Image
+                src="/images/icons/alert_save.png"
+                width={64}
+                height={64}
+                alt={``}
+              />
+            ) : (
+              <Image
+                src="/images/icons/alert_save_to_send.png"
+                width={64}
+                height={64}
+                alt={``}
+              />
+            )}
+          </div>
+          <ul className="my-4">
             {price && Number(price) > 0 && (
               <li>
-                <p>가격: {formatNumber(price)}</p>
+                <p className="text-xl ">
+                  가격: <span className="font-bold">{formatNumber(price)}</span>
+                </p>
               </li>
             )}
             {selected.length > 0 && (
               <li>
-                <p>방법: {options.find((x) => x.id === selected[0])?.label}</p>
+                <p className="text-xl ">
+                  방법:{" "}
+                  <span className="font-bold">
+                    {options.find((x) => x.id === selected[0])?.label}
+                  </span>
+                </p>
               </li>
             )}
-            <li>상태: {formatStatusKo(status)}</li>
-            {data?.phone && <li>전송횟수: 00</li>}
+            <li>
+              <p className="text-xl ">
+                상태:{" "}
+                <span className="font-bold">{formatStatusKo(status)}</span>
+              </p>
+            </li>
+            {data?.phone && (
+              <li>
+                <p className="text-xl ">
+                  전송횟수:
+                  <span className="font-bold">00</span>
+                </p>
+              </li>
+            )}
           </ul>
 
           <p>

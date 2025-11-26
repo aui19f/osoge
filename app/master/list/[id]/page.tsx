@@ -9,5 +9,9 @@ export default function ListModalPage() {
     router.push("/master/list");
   };
 
-  return <ItemDetails onClose={onClose} />;
+  return (
+    <div className="p-4">
+      <ItemDetails onClose={onClose} />
+    </div>
+  );
 }
