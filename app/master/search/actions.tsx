@@ -74,7 +74,7 @@ export async function searchRegisterById(id: string) {
 
 interface updateRegisterItemProps {
   id: string;
-  type: "save" | "saveToSend";
+  type: "save" | "saveAndSend";
   price: string | number;
 
   paymentMethod: string;
@@ -89,7 +89,7 @@ export async function updateRegisterItem({
   status,
 }: updateRegisterItemProps) {
   //전송여부 확인해서 전송할경우, 전송횟수증가
-  if (type === "saveToSend") {
+  if (type === "saveAndSend") {
     console.log("문자 또는 알림톡 전송");
   }
 
@@ -101,7 +101,7 @@ export async function updateRegisterItem({
       status,
 
       // type에 따라 sendCount +1 또는 유지
-      sendCount: type === "saveToSend" ? { increment: 1 } : undefined,
+      sendCount: type === "saveAndSend" ? { increment: 1 } : undefined,
 
       // status에 따라 completionAt 자동 세팅
       completionAt: status === EnumStatus.COMPLETED ? new Date() : undefined,

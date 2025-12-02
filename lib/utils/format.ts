@@ -1,10 +1,10 @@
-import { EnumStatus } from "@prisma/client";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 // 핸드폰번호
 export const formatPhone = (phone: string): string => {
-  // 숫자만 추출
   const numbers = phone.replace(/[^0-9]/g, "");
-
   // 길이에 따라 포맷팅
   if (numbers.length === 11) {
     // 010-0000-0000
@@ -51,3 +51,32 @@ export const extractNumber = (
   }
   return val.replace(/[^0-9]/g, "");
 };
+
+export function formatToWon(price: number): string {
+  return price.toLocaleString("ko-KR");
+}
+
+export function formatRelativeDate(date: string): string {
+  const now = new Date();
+  const propDate = new Date(date);
+  const diffInMs = now.getTime() - propDate.getTime();
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+  if (diffInDays < 30) {
+    return diffInDays === 0 ? "오늘" : `${diffInDays}일 전`;
+  } else {
+    const year = propDate.getFullYear();
+    const month = String(propDate.getMonth() + 1).padStart(2, "0");
+    const day = String(propDate.getDate()).padStart(2, "0");
+    const hours = String(propDate.getHours()).padStart(2, "0");
+    const minutes = String(propDate.getMinutes()).padStart(2, "0");
+
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
+  }
+}
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
+
+export default dayjs.tz;

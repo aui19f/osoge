@@ -9,13 +9,13 @@ import { startTransition, useActionState, useEffect, useState } from "react";
 
 import "dayjs/locale/ko";
 
-import { ModalFrame } from "@/components/modal/Frame";
 import { registerForm } from "@/app/master/register/actions";
 import LoadingGif from "@/components/layout/LoadingGif";
 import Image from "next/image";
 import { useUserStore } from "@/store/useUserStore";
 import { UserWithStores } from "@/app/actions/getUser";
 import { OUTPUT_PHONE_REGEX } from "@/lib/utils/regex";
+import ModalFrame from "@/components/modal/ModalFrame";
 
 export default function Register() {
   dayjs.locale("ko");

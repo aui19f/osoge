@@ -10,6 +10,7 @@ import SelectDate from "@/components/forms/SelectDate";
 import Sort from "@/components/forms/Sort";
 import Tabs from "@/components/forms/Tabs";
 import ListItem from "@/components/master/ListItem";
+import ListItemSkeleton from "@/components/master/ListItemSkeleton";
 import { FormOption } from "@/types/forms";
 import { StatusOptions } from "@/types/StatusOptions";
 import { EnumStatus } from "@prisma/client";
@@ -108,12 +109,16 @@ export default function List() {
         </div>
       </div>
 
-      <ul className="flex flex-col gap-2 px-2">
-        {data &&
-          data.map((item: TypeRegisterItem) => (
-            <ListItem key={item.id} {...item} />
-          ))}
-      </ul>
+      {isFetching ? (
+        <ListItemSkeleton count={Math.floor(window.innerHeight / 100)} />
+      ) : (
+        <ul className="flex flex-col gap-2 px-2">
+          {data &&
+            data.map((item: TypeRegisterItem) => (
+              <ListItem key={item.id} {...item} />
+            ))}
+        </ul>
+      )}
     </div>
   );
 }

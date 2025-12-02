@@ -1,12 +1,10 @@
 "use client";
 import LoginForm from "@/app/login/actions";
 import Button from "@/components/forms/Button";
-
 import Input from "@/components/forms/Input";
-
+import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
@@ -14,9 +12,13 @@ export default function Login() {
   const [state, actions, isPending] = useActionState(LoginForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useUserStore();
   useEffect(() => {
-    console.log("state", state);
-
+    if (user) {
+      router.replace("/");
+    }
+  }, [router, user]);
+  useEffect(() => {
     if (state?.status === 200 && state.data) {
       if (state.data.role === "GUEST") {
         router.replace("/");
@@ -28,9 +30,6 @@ export default function Login() {
     }
   }, [router, state]);
   return (
-    /**
-     * 로딩 이미지 추가
-     */
     <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800">
       <div className="flex flex-col items-center justify-center w-full h-full sm:w-3xl">
         <div className="flex items-end justify-center w-full mb-12 mr-4">

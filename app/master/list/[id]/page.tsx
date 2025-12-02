@@ -10,8 +10,10 @@ export default function ListModalPage() {
   };
 
   return (
-    <div className="p-4">
-      <ItemDetails onClose={onClose} />
+    <div className="h-full p-4 bg-white">
+      <div className="flex flex-col h-full border border-gray-200 rounded-md ">
+        <ItemDetails onClose={onClose} />
+      </div>
     </div>
   );
 }

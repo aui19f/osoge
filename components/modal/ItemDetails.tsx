@@ -11,10 +11,13 @@ import Tabs from "@/components/forms/Tabs";
 import Loading from "@/components/layout/Loading";
 
 import Confirm from "@/components/modal/Confirm";
+
+import { ModalFooter, ModalHeader } from "@/components/modal/ModalParts";
 import { formatNumber, formatPhone } from "@/lib/utils/format";
 import { FormOption } from "@/types/forms";
 
 import { formatStatusKo, StatusOptions } from "@/types/StatusOptions";
+import { EnumStatus } from "@prisma/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -82,20 +85,17 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
   const save = async () => {
     setConfirmType("save");
     setConfirmModal(true);
-    console.log("저장만");
-    console.log(data);
-    console.log(price, selected, status);
 
     await updateRegisterItem({
       id,
       type: "save",
       price,
       paymentMethod: selected[0],
-      status,
+      status: status as EnumStatus,
     });
   };
-  const saveToSend = () => {
-    setConfirmType("saveToSend");
+  const saveAndSend = () => {
+    setConfirmType("saveAndSend");
     console.log(data);
     console.log(price, selected, status);
     console.log("저장후 전송");
@@ -117,12 +117,10 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <header className="flex items-center h-16 gap-2 border-b border-b-gray-300">
-        <h4 className="flex-1 text-2xl font-bold ">{data?.serialCode}</h4>
-        <div onClick={onClose}>닫기</div>
-      </header>
-      <div className="flex flex-col flex-1 gap-2 py-4">
+    <>
+      <ModalHeader title={data?.serialCode || ""} onClose={onClose} />
+
+      <div className="flex flex-col flex-1 gap-2 p-2">
         {data?.phone && (
           <div className="flex gap-2 ">
             <p className="w-20 font-bold">핸드폰</p>
@@ -195,16 +193,16 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
           </ul>
         </div>
       </div>
-      <footer className="flex items-center h-16 gap-2 ">
+      <ModalFooter>
         <Button className="flex-1" variant="light" onClick={save}>
           저장
         </Button>
         {data?.phone && (
-          <Button className="flex-1" variant="primary" onClick={saveToSend}>
+          <Button className="flex-1" variant="primary" onClick={saveAndSend}>
             저장/전송
           </Button>
         )}
-      </footer>
+      </ModalFooter>
 
       {confirmModal && (
         <Confirm cancel={resetModal} ok={() => {}}>
@@ -266,6 +264,6 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
           </p>
         </Confirm>
       )}
-    </div>
+    </>
   );
 }

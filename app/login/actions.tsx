@@ -2,7 +2,6 @@
 import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
 import { loginSchema } from "@/lib/schemas/auth";
-
 import { createClient } from "@/lib/supabase/server";
 
 export default async function LoginForm(prev: unknown, formData: FormData) {
@@ -18,7 +17,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
     if (!result.success) {
       return {
         status: 401,
-        message: "아이디 비밀번호를 확인해주세요.1",
+        message: "아이디 비밀번호를 확인해주세요.",
       };
     }
 
@@ -33,7 +32,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
       //Email not confirmed at async LoginForm
       return {
         status: 401,
-        message: "아이디 비밀번호를 확인해주세요.2",
+        message: "아이디 비밀번호를 확인해주세요.",
       };
     }
     //3. 디비
@@ -45,7 +44,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
     if (!userDB) {
       return {
         status: 401,
-        message: "아이디 비밀번호를 확인해주세요.3",
+        message: "아이디 비밀번호를 확인해주세요.",
       };
     }
 
@@ -64,7 +63,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
         systemErr: error,
       },
     });
-    console.log("[ERROR] ", error);
+
     return {
       status: 401,
       message:

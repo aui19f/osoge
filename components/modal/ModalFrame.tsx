@@ -1,4 +1,3 @@
-// components/modal/ModalFrame.tsx
 import ModalBase from "./ModalBase";
 import { ModalHeader, ModalBody } from "./ModalParts";
 

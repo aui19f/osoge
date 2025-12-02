@@ -9,7 +9,7 @@ interface ModalHeaderProps {
 
 export function ModalHeader({ title, onClose }: ModalHeaderProps) {
   return (
-    <div className="flex items-center gap-2.5 px-4 py-4 border-b border-gray-300">
+    <div className="flex items-center gap-2.5 px-4 py-4 bg-gray-100">
       <h4 className="flex-1 text-xl font-bold">{title}</h4>
       {onClose && (
         <button
@@ -42,7 +42,7 @@ interface ModalFooterProps {
 
 export function ModalFooter({ children, className = "" }: ModalFooterProps) {
   return (
-    <div className={`flex items-center justify-end gap-3 p-4 ${className}`}>
+    <div className={`flex items-center justify-end gap-2 p-2  ${className}`}>
       {children}
     </div>
   );
