@@ -1,5 +1,5 @@
 // components/forms/NumberInput.tsx
-import { extractNumber, formatNumber } from "@/lib/utils/format";
+import { extractOnlyNumbers, formatCommaNumber } from "@/lib/utils/format";
 import { FormInput, size } from "@/types/forms";
 
 interface NumberInputProps extends Omit<FormInput, "onChange" | "value"> {
@@ -21,7 +21,7 @@ export default function NumberInput({
   const sizeStyle = size[sizes];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = extractNumber(e.target.value, allowDecimal);
+    const rawValue = extractOnlyNumbers(e.target.value, allowDecimal);
 
     onChange(rawValue);
   };
@@ -30,7 +30,7 @@ export default function NumberInput({
     <>
       <input
         name={name}
-        value={formatNumber(value || "")}
+        value={formatCommaNumber(value || "")}
         onChange={handleChange}
         inputMode="numeric"
         {...rest}

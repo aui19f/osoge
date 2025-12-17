@@ -84,7 +84,6 @@ export default function List() {
             <Tabs
               options={StatusOptions}
               selected={status}
-              className="flex-1"
               onClick={(e) => {
                 changeStatus(e);
               }}
@@ -99,8 +98,9 @@ export default function List() {
             />
 
             <Button
+              type="button"
               variant="primary"
-              isDisabled={isFetching}
+              disabled={isFetching}
               onClick={handleSearch}
             >
               조회

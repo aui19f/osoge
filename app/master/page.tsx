@@ -92,24 +92,12 @@ export default function Master() {
           </ul>
         </aside>
         <div className="flex-1"></div>
-        <div className="py-2 ">
-          <Button variant="primary" className="w-full" onClick={pageMove}>
+        <div className="py-2 *:w-full">
+          <Button variant="primary" onClick={pageMove}>
             접수 시작하기
           </Button>
         </div>
       </div>
-
-      {/* <aside className="flex flex-col gap-2">
-        <h3 className="text-xl font-bold">
-          {dayjs().format("YYYY년 M월 D일 dddd")}
-        </h3>
-        
-      </aside>
-
-      
-      <aside className="flex flex-col gap-2 ">
-       
-      </aside> */}
     </article>
   );
 }

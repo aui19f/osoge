@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/lib/supabase/server";
 import { Prisma } from "@prisma/client";
 import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 
 // ✅ 캐시 타입 정의
 let cachedUser: SupabaseAuthUser | null = null;
@@ -36,11 +37,10 @@ export async function getUser(): Promise<UserWithStores | null> {
     }
 
     if (!cachedUser) {
-      console.warn("⚠️ cachedUser 없음 (auth 미로그인 상태)");
-      return null;
+      throw new Error("⚠️ cachedUser 없음 (auth 미로그인 상태)");
     }
 
-    const userDB = await getDBUser(cachedUser.id);
+    const userDB = await getDBUser(cachedUser!.id);
 
     if (!userDB) {
       throw new Error("⚠️ DB에서 해당 사용자 정보를 찾을 수 없습니다.");

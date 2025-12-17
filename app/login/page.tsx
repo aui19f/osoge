@@ -19,19 +19,22 @@ export default function Login() {
     }
   }, [router, user]);
   useEffect(() => {
-    if (state?.status === 200 && state.data) {
-      if (state.data.role === "GUEST") {
-        router.replace("/");
-      } else if (state.data.role === "MASTER") {
-        router.replace("/master");
-      } else if (state.data.role === "ADMIN") {
-        router.replace("/admin");
-      }
+    if (!state || state.status !== 200) return;
+    if (!("data" in state) || !state.data?.user) return;
+
+    const role = state.data.user.role;
+
+    if (role === "GUEST") {
+      router.replace("/");
+    } else if (role === "MASTER") {
+      router.replace("/master");
+    } else if (role === "ADMIN") {
+      router.replace("/admin");
     }
   }, [router, state]);
   return (
-    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800">
-      <div className="flex flex-col items-center justify-center w-full h-full sm:w-3xl">
+    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800 bg-gray-50">
+      <div className="flex flex-col items-center justify-center w-full py-12 sm:bg-white sm:shadow-xl sm:w-xl sm:rounded-xl">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
             src="/images/icons/logo_main.png"
@@ -69,7 +72,11 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <p className="text-sm text-red-400">{state?.message}</p>
-          <Button type="submit" variant="primary" isDisabled={isPending}>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isPending || email.length === 0}
+          >
             로그인
           </Button>
         </form>

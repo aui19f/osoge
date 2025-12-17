@@ -1,15 +1,17 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import {
+  ButtonHTMLAttributes,
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
 
 export const variants = {
-  base: "border-gray-400",
-  primary: "bg-brand-primary bg-blue-400 border-blue-400 text-white",
-  secondary: "bg-gray-300 text-black",
-  success: "bg-green-500 text-white",
-  danger: "bg-red-500 text-white",
-  warning: "bg-yellow-400 text-black",
-  info: "bg-sky-400 text-white",
-  light: " text-black border border-gray-800", // light에 테두리 색상 추가
-  dark: "bg-gray-900 text-white",
+  primary: "bg-blue-400 border-blue-400 text-white",
+  "primary-line": "border border-blue-400 text-blue-400",
+  secondary: "bg-slate-400 border-slate-400 text-white",
+  "secondary-line": "border border-slate-400 text-slate-400",
+  dark: "bg-slate-600 border-slate-600 text-white",
+  "dark-line": "border border-slate-600 text-slate-600",
+  disabled: "bg-slate-400 border-slate-400 text-slate-500",
 } as const; // 'as const'를 사용 > 객체의 속성을 읽기 전용으로 만든다.(정확한 문자열 리터럴 타입으로 추론)
 
 export type Variant = keyof typeof variants;
@@ -17,7 +19,7 @@ export type Variant = keyof typeof variants;
 export const size = {
   sm: "h-auto py-1 px-2",
   md: "h-12 p-2",
-  lg: "",
+  lg: "p-2 h-12 font-bold",
 };
 
 export type Size = keyof typeof size;
@@ -39,9 +41,8 @@ export interface FormMultiProp<T = string[] | string> {
 
 // 텍스트 입력 필드나 단일 선택 컴포넌트의 공통 프롭
 export interface FormSingleProp {
-  errors?: string[];
+  name: string;
   sizes?: Size;
-  className?: string;
 }
 
 // 내부적으론 type ChangeEventHandler<T = Element> = (event: React.ChangeEvent<T>) => void; 이렇게 작성되어있지만,
@@ -56,19 +57,17 @@ export interface FormSelectbox extends FormMultiProp<string> {
 
 export interface FormTextarea
   extends FormSingleProp,
-    TextareaHTMLAttributes<HTMLTextAreaElement> {
+    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "onChange"> {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 export interface FormInput
   extends FormSingleProp,
-    InputHTMLAttributes<HTMLInputElement> {
+    Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "onChange"> {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export interface FormIButton {
-  type?: "button" | "submit" | "reset";
-  isDisabled?: boolean;
+export interface FormIButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   onClick?: () => void;
   variant?: Variant;

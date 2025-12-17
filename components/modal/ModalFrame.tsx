@@ -9,14 +9,15 @@ interface ModalFrameProps {
 }
 
 export default function ModalFrame({
-  title,
+  title = "",
+
   children,
   size = "md",
   onClose,
 }: ModalFrameProps) {
   return (
     <ModalBase size={size} onBackdropClick={onClose}>
-      {title && <ModalHeader title={title} onClose={onClose} />}
+      <ModalHeader title={title} onClose={onClose} />
       <ModalBody>{children}</ModalBody>
     </ModalBase>
   );

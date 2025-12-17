@@ -51,9 +51,9 @@ export default function LoadingGif({
           <p className="text-2xl font-bold text-gray-50">{message}</p>
         )}
       </div>
-      <div className="w-full h-24 p-8">
+      <div className="w-full h-24 p-8 *:w-full">
         {isBtn && (
-          <Button variant="secondary" className="w-full" onClick={onClose}>
+          <Button variant="secondary" onClick={onClose}>
             닫기
           </Button>
         )}

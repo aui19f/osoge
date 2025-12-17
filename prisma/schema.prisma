@@ -24,11 +24,11 @@ model users {
 }
 
 model receive {
-  id               String             @id @default(uuid())
-  created_at       DateTime           @default(now()) @db.Timestamp(6)
-  updated_at       DateTime?          @default(now()) @updatedAt @db.Timestamp(6)
-  status           EnumStatus         @default(READY)
-  customerId       String?
+  id         String     @id @default(uuid())
+  created_at DateTime   @default(now()) @db.Timestamp(6)
+  updated_at DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
+  status     EnumStatus @default(READY)
+
   storeId          String
   serialCode       String
   store            store              @relation(fields: [storeId], references: [id])
@@ -83,6 +83,22 @@ model plan {
   name     String  @unique
   features Json
   users    users[]
+}
+
+model apply {
+  id               String     @id @default(uuid())
+  created_at       DateTime   @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
+  name             String?
+  phone            String
+  status           EnumStatus @default(READY)
+  store            String?
+  biz_num          String?
+  biz_num_status   String?
+  address          String?
+  address_elements Json?
+  counselor        String?
+  memo             String?
 }
 
 enum EnumRole {

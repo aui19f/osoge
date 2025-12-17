@@ -103,7 +103,7 @@ export default function Register() {
 
       <Button
         variant="primary"
-        isDisabled={phone.length < 10}
+        disabled={phone.length < 10}
         onClick={() => setIsConfirm(true)}
       >
         접수
@@ -150,7 +150,7 @@ export default function Register() {
             )}
             <div className="flex gap-2">
               <Button
-                variant="light"
+                variant="dark-line"
                 className="flex-1"
                 onClick={() => setIsConfirm(false)}
               >

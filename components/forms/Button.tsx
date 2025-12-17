@@ -1,23 +1,20 @@
 import { FormIButton, size, variants } from "@/types/forms";
 
 export default function Button({
-  type = "button",
   children,
   onClick,
-  variant = "base",
-  isDisabled = false,
+  variant = "secondary-line",
   sizes = "md",
-  className = "",
+  ...rest
 }: FormIButton) {
   const variantStyle = variants[variant];
   const sizeStyle = size[sizes];
 
   return (
     <button
-      type={type}
-      disabled={isDisabled}
       onClick={onClick}
-      className={`${variantStyle}  ${sizeStyle} ${className}`}
+      className={`${variantStyle}  ${sizeStyle} `}
+      {...rest}
     >
       {children}
     </button>

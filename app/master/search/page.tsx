@@ -59,8 +59,9 @@ export default function Search() {
 
         <div className="flex-1">
           <Input
-            name="phone"
+            name={type}
             value={value}
+            autoComplete="off"
             placeholder={`${
               type === "phone"
                 ? "핸드폰번호를 입력해주세요"
@@ -79,8 +80,7 @@ export default function Search() {
         <Button
           variant="primary"
           type="button"
-          className="w-16"
-          isDisabled={!isValidInput || isFetching}
+          disabled={!isValidInput || isFetching}
           onClick={handleSearch}
         >
           조회

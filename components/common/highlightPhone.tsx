@@ -1,7 +1,7 @@
-import { formatPhone } from "@/lib/utils/format";
+import { formatPhoneNumber } from "@/lib/utils/format";
 
 export function highlightPhone(phone: string, search: string) {
-  const formatted = formatPhone(phone); // 01012345678 → "010-1234-5678"
+  const formatted = formatPhoneNumber(phone); // 01012345678 → "010-1234-5678"
   const numbersOnly = formatted.replace(/[^0-9]/g, "");
   const searchNumbers = search.replace(/[^0-9]/g, "");
 

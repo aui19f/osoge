@@ -6,7 +6,7 @@ import Link from "next/link";
 import { TypeRegisterItem } from "@/app/master/list/actions";
 import { highlightText } from "@/components/common/highlightText";
 import { highlightPhone } from "@/components/common/highlightPhone";
-import { formatPhone } from "@/lib/utils/format";
+import { formatPhoneNumber } from "@/lib/utils/format";
 
 interface ListItemProps extends TypeRegisterItem {
   word?: string;
@@ -18,53 +18,67 @@ export default function ListItem({
   serialCode,
   created_at,
   status,
-  customerId,
+  sendCount,
   phone,
   word = "",
   type,
 }: ListItemProps) {
-  return (
-    <li className="relative px-2 py-4 border-b border-b-gray-200">
-      <Link href={`list/${id}`} scroll={false}>
-        <div className="absolute flex items-center gap-1 rounded-md top-2 right-2">
-          {customerId && (
-            <Image
-              src="/images/icons/list_is_sms_false.png"
-              alt="전송유무"
-              width={18}
-              height={18}
-            />
-          )}
+  const statusClasses: Record<string, string> = {
+    READY: "bg-red-400",
+    COMPLETED: "bg-blue-400",
+    CANCEL: "bg-slate-400",
+  };
 
-          <div className="p-1 text-sm bg-gray-200 rounded-md dark:bg-blue-800">
-            <p className="dark:text-gray-100">
-              {StatusLabels[status as EnumStatus]}
-            </p>
-          </div>
-        </div>
-        <div className="flex gap-4 ">
-          <span>접수번호</span>
-          <span className="text-lg font-bold">
-            {type === "receipt" && word
-              ? highlightText(serialCode, word)
-              : serialCode}
+  return (
+    <li className="relative p-2 border-b border-b-gray-200">
+      <Link href={`list/${id}`} scroll={false} className="flex gap-4">
+        <div>
+          <span
+            className={`px-0.5 py-1 text-sm rounded-sm text-slate-50 
+            ${statusClasses[status]}`}
+          >
+            {StatusLabels[status as EnumStatus]}
           </span>
         </div>
 
-        {type === "phone" && (
-          <div className="flex gap-4 ">
-            <span>핸드폰</span>
-            <span className="text-lg font-bold">
-              {word
-                ? highlightPhone(String(phone), word)
-                : formatPhone(String(phone))}
-            </span>
+        <div className="flex-1 ">
+          <div className="flex">
+            <p className="w-16 font-bold">접수번호</p>
+            <p className="flex-1">
+              {word ? highlightText(serialCode, word) : serialCode}
+            </p>
           </div>
-        )}
-
-        <div className="flex gap-4 ">
-          <span>접수날짜</span>
-          <span>{dayjs(created_at).format("YYYY-MM-DD HH:mm")}</span>
+          {type === "phone" && (
+            <div className="flex">
+              <p className="w-16 font-bold">핸드폰</p>
+              <p className="flex-1">
+                {word
+                  ? highlightPhone(String(phone), word)
+                  : formatPhoneNumber(String(phone))}
+              </p>
+            </div>
+          )}
+          <div className="flex">
+            <p className="w-16 font-bold">접수날짜</p>
+            <p className="flex-1">
+              {dayjs(created_at).format("YYYY-MM-DD HH:mm")}
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div>
+            {phone && (
+              <Image
+                src={`/images/icons/list_is_sms_${
+                  sendCount === 0 ? "false" : "true"
+                }.png`}
+                alt="전송유무"
+                width={18}
+                height={18}
+              />
+            )}
+          </div>
+          {sendCount! > 0 && <span className="text-sm">{sendCount}</span>}
         </div>
       </Link>
     </li>

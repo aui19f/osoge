@@ -1,24 +1,26 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { PHONE_10_DIGIT_REGEX, PHONE_11_DIGIT_REGEX } from "@/lib/utils/regex";
 
-// 핸드폰번호
-export const formatPhone = (phone: string): string => {
+/**
+ * 핸드폰 번호 포맷팅 (01012345678 -> 010-1234-5678)
+ */
+export const formatPhoneNumber = (phone: string): string => {
   const numbers = phone.replace(/[^0-9]/g, "");
-  // 길이에 따라 포맷팅
   if (numbers.length === 11) {
-    // 010-0000-0000
-    return numbers.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    return numbers.replace(PHONE_11_DIGIT_REGEX, "$1-$2-$3");
   } else if (numbers.length === 10) {
-    return numbers.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    return numbers.replace(PHONE_10_DIGIT_REGEX, "$1-$2-$3");
   }
-
-  // 포맷팅할 수 없으면 원본 반환
   return phone;
 };
 
-// 숫자 포맷팅 (콤마 추가)
-export const formatNumber = (
+/**
+ * 숫자에 천 단위 콤마 추가 (입력 값 포맷팅용)
+ * @param allowDecimal 소수점 허용 여부
+ */
+export const formatCommaNumber = (
   val: string | number,
   allowDecimal: boolean = false
 ): string => {
@@ -28,6 +30,7 @@ export const formatNumber = (
 
   if (allowDecimal) {
     const [integer, decimal] = stringVal.split(".");
+    // 숫자가 아닌 문자 제거 후 포맷팅
     const formattedInteger = Number(
       integer.replace(/[^0-9]/g, "")
     ).toLocaleString("ko-KR");
@@ -41,8 +44,11 @@ export const formatNumber = (
   return Number(numbers).toLocaleString("ko-KR");
 };
 
-// 숫자만 추출
-export const extractNumber = (
+/**
+ * 문자열에서 숫자만 추출 (DB 저장용/계산용)
+ * @param allowDecimal 소수점 포함 여부
+ */
+export const extractOnlyNumbers = (
   val: string,
   allowDecimal: boolean = false
 ): string => {
@@ -52,10 +58,9 @@ export const extractNumber = (
   return val.replace(/[^0-9]/g, "");
 };
 
-export function formatToWon(price: number): string {
-  return price.toLocaleString("ko-KR");
-}
-
+/**
+ * 상대적 날짜 표현 (30일 미만은 'n일 전', 이후는 날짜 표시)
+ */
 export function formatRelativeDate(date: string): string {
   const now = new Date();
   const propDate = new Date(date);
@@ -80,3 +85,20 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Seoul");
 
 export default dayjs.tz;
+
+// ✅ 한국 휴대폰 번호 포맷 함수 (10자리, 11자리 둘 다 지원)
+export function changeFormatKoPhoneNumber(digits: string) {
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  if (digits.length <= 10)
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
+}
+
+// 사업자등록증
+export const changeBusinessNumber = (value: string): string => {
+  const nums = value.replace(/[^\d]/g, "");
+  if (nums.length <= 3) return nums;
+  if (nums.length <= 5) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+  return `${nums.slice(0, 3)}-${nums.slice(3, 5)}-${nums.slice(5, 10)}`;
+};

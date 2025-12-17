@@ -22,37 +22,43 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
     }
 
     //2. 인증
-    const { data: loginData, error: loginError } =
+    const { data: authData, error: authError } =
       await supabase.auth.signInWithPassword({
         email: result.data.email,
         password: result.data.password,
       });
 
-    if (loginError) {
-      //Email not confirmed at async LoginForm
-      return {
-        status: 401,
-        message: "아이디 비밀번호를 확인해주세요.",
-      };
+    if (authError || !authData.session || !authData.user) {
+      throw new Error(
+        "⚠️ 'signInWithPassword' 해당 사용자 정보를 찾을 수 없습니다."
+      );
     }
     //3. 디비
-    const user = loginData.user;
-    const userDB = await db.users.findUnique({
-      where: { id: user.id }, // Supabase 유저 ID로 조회
+
+    const user = await db.users.findUnique({
+      where: { id: authData.user.id }, // Supabase 유저 ID로 조회
     });
 
-    if (!userDB) {
-      return {
-        status: 401,
-        message: "아이디 비밀번호를 확인해주세요.",
-      };
+    if (!user) {
+      await supabase.auth.signOut();
+      throw new Error("⚠️ Supabase에는 있지만 DB에 없는 경우");
     }
 
     //4. 완료
     return {
       status: 200,
       message: "",
-      data: userDB,
+      data: {
+        user,
+        sesstion: {
+          access_token: authData.session.access_token,
+          refresh_token: authData.session.refresh_token,
+          expires_at: authData.session.expires_at || 0,
+          expires_in: authData.session.expires_in || 0,
+          token_type: authData.session.token_type || "bearer",
+          user: authData.session.user,
+        },
+      },
     };
   } catch (error) {
     Sentry.captureException(error, {
@@ -66,8 +72,7 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
 
     return {
       status: 401,
-      message:
-        "로그인 중 예상치 못한 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+      message: "아이디와 비밀번호를 체크해주세요.",
     };
   }
 }

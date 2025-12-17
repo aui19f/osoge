@@ -1,5 +1,5 @@
 "use client";
-import { CreateAccountForm } from "@/app/create-account/actions";
+import { CreateAccountForm } from "@/app/admin/(master)/create-account/actions";
 
 import Button from "@/components/forms/Button";
 

@@ -22,10 +22,10 @@ export default function Confirm({
     <ModalBase size="sm" onBackdropClick={cancel}>
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
       <ModalFooter>
-        <Button sizes="sm" variant="light" onClick={cancel}>
+        <Button type="button" sizes="sm" variant="dark-line" onClick={cancel}>
           {cancelText}
         </Button>
-        <Button sizes="sm" variant="primary" onClick={ok}>
+        <Button type="button" sizes="sm" variant="primary" onClick={ok}>
           {okText}
         </Button>
       </ModalFooter>

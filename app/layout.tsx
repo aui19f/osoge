@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { getUser } from "@/app/actions/getUser";
-import HydrateUser from "@/components/hydrators/HydrateUser";
-import RouteLoadingWatcher from "@/components/layout/RouteLoadingWatcher";
-import RouteGuard from "@/components/hydrators/RouteGuard";
+import LoaderRenderer from "@/components/loading/LoaderRenderer";
+// import { getUserFromToken } from "@/lib/auth/getUserFromToken";
+import { QueryProvider } from "@/components/providers/QueryProvider";
+import { getUserFromToken } from "@/lib/auth/getUserFromToken";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +22,30 @@ export const metadata: Metadata = {
   title: "어서오게 #OSOGE",
   description: "접수시스템",
   themeColor: "#3b82f6",
+
+  openGraph: {
+    title: "어서오게 #OSOGE",
+    description: "스마트한 접수 시스템",
+    url: "https://osoge.vercel.app", // 실제 서비스 URL
+    siteName: "OSOGE",
+    images: [
+      {
+        url: "/images/bg_apply.png", // public 폴더 기준 경로
+        width: 1200,
+        height: 630,
+        alt: "어서오게 서비스 메인 썸네일",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  // 트위터(X)용 별도 설정 (선택 사항이지만 권장)
+  twitter: {
+    card: "summary_large_image",
+    title: "어서오게 #OSOGE",
+    description: "접수시스템",
+    images: ["/images/bg_apply.png"],
+  },
 };
 
 //RootLayout이 항상 서버에서 동적으로 렌더링되도록 설정
@@ -29,7 +54,8 @@ export const dynamic = "force-dynamic";
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const user = await getUser();
+  // JWT 토큰에서 사용자 정보 추출 (DB 호출 없음)
+  const user = await getUserFromToken();
 
   return (
     <html lang="en">
@@ -41,14 +67,27 @@ export default async function RootLayout({
         content="black-translucent"
       />
 
-      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      {/* iOS 홈화면 아이콘 */}
+      <link rel="apple-touch-icon" href="/images/osoge_main_01.png" />
+
+      {/* iOS 스플래시 이미지 */}
+      <link rel="apple-touch-startup-image" href="/images/splash.png" />
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen bg-gray-100 dark:bg-gray-950`}
       >
-        <HydrateUser initialUser={user} />
-        <RouteGuard />
-        <RouteLoadingWatcher />
-        {children}
+        {/* 
+          <AuthProvider initialUser={user}>
+            
+            {children}
+          </AuthProvider>
+        
+      */}
+        <QueryProvider>
+          <LoaderRenderer />
+          {children}
+          <AuthProvider initialUser={user} />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,17 +1,18 @@
-// components/Header.js
 "use client";
 
 import Button from "@/components/forms/Button";
+import { useLoadingStore } from "@/store/useLoading";
 import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function MinHeader() {
   const { user } = useUserStore();
-
   const router = useRouter();
+  const { setLoading } = useLoadingStore();
   const [isVisible, setIsVisible] = useState(false);
   const handleLoginClick = () => {
+    setLoading(true, "page");
     router.push("/login");
   };
   const serviceClick = () => {

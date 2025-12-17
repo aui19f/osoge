@@ -13,7 +13,6 @@ export default function Textarea({
   value,
   type = "scroll",
   onChange,
-  className = "",
   ...rest
 }: FormTextarea & TextareaCusteom) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -33,10 +32,7 @@ export default function Textarea({
       onChange={onChange}
       {...rest}
       ref={textareaRef}
-      className={`
-        
-        ${className || ""}
-      `}
+      className="p-1 min-h-24"
       style={{
         overflowY: type === "scroll" ? "auto" : "hidden",
       }}

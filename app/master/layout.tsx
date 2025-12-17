@@ -1,8 +1,9 @@
 "use client";
 import MenuItem from "@/components/layout/MenuItem";
-import { usePathname } from "next/navigation";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
+import { useEffect } from "react";
+import { useUserStore } from "@/store/useUserStore";
 export default function MasterLayout({
   children,
   modal,
@@ -10,21 +11,26 @@ export default function MasterLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
-  const [queryClient] = useState(() => new QueryClient());
-  const pathname = usePathname();
+  // const router = useRouter();
 
+  const pathname = usePathname();
+  // const { user } = useUserStore();
   const menu = [
     { label: "홈", icon: "menu_home", url: "/master" },
     { label: "리스트", icon: "menu_list", url: "/master/list" },
     { label: "검색", icon: "menu_search", url: "/master/search" },
-    // { label: "전송", icon: "", url: "/master/send" },
     { label: "설정", icon: "menu_settings", url: "/master/setting" },
   ];
 
-  // const isRegister =
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.replace("/");
+  //   }
+  // }, [router, user]);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+      {/* {user && ( */}
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-950">
         <main
           className={`flex-1 overflow-y-auto  ${
@@ -43,6 +49,7 @@ export default function MasterLayout({
           </ul>
         )}
       </div>
-    </QueryClientProvider>
+      {/* )} */}
+    </>
   );
 }
