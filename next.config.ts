@@ -7,9 +7,9 @@ const isProd = process.env.NODE_ENV === "production";
 
 // 1️⃣ 기본 Next.js 설정
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
 };
 
 // 2️⃣ PWA 설정
