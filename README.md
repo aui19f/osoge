@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+<br/>
+<br/>
+<p align="center">
+  <img src="public/images/osoge_main_01.png" alt="OSOGE 로고" width="120" height="120" />
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+  <img src="https://img.shields.io/badge/Supabase-3EC9D1?style=for-the-badge&logo=supabase&logoColor=white">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br/>
+<br/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br/>
+<br/>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# 🚀 OSOGE (오소게) - B2B 스마트 접수 및 알림 관리 시스템
+**"접수부터 완료 알림까지, 비즈니스의 흐름을 잇는 가장 쉬운 방법"**
+
+
+### 목적
+
+수선, 세차 등 서비스 업종 마스터를 위한 고객 접수 관리 및 알림 톡 서비스
+
+
+
+### 주요 사용자:
+
+- Master: 접수 내역 관리 및 서비스 완료 알림 발송
+
+- Admin: 전체 사용자 및 플랜 관리
+
+- Guest: (기획단계)
+
+
+
+### 비즈니스 모델
+
+1차 사용 플랜에 따른 알림 서비스 차등 제공
+
+
+
+### 사용 기술 (Tech Stack)
+
+- Frontend: Next.js 16 (App Router), React 18, Tailwind CSS, Framer Motion
+
+- State Management: Zustand, TanStack Query v5
+
+- Backend/DB: Supabase (Auth, Database), Prisma ORM
+
+- Validation: Zod, React Hook Form
+
+- Testing/Dev: Storybook, Vitest, Playwright (E2E)
+
+- Monitoring: Sentry
+
+
+
+
+
+  
+### 🔗 서비스 바로가기
+| 어서오게 #OSOGE |
+| :--- |
+| [![OSOGE 썸네일](public/images/illustration/apply_260.jpg)](https://osoge.vercel.app) |
+| **접수부터 완료 알림까지 한번에!** [osoge.vercel.app](https://osoge.vercel.app) |
+
+
+    
