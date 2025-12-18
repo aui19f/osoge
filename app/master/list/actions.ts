@@ -16,7 +16,6 @@ export async function getListRegister({
   status,
   sort,
 }: searchReceiptListProps) {
-  console.log("selectedDate, status, sort", selectedDate, status, sort);
   try {
     const user = await getUser();
     const store = user?.store;

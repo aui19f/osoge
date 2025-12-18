@@ -3,7 +3,7 @@
 import { getUser } from "@/app/actions/getUser";
 import db from "@/lib/db";
 import { SearchType, SortOrder } from "@/types/common";
-import { EnumStatus, EnumUserStatus } from "@prisma/client";
+import { EnumStatus } from "@prisma/client";
 import dayjs from "dayjs";
 
 export interface searchReceiptListProps {
@@ -93,7 +93,7 @@ export async function updateRegisterItem({
     console.log("문자 또는 알림톡 전송");
   }
 
-  const result = await db.receive.update({
+  await db.receive.update({
     where: { id },
     data: {
       price: Number(price),

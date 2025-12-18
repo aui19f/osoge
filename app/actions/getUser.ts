@@ -1,9 +1,9 @@
+/** master, admin 리펙토링 할때 삭제 예정 */
 import db from "@/lib/db";
 import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/lib/supabase/server";
 import { Prisma } from "@prisma/client";
 import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
-import { redirect } from "next/navigation";
 
 // ✅ 캐시 타입 정의
 let cachedUser: SupabaseAuthUser | null = null;
