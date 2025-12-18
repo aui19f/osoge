@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "OSOGE",
     images: [
       {
-        url: "/images/bg/apply_2000.jpg", // public 폴더 기준 경로
+        url: "/images/background/apply_2000.jpg", // public 폴더 기준 경로
         width: 1200,
         height: 630,
         alt: "어서오게 서비스 메인 썸네일",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "어서오게 #OSOGE",
     description: "접수시스템",
-    images: ["/images/bg/apply_2000.jpg"],
+    images: ["/images/background/apply_2000.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
