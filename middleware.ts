@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
 
   // 2. 세션 확인 (1회 호출)
   const user = await getUserFromToken(); // DB 호출 0회
-  console.log("user", user);
+  // console.log("user", user);
 
   if (pathname === "/login") {
     if (user) {

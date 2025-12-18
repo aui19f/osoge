@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "어서오게 #OSOGE",
   description: "접수시스템",
   themeColor: "#3b82f6",
-
+  metadataBase: new URL("https://osoge.vercel.app"),
   openGraph: {
     title: "어서오게 #OSOGE",
     description: "스마트한 접수 시스템",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "OSOGE",
     images: [
       {
-        url: "/images/bg_apply.png", // public 폴더 기준 경로
+        url: "/images/bg/apply_2000.jpg", // public 폴더 기준 경로
         width: 1200,
         height: 630,
         alt: "어서오게 서비스 메인 썸네일",
@@ -39,12 +39,16 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     type: "website",
   },
-  // 트위터(X)용 별도 설정 (선택 사항이지만 권장)
+
   twitter: {
     card: "summary_large_image",
     title: "어서오게 #OSOGE",
     description: "접수시스템",
-    images: ["/images/bg_apply.png"],
+    images: ["/images/bg/apply_2000.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/images/osoge_main_01.png",
   },
 };
 

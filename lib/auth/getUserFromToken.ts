@@ -24,7 +24,9 @@ export async function getUserFromToken(): Promise<UserFromToken> {
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    console.log("❌ No valid JWT token");
+    if (process.env.NODE_ENV === "development") {
+      console.log("❌ No valid JWT token");
+    }
     return null;
   }
 
@@ -32,11 +34,12 @@ export async function getUserFromToken(): Promise<UserFromToken> {
   const role = user.app_metadata?.role as EnumRole;
   const status = user.app_metadata?.status as EnumUserStatus;
   const planId = user.app_metadata?.planId as string | undefined;
-
-  console.log("✅ User from JWT:", {
-    id: user.id,
-    role,
-  });
+  if (process.env.NODE_ENV === "development") {
+    console.log("✅ User from JWT:", {
+      id: user.id,
+      role,
+    });
+  }
 
   return {
     id: user.id,

@@ -1,4 +1,3 @@
-// stores/useUserStore.ts
 import { typeUsers } from "@/app/actions/getUser";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
