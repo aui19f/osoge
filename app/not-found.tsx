@@ -8,7 +8,7 @@ export default function NotFound() {
       <figure className="flex flex-col items-center">
         <div className="relative w-full aspect-square">
           <Image
-            src="/images/illustration/404-error.png"
+            src="/images/illustration/404_error.png"
             alt="404 Error Illustration"
             fill
           />

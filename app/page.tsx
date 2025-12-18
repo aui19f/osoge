@@ -34,7 +34,11 @@ export default function Home() {
 
         <div className="mt-12">
           <div className="relative w-80vw h-[40vw] bg-[rgb(210,220,233)]">
-            <Image src="/images/intro_10.png" alt="문의하기" fill />
+            <Image
+              src="/images/illustration/intro_10.png"
+              alt="문의하기"
+              fill
+            />
             <Link
               href="/apply"
               className="absolute bottom-8 left-16 md:left-[24%] md:bottom-16"
