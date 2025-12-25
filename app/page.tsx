@@ -1,6 +1,8 @@
+"use client";
 import Button from "@/components/forms/Button";
 import MinHeader from "@/components/layout/MainHeader";
 import MainIntro from "@/components/motion/MainIntro";
+
 import Image from "next/image";
 import Link from "next/link";
 

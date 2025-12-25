@@ -1,6 +1,5 @@
 "use server";
 
-import { getUser } from "@/app/actions/getUser";
 import db from "@/lib/db";
 import { SearchType, SortOrder } from "@/types/common";
 import { EnumStatus } from "@prisma/client";
@@ -17,18 +16,17 @@ export async function searchReceiptList({
   sort,
 }: searchReceiptListProps) {
   try {
-    const user = await getUser();
+    // const user = await getUser();
+    // const store = user?.store;
+    const user = { store: [{ id: "test" }] }; //await getUser();
     const store = user?.store;
-
     if (!store) {
       throw "상점 정보가 존재하지 않습니다.";
     }
-
     const searchWhere =
       type === "phone"
         ? { phone: { contains: value } }
         : { serialCode: { contains: value } };
-
     return await db.receive.findMany({
       where: {
         storeId: store[0].id,
@@ -38,7 +36,6 @@ export async function searchReceiptList({
           lte: dayjs().toDate(), // 현재 시각
         },
       },
-
       orderBy: {
         created_at: sort, // 'asc' = 오래된 순, 'desc' = 최신 순
       },
@@ -51,8 +48,7 @@ export async function searchReceiptList({
 
 export async function searchRegisterById(id: string) {
   try {
-    console.log(id);
-    const user = await getUser();
+    const user = { store: [{ id: "test" }] }; //await getUser();
     const store = user?.store;
 
     if (!store) {
@@ -64,7 +60,6 @@ export async function searchRegisterById(id: string) {
         id,
       },
     });
-    console.log("[result]", result);
     return result;
   } catch (error) {
     console.log("[ERR]", error);
@@ -108,9 +103,7 @@ export async function updateRegisterItem({
     },
   });
 
-  return {
-    status: 200,
-  };
+  return [];
   //수정되는 부분 수정하기
   //리턴
 

@@ -5,7 +5,8 @@ import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 import Select from "@/components/forms/Select";
 import Sort from "@/components/forms/Sort";
-import Loading from "@/components/layout/Loading";
+import Loading from "@/components/loading/DefaultLoading";
+
 import ListItem from "@/components/master/ListItem";
 
 import { SearchType, SortOrder } from "@/types/common";

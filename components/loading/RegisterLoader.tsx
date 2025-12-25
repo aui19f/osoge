@@ -5,7 +5,7 @@ import CountdownBar from "@/components/loading/ProgressBar";
 import Image from "next/image";
 import { useEffect } from "react";
 
-interface LoadingGifProps {
+interface RegisterLoaderProps {
   file: string;
   message?: string;
   duration?: number;
@@ -13,13 +13,13 @@ interface LoadingGifProps {
   onClose?: () => void;
 }
 
-export default function LoadingGif({
+export default function RegisterLoader({
   file,
   message,
   duration = 10000,
   isBtn = false,
   onClose,
-}: LoadingGifProps) {
+}: RegisterLoaderProps) {
   useEffect(() => {
     // fade-out 끝나고 콜백 실행
     const closeTimer = setTimeout(() => {
@@ -35,7 +35,6 @@ export default function LoadingGif({
     <div className="fixed inset-0 z-50 flex flex-col gap-4 bg-black/40 backdrop-blur-sm">
       <div className="flex flex-col items-center justify-center flex-1">
         <div className="relative w-32 h-32">
-          {/* GIF 파일 삽입 */}
           <Image
             src={`/images/gif/${file}.gif`}
             alt="종이 비행기 로딩 중..."

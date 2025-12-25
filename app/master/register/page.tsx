@@ -10,12 +10,13 @@ import { startTransition, useActionState, useEffect, useState } from "react";
 import "dayjs/locale/ko";
 
 import { registerForm } from "@/app/master/register/actions";
-import LoadingGif from "@/components/layout/LoadingGif";
+
 import Image from "next/image";
 import { useUserStore } from "@/store/useUserStore";
-import { UserWithStores } from "@/app/actions/getUser";
+import { UserWithStores } from "@/app/actions/getLoginUser";
 import { OUTPUT_PHONE_REGEX } from "@/lib/utils/regex";
 import ModalFrame from "@/components/modal/ModalFrame";
+import RegisterLoader from "@/components/loading/RegisterLoader";
 
 export default function Register() {
   dayjs.locale("ko");
@@ -169,7 +170,7 @@ export default function Register() {
       )}
 
       {isAlert && (
-        <LoadingGif
+        <RegisterLoader
           file="register_loading"
           message="접수가 완료되었습니다."
           duration={7000}

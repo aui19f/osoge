@@ -1,4 +1,4 @@
-// import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 // /**
 //  * createBrowserClient (클라이언트용)
 //   use client 지시어가 포함된 클라이언트 컴포넌트에서 사용
@@ -13,33 +13,14 @@
 //   - 자동 처리: 로그인 성공 후 리디렉션, 토큰 갱신 등 세션 관련 작업을 자동으로 처리
 //  */
 
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// // 환경 변수가 없을 경우 오류를 명확히 띄우는 것이 좋습니다.
-// if (!supabaseUrl || !supabaseAnonKey) {
-//   throw new Error(
-//     "Missing supabaseUrl(NEXT_PUBLIC_SUPABASE_URL) or supabaseAnonKey(NEXT_PUBLIC_SUPABASE_ANON_KEY) environment variables."
-//   );
-// }
-
-// export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-import { createBrowserClient } from "@supabase/ssr";
-
-/**
- * 브라우저용 Supabase 클라이언트 생성
- * 싱글톤 패턴으로 인스턴스 재사용
- */
-let client: ReturnType<typeof createBrowserClient> | null = null;
-
-export function getSupabaseBrowserClient() {
-  if (client) return client;
-
-  client = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// 환경 변수가 없을 경우 오류를 명확히 띄우는 것이 좋습니다.
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    "Missing supabaseUrl(NEXT_PUBLIC_SUPABASE_URL) or supabaseAnonKey(NEXT_PUBLIC_SUPABASE_ANON_KEY) environment variables."
   );
-
-  return client;
 }
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

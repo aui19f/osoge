@@ -8,7 +8,7 @@ import Button from "@/components/forms/Button";
 
 import NumberInput from "@/components/forms/InputNumber";
 import Tabs from "@/components/forms/Tabs";
-import Loading from "@/components/layout/Loading";
+import Loading from "@/components/loading/DefaultLoading";
 
 import Confirm from "@/components/modal/Confirm";
 
@@ -96,9 +96,6 @@ export default function ItemDetails({ onClose }: { onClose: () => void }) {
   };
   const saveAndSend = () => {
     setConfirmType("saveAndSend");
-    console.log(data);
-    console.log(price, selected, status);
-    console.log("저장후 전송");
   };
 
   const resetModal = () => {

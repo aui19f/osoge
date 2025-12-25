@@ -1,5 +1,5 @@
 "use server";
-import { getUser } from "@/app/actions/getUser";
+
 import db from "@/lib/db";
 import { SortOrder } from "@/types/common";
 import { EnumStatus, Prisma } from "@prisma/client";
@@ -17,7 +17,9 @@ export async function getListRegister({
   sort,
 }: searchReceiptListProps) {
   try {
-    const user = await getUser();
+    // const user = await getUser();
+    // const store = user?.store ;
+    const user = { store: [{ id: "test" }] }; //await getUser();
     const store = user?.store;
 
     if (!store) {
