@@ -1,7 +1,7 @@
 "use server";
 import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
-import { loginSchema } from "@/lib/schemas/auth";
+import { loginSchema } from "@/schemas/auth";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function LoginForm(prev: unknown, formData: FormData) {

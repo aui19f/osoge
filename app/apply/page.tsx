@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Textarea from "@/components/forms/Textarea";
 import ConfirmApply from "@/components/modal/ConfirmApply";
-import { ApplyFormValues, applySchema } from "@/lib/schemas/apply";
+import { ApplyFormValues, applySchema } from "@/schemas/apply";
 import BusinessInput, {
   bizStatus,
 } from "@/components/forms/InputBusinessNumber";

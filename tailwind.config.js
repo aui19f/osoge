@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
-  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  // darkMode: ["class", '[data-mode="dark"]'],
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./stories/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
       keyframes: {
@@ -34,4 +39,5 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: ["dark"], //추가!
 };

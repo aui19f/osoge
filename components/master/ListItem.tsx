@@ -6,7 +6,7 @@ import Link from "next/link";
 import { TypeRegisterItem } from "@/app/master/list/actions";
 import { highlightText } from "@/components/common/highlightText";
 import { highlightPhone } from "@/components/common/highlightPhone";
-import { formatPhoneNumber } from "@/lib/utils/format";
+import { formatPhoneNumber } from "@/utils/formatter/phone";
 
 interface ListItemProps extends TypeRegisterItem {
   word?: string;

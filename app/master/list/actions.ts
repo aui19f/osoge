@@ -1,7 +1,8 @@
 "use server";
 
 import db from "@/lib/db";
-import { SortOrder } from "@/types/common";
+import { SortOrder } from "@/utils/constants/sort";
+
 import { EnumStatus, Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 

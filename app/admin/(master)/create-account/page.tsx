@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
-  const [state, actions] = useActionState(CreateAccountForm, null);
+  const [state, actions, isPending] = useActionState(CreateAccountForm, null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_check, setPassword_check] = useState("");
@@ -22,8 +22,8 @@ export default function Login() {
     }
   }, [state]);
   return (
-    <div className="h-screen bg-blue-600 ">
-      <div className="flex flex-col items-center justify-center w-full h-full smbg-white dark:bg-gray-800">
+    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-800 bg-gray-50">
+      <div className="flex flex-col items-center justify-center w-full py-12 sm:bg-white sm:shadow-xl sm:w-xl sm:rounded-xl">
         <div className="flex items-end justify-center w-full mb-12 mr-4">
           <Image
             src="/images/icons/logo_main.png"
@@ -33,7 +33,9 @@ export default function Login() {
           />
 
           <div className="flex flex-col ">
-            <h2 className="text-xl font-bold text-sky-600">OSOGE LOGIN</h2>
+            <h2 className="text-xl font-bold text-sky-600">
+              OSOGE CREATE USER
+            </h2>
             <p className=" text-sky-600">
               <span className="font-bold">어서오게</span>
               <span className="text-sm"> :접수시스템</span>
@@ -49,6 +51,8 @@ export default function Login() {
             name="email"
             value={email}
             placeholder="이메일"
+            autoCapitalize="none"
+            inputMode="email"
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
@@ -66,11 +70,11 @@ export default function Login() {
             onChange={(e) => setPassword_check(e.target.value)}
           />
 
-          {state?.message && (
-            <p className="text-sm text-red-400">{state.message}</p>
-          )}
-
-          <Button type="submit" variant="primary">
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isPending || email.length === 0}
+          >
             회원가입
           </Button>
         </form>

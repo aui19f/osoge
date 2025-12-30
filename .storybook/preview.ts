@@ -1,5 +1,9 @@
-import type { Preview } from "@storybook/nextjs-vite";
-import "../app/globals.css";
+// import type { Preview } from "@storybook/nextjs-vite";
+import "app/globals.css";
+
+import { Preview } from "@storybook/nextjs-vite";
+import { withThemeByClassName } from "@storybook/addon-themes";
+import { Renderer } from "storybook/internal/types";
 
 const preview: Preview = {
   parameters: {
@@ -20,6 +24,22 @@ const preview: Preview = {
       test: "todo",
     },
   },
+  decorators: [
+    withThemeByClassName<Renderer>({
+      themes: {
+        light: "",
+        dark: "dark",
+      },
+      defaultTheme: "light",
+    }),
+  ],
+  globalTypes: {
+    darkMode: {
+      defaultValue: true, // Enable dark mode by default on all stories
+    },
+    className: {
+      defaultValue: "custom-classname", // Set your custom dark mode class name
+    },
+  },
 };
-
 export default preview;

@@ -20,8 +20,6 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const role = user?.role;
-
   if (pathname === "/login") {
     if (user) {
       if (role === "MASTER") {
@@ -35,12 +33,15 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  // role을 안전하게 추출
+  const role = user?.app_metadata?.role as string | undefined;
+
   const roleBasedPaths = [
     { prefix: "/master", requiredRole: "MASTER" },
     { prefix: "/admin", requiredRole: "ADMIN" },
     { prefix: "/guest", requiredRole: "GUEST" },
   ];
-
+  //, status, storeIds
   for (const { prefix, requiredRole } of roleBasedPaths) {
     if (pathname.startsWith(prefix)) {
       if (role !== requiredRole) {

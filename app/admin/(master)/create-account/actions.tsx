@@ -1,6 +1,6 @@
 "use server";
 import db from "@/lib/db";
-import { signupSchema } from "@/lib/schemas/auth";
+import { signupSchema } from "@/schemas/auth";
 import { createClient } from "@/lib/supabase/server";
 
 import { EnumRole, EnumUserStatus } from "@prisma/client";

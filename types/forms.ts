@@ -1,3 +1,4 @@
+import { FormOption } from "@/types/common";
 import {
   ButtonHTMLAttributes,
   InputHTMLAttributes,
@@ -17,17 +18,12 @@ export const variants = {
 export type Variant = keyof typeof variants;
 
 export const size = {
-  sm: "h-auto py-1 px-2",
+  sm: "h-auto py-1 px-2 text-sm",
   md: "h-12 p-2",
   lg: "p-2 h-12 font-bold",
 };
 
 export type Size = keyof typeof size;
-
-export type FormOption = {
-  id: string;
-  label: string;
-};
 
 // 체크박스, 라디오 버튼, 셀렉트 등 여러 값을 선택하는 컴포넌트의 공통 프롭
 export interface FormMultiProp<T = string[] | string> {

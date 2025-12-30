@@ -5,8 +5,8 @@ import "./globals.css";
 import LoaderRenderer from "@/components/loading/LoaderRenderer";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 
-import { AuthProvider } from "@/components/providers/AuthProvider";
-import { getLoginUser } from "@/app/actions/getLoginUser";
+// import { AuthProvider } from "@/components/providers/AuthProvider";
+// import { getLoginUser } from "@/app/actions/getLoginUser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,7 +69,7 @@ export const dynamic = "force-dynamic";
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const user = await getLoginUser();
+  // const user = await getLoginUser();
   return (
     <html lang="en">
       <link rel="manifest" href="/manifest.json" />
@@ -91,7 +91,7 @@ export default async function RootLayout({
       >
         <QueryProvider>
           <LoaderRenderer />
-          <AuthProvider initialUser={user} />
+          {/* <AuthProvider initialUser={user} /> */}
           {children}
         </QueryProvider>
       </body>

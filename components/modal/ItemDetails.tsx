@@ -13,10 +13,12 @@ import Loading from "@/components/loading/DefaultLoading";
 import Confirm from "@/components/modal/Confirm";
 
 import { ModalFooter, ModalHeader } from "@/components/modal/ModalParts";
-import { formatCommaNumber, formatPhoneNumber } from "@/lib/utils/format";
+
 import { FormOption } from "@/types/forms";
 
 import { formatStatusKo, StatusOptions } from "@/types/StatusOptions";
+import { formatCommaNumber } from "@/utils/formatter/number";
+import { formatPhoneNumber } from "@/utils/formatter/phone";
 import { EnumStatus } from "@prisma/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";

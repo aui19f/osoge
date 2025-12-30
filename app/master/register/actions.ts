@@ -1,6 +1,6 @@
 "use server";
 import db from "@/lib/db";
-import { registerSchema } from "@/lib/schemas/register";
+import { registerSchema } from "@/schemas/register";
 import dayjs from "dayjs";
 
 const cache = new Map<string, number>(); // 임시 메모리 캐시

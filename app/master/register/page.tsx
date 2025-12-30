@@ -14,9 +14,10 @@ import { registerForm } from "@/app/master/register/actions";
 import Image from "next/image";
 import { useUserStore } from "@/store/useUserStore";
 import { UserWithStores } from "@/app/actions/getLoginUser";
-import { OUTPUT_PHONE_REGEX } from "@/lib/utils/regex";
+
 import ModalFrame from "@/components/modal/ModalFrame";
 import RegisterLoader from "@/components/loading/RegisterLoader";
+import { OUTPUT_PHONE_REGEX } from "@/utils/formatter/regex";
 
 export default function Register() {
   dayjs.locale("ko");

@@ -1,5 +1,4 @@
-import { PHONE_REGEX_KO } from "@/lib/utils/regex";
-
+import { PHONE_REGEX_KO } from "@/utils/formatter/regex";
 import { z } from "zod";
 
 export const registerSchema = z.object({

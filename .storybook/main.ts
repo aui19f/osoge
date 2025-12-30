@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
     "@storybook/addon-onboarding",
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
+    "@storybook/addon-themes",
   ],
   framework: {
     name: "@storybook/nextjs",

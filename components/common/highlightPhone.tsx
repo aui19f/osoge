@@ -1,4 +1,4 @@
-import { formatPhoneNumber } from "@/lib/utils/format";
+import { formatPhoneNumber } from "@/utils/formatter/phone";
 
 export function highlightPhone(phone: string, search: string) {
   const formatted = formatPhoneNumber(phone); // 01012345678 → "010-1234-5678"

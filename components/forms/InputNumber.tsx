@@ -1,6 +1,10 @@
 // components/forms/NumberInput.tsx
-import { extractOnlyNumbers, formatCommaNumber } from "@/lib/utils/format";
+
 import { FormInput, size } from "@/types/forms";
+import {
+  extractOnlyNumbers,
+  formatCommaNumber,
+} from "@/utils/formatter/number";
 
 interface NumberInputProps extends Omit<FormInput, "onChange" | "value"> {
   value?: string | number;

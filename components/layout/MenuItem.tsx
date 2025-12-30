@@ -10,12 +10,17 @@ interface ItemProps {
   icon: string;
   url: string;
 }
-export default function MenuItem(item: ItemProps) {
+
+interface MenuItemProps extends ItemProps {
+  role: string;
+}
+
+export default function MenuItem({ role, ...item }: MenuItemProps) {
   const { setLoading } = useLoadingStore();
   const pathname = usePathname();
   const isActive = (path: string) => {
-    if (path === "/master") {
-      return pathname === "/master" || pathname === "";
+    if (path === `/${role}`) {
+      return pathname === `/${role}` || pathname === "";
     }
     return pathname.startsWith(path);
   };

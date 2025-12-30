@@ -1,5 +1,5 @@
 import Confirm from "@/components/modal/Confirm";
-import { formatPhoneNumber } from "@/lib/utils/format";
+import { formatPhoneNumber } from "@/utils/formatter/phone";
 
 interface ConfirmApplyProps {
   onCancel: () => void;

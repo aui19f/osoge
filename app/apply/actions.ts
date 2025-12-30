@@ -1,7 +1,7 @@
 "use server";
 import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
-import { applySchema } from "@/lib/schemas/apply";
+import { applySchema } from "@/schemas/apply";
 
 export default async function ApplyForm(prev: unknown, formData: FormData) {
   const inputData = {
@@ -24,11 +24,10 @@ export default async function ApplyForm(prev: unknown, formData: FormData) {
       data: {
         name: result.data.name,
         phone: result.data.phone,
-        store: result.data.company,
+        biz_name: result.data.company,
+        memo: result.data.memo || "",
         biz_num: result.data.biz_num,
         biz_num_status: result.data.biz_num_status,
-        address: result.data.company,
-        memo: result.data.memo,
       },
     });
 

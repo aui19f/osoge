@@ -1,20 +1,8 @@
 import dayjs from "dayjs";
-import { START_SERVICE_YEAR } from "@/lib/utils/constant";
-import { FormOption } from "@/types/forms";
 
-/**
- * 특정 범위의 숫자를 FormOption 배열로 만드는 헬퍼 함수
- */
-const createRangeOptions = (
-  start: number,
-  end: number,
-  unit: string
-): FormOption[] => {
-  return Array.from({ length: end - start + 1 }, (_, i) => {
-    const value = (start + i).toString();
-    return { id: value, label: `${value}${unit}` };
-  });
-};
+import { START_SERVICE_YEAR } from "@/utils/constants/date";
+import { createRangeOptions } from "@/utils/helpers/common";
+import { FormOption } from "@/types/common";
 
 /**
  * 서비스 시작 연도부터 현재 연도까지의 리스트

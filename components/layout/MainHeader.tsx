@@ -18,14 +18,14 @@ export default function MinHeader() {
 
   const serviceClick = () => {
     if (user?.role === "ADMIN") {
-      router.replace("/admind"); //현재 페이지를 /login으로 대체하여 뒤로 가기를 할 경우 이전 페이지(현재 페이지)로 돌아오지 않음
+      router.replace("/admin"); //현재 페이지를 /login으로 대체하여 뒤로 가기를 할 경우 이전 페이지(현재 페이지)로 돌아오지 않음
     } else if (user?.role === "MASTER") {
       router.replace("/master");
     } else {
       alert("가입이 진행중입니다.");
     }
   };
-
+  console.log("status", status);
   useEffect(() => {
     // 뷰포트 높이의 50%를 픽셀로 계산
     const threshold = window.innerHeight * 0.5;

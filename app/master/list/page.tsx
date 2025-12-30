@@ -19,12 +19,6 @@ import dayjs from "dayjs";
 
 import { useState } from "react";
 
-interface DateSelection {
-  year: string;
-  month: string;
-  day?: string;
-}
-
 export default function List() {
   const [selectedDate, setSelectedDate] = useState<DateSelection>({
     year: dayjs().format("YYYY"),

@@ -1,7 +1,6 @@
 "use client";
 import Select from "@/components/forms/Select";
-
-import { getDayList, getMonthList, getYearList } from "@/lib/utils/dateOption";
+import { getDayList, getMonthList, getYearList } from "@/utils/helpers/date";
 
 interface selectDateProps {
   year: string;

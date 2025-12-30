@@ -3,7 +3,8 @@
 import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input"; // 기존 공통 인풋
 import verifyBusinessStatus from "@/lib/api/verifyBusinessStatus";
-import { changeBusinessNumber, extractOnlyNumbers } from "@/lib/utils/format";
+import { extractOnlyNumbers } from "@/utils/formatter/number";
+import { changeBusinessNumber } from "@/utils/validator/business";
 
 import { useState, ChangeEvent } from "react";
 

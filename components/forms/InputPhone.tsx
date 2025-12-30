@@ -1,5 +1,5 @@
 import Input from "@/components/forms/Input";
-import { changeFormatKoPhoneNumber } from "@/lib/utils/format";
+import { changeFormatKoPhoneNumber } from "@/utils/formatter/phone";
 import React, { useState, useEffect } from "react";
 
 export default function InputPhone({
