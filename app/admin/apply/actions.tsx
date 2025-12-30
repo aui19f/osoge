@@ -22,7 +22,8 @@ export default async function getListApply(params: SearchOption) {
   try {
     return {
       status: 200,
-      message: await db.apply.findMany({
+      message: "",
+      items: await db.apply.findMany({
         where: {
           ...(type !== "all" && {
             created_at: {
@@ -66,5 +67,7 @@ export default async function getListApply(params: SearchOption) {
         },
       }),
     };
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }

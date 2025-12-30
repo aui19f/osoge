@@ -1,31 +1,17 @@
 "use client";
 
 import Button from "@/components/forms/Button";
-import { useLoadingStore } from "@/store/useLoading";
-import { useUserStore } from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function MinHeader() {
-  const { user, status } = useUserStore();
   const router = useRouter();
-  const { setLoading } = useLoadingStore();
   const [isVisible, setIsVisible] = useState(false);
-  const handleLoginClick = () => {
-    setLoading(true, "page");
+
+  const handleStart = async () => {
     router.push("/login");
   };
 
-  const serviceClick = () => {
-    if (user?.role === "ADMIN") {
-      router.replace("/admin"); //현재 페이지를 /login으로 대체하여 뒤로 가기를 할 경우 이전 페이지(현재 페이지)로 돌아오지 않음
-    } else if (user?.role === "MASTER") {
-      router.replace("/master");
-    } else {
-      alert("가입이 진행중입니다.");
-    }
-  };
-  console.log("status", status);
   useEffect(() => {
     // 뷰포트 높이의 50%를 픽셀로 계산
     const threshold = window.innerHeight * 0.5;
@@ -59,20 +45,14 @@ export default function MinHeader() {
             ? "bg-gray-800/40 pointer-events-auto" // 보일 때
             : "bg-gray-50/40 pointer-events-auto" // 숨길 때 (클릭 방지) opacity-0 pointer-events-none
         }
+        min-h-[calc(4rem+env(safe-area-inset-top))] 
+        pt-[env(safe-area-inset-top)]
       `}
     >
       <nav className="flex items-center justify-end h-full px-8">
-        {status === "idle" ? (
-          <></>
-        ) : user ? (
-          <Button variant="primary" sizes="sm" onClick={serviceClick}>
-            시작하기
-          </Button>
-        ) : (
-          <Button variant="dark" sizes="sm" onClick={handleLoginClick}>
-            로그인
-          </Button>
-        )}
+        <Button variant="primary" sizes="sm" onClick={handleStart}>
+          시작하기
+        </Button>
       </nav>
     </header>
   );

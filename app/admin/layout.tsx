@@ -14,7 +14,7 @@ export default function AdminLayout({
         {children}
         {modal}
       </main>
-      <Navigation role="admin" menus={ADMIN_MENU} />
+      <Navigation menus={ADMIN_MENU} />
     </div>
   );
 }

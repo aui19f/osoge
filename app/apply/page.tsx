@@ -158,7 +158,7 @@ export default function Apply() {
 
         <div className="flex items-center gap-4 my-4">
           <div className="flex-1 border-b border-b-gray-200"></div>
-          <p className="text-gray-300">[선택사항] 사업장이 있으신가요?</p>
+          <p className="text-slate-400">[선택사항] 사업장이 있으신가요?</p>
           <div className="flex-1 border-b border-b-gray-200"></div>
         </div>
         <div className="space-y-1">

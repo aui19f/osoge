@@ -11,20 +11,15 @@ interface ItemProps {
   url: string;
 }
 
-export interface MenuItemProps {
-  role: string;
-  menus: ItemProps[];
-}
-
-export default function Navigation({ role, menus }: MenuItemProps) {
+export default function Navigation({ menus }: { menus: ItemProps[] }) {
   const { setLoading } = useLoadingStore();
   const pathname = usePathname();
+
   const isActive = (path: string) => {
-    if (path === `/${role}`) {
-      return pathname === `/${role}` || pathname === "";
-    }
-    return pathname.startsWith(path);
+    if (pathname === path) return true;
+    return false;
   };
+
   return (
     <ul className="fixed bottom-0 left-0 right-0 flex h-16 bg-gray-100 border-t border-t-white dark:bg-gray-900 dark:border-t-black">
       {menus.map((menu) => (
@@ -36,6 +31,7 @@ export default function Navigation({ role, menus }: MenuItemProps) {
             href={menu.url}
             className="flex items-center justify-center"
             onClick={() => setLoading(true)}
+            prefetch={false}
           >
             <Image
               src={`/images/icons/${

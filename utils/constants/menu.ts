@@ -1,8 +1,8 @@
 export const MASTER_MENU = [
-  { label: "홈", icon: "menu_home", url: "/master" },
-  { label: "리스트", icon: "menu_list", url: "/master/list" },
-  { label: "검색", icon: "menu_search", url: "/master/search" },
-  { label: "설정", icon: "menu_settings", url: "/master/setting" },
+  { label: "홈", icon: "master/menu_home", url: "/master" },
+  { label: "리스트", icon: "master/menu_list", url: "/master/list" },
+  { label: "전송", icon: "master/menu_send", url: "/master/send" },
+  { label: "설정", icon: "master/menu_settings", url: "/master/setting" },
 ];
 
 export const ADMIN_MENU = [

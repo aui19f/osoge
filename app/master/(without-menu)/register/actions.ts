@@ -1,11 +1,7 @@
 "use server";
+import { getUser } from "@/app/actions/getUser";
 import db from "@/lib/db";
-// import db from "@/lib/db";
-import { createClient } from "@/lib/supabase/server";
 import { registerSchema } from "@/schemas/register";
-import dayjs from "dayjs";
-
-// const cache = new Map<string, number>(); // 임시 메모리 캐시
 
 export async function registerForm(prev: unknown, formData: FormData) {
   try {
@@ -23,16 +19,9 @@ export async function registerForm(prev: unknown, formData: FormData) {
       };
     }
 
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { storeIds } = await getUser();
+    if (storeIds.length === 0) throw new Error("관리중인 매장이 없습니다.");
 
-    if (!user) throw "user 데이터가 없습니다.";
-
-    const { storeIds } = user?.app_metadata;
-
-    if (storeIds.length === 0) throw "관리중인 매장이 없습니다.";
     //디비저장
     const createReceive = await db.receive.create({
       data: {

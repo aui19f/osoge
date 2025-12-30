@@ -4,11 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { EnumStatus } from "@prisma/client";
 
-// interface ListItemProps extends TypeRegisterItem {
-//   word?: string;
-//   type?: string;
-// }
-
 export interface LineItemProps {
   id: string;
   created_at: Date;

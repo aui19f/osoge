@@ -67,8 +67,8 @@ export default function Apply() {
       <ul>
         {isFetching ? (
           <LineItemSkeleton count={Math.floor(window.innerHeight / 100)} />
-        ) : data && data.message.length > 0 ? (
-          data.message.map((item) => (
+        ) : data && data.items.length > 0 ? (
+          data.items.map((item) => (
             <LineItem key={item.id} {...item} replyType={"apply"} />
           ))
         ) : (

@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     siteName: "OSOGE",
     images: [
       {
-        // url: "/images/background/apply_2000.jpg", // public 폴더 기준 경로
         url: "https://osoge.vercel.app/images/background/apply_2000.jpg",
         width: 1200,
         height: 630,

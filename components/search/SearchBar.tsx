@@ -49,12 +49,14 @@ export default function SearchBar({
           value={txt}
           onChange={(e) => setTxt(e.target.value)}
         />
-        <Button onClick={handleSearch}>검색</Button>
+        <Button variant="dark" onClick={handleSearch}>
+          검색
+        </Button>
         <div
-          className="flex items-center gap-1 px-1 border rounded-sm border-slate-400"
+          className="flex items-center gap-1 px-1 rounded-sm bg-slate-600"
           onClick={onFilter}
         >
-          <span>필터</span>
+          <span className="text-white">필터</span>
           <Image
             src="/images/icons/filter.png"
             width={24}
