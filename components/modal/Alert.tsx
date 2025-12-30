@@ -19,7 +19,7 @@ export default function Alert({
 }: ConfirmProps) {
   return (
     <ModalBase size="sm" onBackdropClick={onClose}>
-      <ModalHeader title={title} icon={icon} />
+      {title && <ModalHeader title={title} icon={icon} />}
 
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
       <ModalFooter>

@@ -1,32 +1,39 @@
 // components/modal/Confirm.tsx
 import Button from "@/components/forms/Button";
 import ModalBase from "./ModalBase";
-import { ModalBody, ModalFooter } from "./ModalParts";
+import { ModalBody, ModalFooter, ModalHeader } from "./ModalParts";
 
 interface ConfirmProps {
+  title?: string;
+  icon?: string;
   children: React.ReactNode;
   cancel: () => void;
   ok: () => void;
-  cancelText?: string;
-  okText?: string;
+  cancelLabel?: string;
+  okLabel?: string;
 }
 
 export default function Confirm({
+  title,
+  icon,
   children,
   cancel,
   ok,
-  cancelText = "취소",
-  okText = "확인",
+  cancelLabel = "취소",
+  okLabel = "확인",
 }: ConfirmProps) {
   return (
     <ModalBase size="sm" onBackdropClick={cancel}>
+      {title && <ModalHeader title={title} icon={icon} />}
+
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
-      <ModalFooter>
-        <Button type="button" sizes="sm" variant="dark-line" onClick={cancel}>
-          {cancelText}
+
+      <ModalFooter className="[&>button]:flex-1">
+        <Button type="button" variant="dark-line" onClick={cancel}>
+          {cancelLabel}
         </Button>
-        <Button type="button" sizes="sm" variant="primary" onClick={ok}>
-          {okText}
+        <Button type="button" variant="primary" onClick={ok}>
+          {okLabel}
         </Button>
       </ModalFooter>
     </ModalBase>

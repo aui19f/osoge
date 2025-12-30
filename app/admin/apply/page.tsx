@@ -2,7 +2,8 @@
 import getListApply, { SearchFilters } from "@/app/admin/apply/actions";
 
 import LineItem from "@/components/list/LineItem";
-import ListItemSkeleton from "@/components/master/ListItemSkeleton";
+import LineItemSkeleton from "@/components/list/LIneListSkeleton";
+
 import OptionDetails from "@/components/search/OptionDetails";
 import SearchBar from "@/components/search/SearchBar";
 import { useQuery } from "@tanstack/react-query";
@@ -65,7 +66,7 @@ export default function Apply() {
 
       <ul>
         {isFetching ? (
-          <ListItemSkeleton count={Math.floor(window.innerHeight / 100)} />
+          <LineItemSkeleton count={Math.floor(window.innerHeight / 100)} />
         ) : data && data.message.length > 0 ? (
           data.message.map((item) => (
             <LineItem key={item.id} {...item} replyType={"apply"} />

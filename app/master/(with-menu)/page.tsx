@@ -1,15 +1,13 @@
-"use client";
-import HourlySubmissionChart from "@/components/charts/HourlySubmissionChart";
+// import HourlySubmissionChart from "@/components/charts/HourlySubmissionChart";
 import Button from "@/components/forms/Button";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Master() {
   dayjs.locale("ko");
-  const pageMove = () => {
-    window.location.href = "/master/register";
-  };
+
   return (
     <article className="flex flex-col bg-sky-600">
       <aside className="h-[34vh] flex items-center justify-center  flex-col py-8 gap-3">
@@ -48,8 +46,6 @@ export default function Master() {
             />
             <p className="text-sm text-gray-100">완료메시지</p>
           </div>
-
-          {/* /Users/ssuzy/Downloads/pause.png /Users/ssuzy/Downloads/play.png /Users/ssuzy/Downloads/stop.png */}
         </div>
       </aside>
       <div className="flex flex-col flex-1 gap-4 px-4 pt-4 bg-gray-50 rounded-tl-2xl rounded-tr-2xl dark:bg-gray-800">
@@ -64,13 +60,13 @@ export default function Master() {
           </div>
         </aside>
 
-        <aside>
+        {/* <aside>
           <h3 className="text-xl font-bold">
             {new Date().toLocaleDateString("ko-KR", { weekday: "long" })}
             <span className="pl-1">시간대별 접수 현황</span>
           </h3>
           <HourlySubmissionChart />
-        </aside>
+        </aside> */}
         <aside className="flex flex-col gap-2">
           <h3 className="text-xl font-bold">3개월 상태현황</h3>
           <ul className="flex gap-2 *:**:dark:text-gray-400">
@@ -92,11 +88,16 @@ export default function Master() {
           </ul>
         </aside>
         <div className="flex-1"></div>
-        <div className="py-2 *:w-full">
-          <Button variant="primary" onClick={pageMove}>
-            접수 시작하기
-          </Button>
-        </div>
+
+        <Link
+          href="/master/register"
+          target="_blank"
+          rel="noopener noreferrer" // 보안과 성능을 위해 권장됩니다.
+        >
+          <div className="py-2 *:w-full">
+            <Button variant="primary">접수 시작하기</Button>
+          </div>
+        </Link>
       </div>
     </article>
   );

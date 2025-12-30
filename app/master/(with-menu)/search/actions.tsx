@@ -1,19 +1,17 @@
 "use server";
 
 import db from "@/lib/db";
-import { SearchType, SortOrder } from "@/types/common";
+import { SearchType } from "@/types/common";
 import { EnumStatus } from "@prisma/client";
 import dayjs from "dayjs";
 
 export interface searchReceiptListProps {
   type: SearchType;
   value: string;
-  sort: SortOrder;
 }
 export async function searchReceiptList({
   type,
   value,
-  sort,
 }: searchReceiptListProps) {
   try {
     // const user = await getUser();

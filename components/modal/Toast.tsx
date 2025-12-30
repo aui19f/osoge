@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 
 interface ToastProps {
   message: string;
+  isCounting?: boolean;
   duration?: number;
   onClose?: () => void;
 }
 export default function Toast({
   message = "TEST",
+  isCounting = false,
   duration = 3000,
   onClose,
 }: ToastProps) {
@@ -42,7 +44,7 @@ export default function Toast({
       bg-gray-800 text-white text-sm transition-all duration-500 ease-in-out flex flex-col gap-4
       `}
       >
-        <CountdownBar duration={duration} />
+        {isCounting && <CountdownBar duration={duration} />}
         <p className="text-gray-200">{message}</p>
       </div>
     </div>

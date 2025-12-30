@@ -1,9 +1,9 @@
 "use client";
-import { TypeRegisterItem } from "@/app/master/list/actions";
+import { TypeRegisterItem } from "@/app/master/(with-menu)/list/actions";
 import {
   searchRegisterById,
   updateRegisterItem,
-} from "@/app/master/search/actions";
+} from "@/app/master/(with-menu)/search/actions";
 import Button from "@/components/forms/Button";
 
 import NumberInput from "@/components/forms/InputNumber";

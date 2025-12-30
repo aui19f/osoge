@@ -30,8 +30,18 @@ model receive {
   updated_at DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
   status     EnumStatus @default(READY)
 
+  // 날짜 자동 생성 (YYMMDD)
+  receive_date String @default(dbgenerated("to_char(now(), 'YYMMDD')"))
+
+  // 1. DB에서 자동으로 생성되는 번호 (YYMMDD01 형식)
+  // lpad와 시퀀스를 사용하여 DB 레벨에서 생성되도록 설정
+  display_id String @default(dbgenerated("(to_char(now(), 'YYMMDD') || lpad(nextval('recive_seq')::text, 2, '0'))"))
+
+  // 시퀀스를 통한 순번 자동 할당
+  // 주의: 이는 전체 누적 순번입니다. (일일 초기화는 별도 작업 필요)
+  daily_seq Int @default(dbgenerated("nextval('recive_seq')"))
+
   storeId          String
-  serialCode       String
   store            store              @relation(fields: [storeId], references: [id])
   receiveStatusLog receiveStatusLog[]
   phone            String?
@@ -61,6 +71,7 @@ model store {
   usersId          String?
   receives         receive[]
   users            users?    @relation(fields: [usersId], references: [id])
+  status           String?   @default("") //
 }
 
 model settings {
