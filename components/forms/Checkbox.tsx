@@ -1,14 +1,18 @@
 "use client";
 
-import { FormCheckedbox } from "@/types/forms";
+interface CheckboxProps {
+  name: string;
+  options: { id: string; label: string }[];
+  selected: string[];
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 export default function Checkbox({
   name,
   options,
   selected,
   onChange,
-  className,
-}: FormCheckedbox) {
+}: CheckboxProps) {
   return (
     <div>
       {options.map((option) => (
@@ -39,33 +43,9 @@ export default function Checkbox({
               </svg>
             </span>
           </div>
-          <p className={className}>{option.label}</p>
+          <p>{option.label}</p>
         </label>
       ))}
     </div>
   );
 }
-
-// import { IOption } from "@/types/options";
-
-// type CheckboxProp = {
-//   name: string;
-//   options: IOption[];
-//   checked: string[];
-//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-// };
-
-// export default function Checkbox({
-//   name,
-//   options,
-//   checked,
-//   onChange,
-// }: CheckboxProp) {
-//   return (
-//     <div>
-//       {options.map((option) => (
-
-//       ))}
-//     </div>
-//   );
-// }

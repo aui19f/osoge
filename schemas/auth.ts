@@ -26,6 +26,6 @@ export const signupSchema = loginSchema
     path: ["confirmPassword"],
   });
 
-// ✅ 타입 내보내기 (form type 용도)
-export type LoginSchema = z.infer<typeof loginSchema>;
+//타입 내보내기 (form type 용도)
+export type LoginInput = z.infer<typeof loginSchema>;
 export type SignupSchema = z.infer<typeof signupSchema>;

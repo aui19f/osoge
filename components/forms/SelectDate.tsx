@@ -25,30 +25,24 @@ export default function SelectDate({
     onChange(params);
   };
   return (
-    <div className="flex gap-1 ">
+    <div className="flex gap-1 [&>div]:flex-1">
       <Select
-        name="year"
         options={getYearList()}
         selected={year}
-        className="flex-1"
-        onChange={(e) => dateChange("year", e.target.value)}
+        onChange={(e) => dateChange("year", e)}
       />
 
       <Select
-        name="month"
         options={getMonthList()}
         selected={month}
-        className="flex-1"
-        onChange={(e) => dateChange("month", e.target.value)}
+        onChange={(e) => dateChange("month", e)}
       />
 
       {day && (
         <Select
-          name="day"
           options={[{ id: "all", label: "전체" }, ...getDayList()]}
           selected={day}
-          className="flex-1"
-          onChange={(e) => dateChange("day", e.target.value)}
+          onChange={(e) => dateChange("day", e)}
         />
       )}
     </div>

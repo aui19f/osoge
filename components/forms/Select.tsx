@@ -1,21 +1,27 @@
-import { FormSelectbox, size } from "@/types/forms";
+import { FormOption } from "@/types/common";
+import { Size, size } from "@/types/forms";
+
+interface SelectProps {
+  options: FormOption[];
+  selected?: string;
+  onChange: (value: string) => void;
+  sizes?: Size;
+}
 
 export default function Select({
-  name,
   options,
   selected,
   onChange,
   sizes = "md",
-  className = "",
-}: FormSelectbox) {
+}: SelectProps) {
   const sizeStyle = size[sizes];
+
   return (
-    <div className={`relative  flex ${className}`}>
+    <div className="relative flex">
       <select
-        name={name}
         value={selected}
         className={`${sizeStyle} w-full`}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
       >
         {options.map((opt) => (
           <option key={opt.id} value={opt.id}>

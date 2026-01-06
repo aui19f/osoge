@@ -3,15 +3,20 @@ import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
 import { applySchema } from "@/schemas/apply";
 
-export default async function ApplyForm(prev: unknown, formData: FormData) {
+export default async function createApply(prev: unknown, formData: FormData) {
+  // 빈 문자열이면 null을 반환하여 DB 무결성 유지
+  const toNullable = (key: string) => {
+    const val = formData.get(key);
+    return val === "" || val === null ? null : String(val);
+  };
+
   const inputData = {
     name: formData.get("name"),
     phone: formData.get("phone"),
-    company: formData.get("company"),
-    biz_num: formData.get("biz_num"),
-    biz_num_status: formData.get("biz_num_status"),
-
-    memo: formData.get("memo"),
+    company: toNullable("company"),
+    biz_num: toNullable("biz_num"),
+    biz_num_status: toNullable("biz_num_status"),
+    memo: toNullable("memo"),
   };
 
   try {
@@ -35,7 +40,6 @@ export default async function ApplyForm(prev: unknown, formData: FormData) {
       status: 200,
       message: "접수가 완료되었습니다.",
     };
-    //디비저장
   } catch (error) {
     Sentry.captureException(error, {
       tags: { module: "Apply" },
@@ -48,8 +52,8 @@ export default async function ApplyForm(prev: unknown, formData: FormData) {
 
     return {
       status: 401,
-      message:
-        error || "일시적인 문제가 생겼습니다. 다시 시도해주시기 바랍니다.",
+      message: "일시적인 문제가 생겼습니다. 다시 시도해주시기 바랍니다.",
+      error,
     };
   }
 }

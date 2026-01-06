@@ -1,38 +1,31 @@
-import { FormOption } from "@/types/forms";
+import { FormOption } from "@/types/common";
 
-interface TapsProps<T = string[] | string> {
+interface TapsProps {
   options: FormOption[];
-  selected: T;
-  onClick: (value: FormOption) => void;
-  className?: string;
+  selected?: string | string[];
+  onChange: (value: string) => void;
 }
-export default function Tabs({
-  options,
-  selected,
-  onClick,
-  className = "",
-}: TapsProps) {
+
+export default function Tabs({ options, selected, onChange }: TapsProps) {
+  // RHF 연동 여부에 따라 값과 핸들러 결정
+  const currentValue = selected;
+  const handleClick = (option: FormOption) => {
+    onChange(option.id);
+  };
+
   return (
-    <ul className={`flex h-12 form-tabs ${className}`}>
+    <ul className={`flex h-12 form-tabs`}>
       {options.map((option) => (
         <li
-          className={`flex items-center justify-center flex-1 border-r border-r-gray-100 dark:border-r-gray-700 last:border-r-0 ${
-            selected.includes(option.id)
-              ? "font-bold bg-gray-200 dark:bg-blue-900 "
-              : ""
-          }`}
           key={option.id}
-          onClick={() => onClick(option)}
+          className={`flex items-center cursor-default justify-center flex-1 border-r border-r-gray-100 dark:border-r-gray-700 last:border-r-0 ${
+            currentValue?.includes(option.id)
+              ? "font-bold bg-gray-200 dark:bg-blue-900 "
+              : "cursor-pointer"
+          }`}
+          onClick={() => handleClick(option)}
         >
-          <p
-            className={`${
-              selected.includes(option.id)
-                ? "dark:text-gray-300 "
-                : "dark:text-gray-600"
-            }`}
-          >
-            {option.label}
-          </p>
+          {option.label}
         </li>
       ))}
     </ul>

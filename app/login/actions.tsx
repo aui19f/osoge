@@ -1,31 +1,28 @@
 "use server";
 import * as Sentry from "@sentry/nextjs";
-import db from "@/lib/db";
 import { loginSchema } from "@/schemas/auth";
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function LoginForm(prev: unknown, formData: FormData) {
+export default async function loginAction(prev: unknown, formData: FormData) {
+  const inputData = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+
   try {
-    const supabase = await createClient();
-    //1. 유효성확인
-    const inputData = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
     const result = await loginSchema.safeParseAsync(inputData);
-
     if (!result.success) {
-      return {
-        status: 401,
-        message: "아이디 비밀번호를 확인해주세요.",
-      };
+      throw "이메일, 비빌번호를 확인해주세요.";
     }
 
-    //2. 인증
+    const { email, password } = result.data;
+
+    const supabase = await createClient();
     const { data: authData, error: authError } =
       await supabase.auth.signInWithPassword({
-        email: result.data.email,
-        password: result.data.password,
+        email,
+        password,
       });
 
     if (authError || !authData.session || !authData.user) {
@@ -33,33 +30,15 @@ export default async function LoginForm(prev: unknown, formData: FormData) {
         "⚠️ 'signInWithPassword' 해당 사용자 정보를 찾을 수 없습니다."
       );
     }
-    //3. 디비
 
-    const user = await db.users.findUnique({
-      where: { id: authData.user.id }, // Supabase 유저 ID로 조회
-    });
-
-    if (!user) {
-      await supabase.auth.signOut();
-      throw new Error("⚠️ Supabase에는 있지만 DB에 없는 경우");
-    }
+    const userRole = authData?.user?.app_metadata?.role?.toUpperCase() || "";
+    redirect(`/${userRole}`);
 
     //4. 완료
-    return {
-      status: 200,
-      message: "",
-      data: {
-        user,
-        sesstion: {
-          access_token: authData.session.access_token,
-          refresh_token: authData.session.refresh_token,
-          expires_at: authData.session.expires_at || 0,
-          expires_in: authData.session.expires_in || 0,
-          token_type: authData.session.token_type || "bearer",
-          user: authData.session.user,
-        },
-      },
-    };
+    // return {
+    //   status: 200,
+    //   message: "",
+    // };
   } catch (error) {
     Sentry.captureException(error, {
       tags: { module: "login" },
