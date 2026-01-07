@@ -1,11 +1,12 @@
 "use client";
-import { useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 import { useForm } from "react-hook-form";
 import loginAction from "@/app/login/actions";
 import { LoginInput, loginSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoadingStore } from "@/store/useLoading";
 
 export default function LoginForm() {
   const [state, actions, isPending] = useActionState(loginAction, null);
@@ -20,7 +21,9 @@ export default function LoginForm() {
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    actions(data);
+    startTransition(() => {
+      actions(formData);
+    });
   };
 
   return (
@@ -38,7 +41,7 @@ export default function LoginForm() {
       <p className="text-sm text-red-400">{state?.message}</p>
 
       <Button type="submit" variant="primary" disabled={isPending}>
-        로그인
+        {isPending ? "로그인 중..." : "로그인"}
       </Button>
     </form>
   );
