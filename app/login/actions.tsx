@@ -1,8 +1,9 @@
 "use server";
-import * as Sentry from "@sentry/nextjs";
+
 import { loginSchema } from "@/schemas/auth";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { logError } from "@/utils/logger";
 
 export default async function loginAction(prev: unknown, formData: FormData) {
   // await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -34,20 +35,14 @@ export default async function loginAction(prev: unknown, formData: FormData) {
     }
     userRole = authData?.user?.app_metadata?.role?.toUpperCase() || "";
   } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("DEBUG Login Error:", error);
-    }
-
-    if (process.env.NODE_ENV === "production") {
-      Sentry.captureException(error, {
-        tags: { module: "login" },
-        extra: {
-          formData: { email: formData.get("email") },
-          message: "로그인 중 중 오류 발생",
-          systemErr: error,
-        },
-      });
-    }
+    logError(error, {
+      module: "Login",
+      message: "",
+      extra: {
+        formData: { ...inputData },
+        systemErr: error,
+      },
+    });
 
     return {
       status: 401,

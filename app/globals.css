@@ -46,6 +46,7 @@ textarea,
   dark:bg-gray-900 dark:border-gray-900 
   dark:placeholder:text-gray-600 dark:text-gray-500;
 }
+
 input,
 button,
 select,
@@ -64,4 +65,19 @@ textarea .form-tabs {
 
 .no-spinner {
   -moz-appearance: textfield; /* Firefox */
+}
+
+@layer base {
+  input[type="number"] {
+    /* Firefox */
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    @apply appearance-none m-0;
+    -webkit-appearance: none;
+  }
 }

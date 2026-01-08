@@ -1,12 +1,9 @@
+import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
 import LoaderRenderer from "@/components/loading/LoaderRenderer";
 import { QueryProvider } from "@/components/providers/QueryProvider";
-
-// import { AuthProvider } from "@/components/providers/AuthProvider";
-// import { getLoginUser } from "@/app/actions/getLoginUser";
+// import { AuthProvider } from "@/components/providers/AuthProvider"; // 임시주석처리
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,7 +40,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "어서오게 #OSOGE",
     description: "접수시스템",
-    // images: ["/images/background/apply_2000.jpg"],
     images: ["https://osoge.vercel.app/images/background/apply_2000.jpg"],
   },
   icons: {
@@ -59,7 +55,6 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = {
   themeColor: "#3b82f6",
-  //
 };
 
 //RootLayout이 항상 서버에서 동적으로 렌더링되도록 설정

@@ -51,12 +51,10 @@ export default function ApplyForm() {
     startTransition(() => {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        // 값이 없으면 빈 문자열("")을 보냄 (문자열 "null"이 되는 것 방지)
         formData.append(
           key,
           value === undefined || value === null ? "" : String(value)
         );
-        // formData.append(key, value ?? null)
       });
       actions(formData);
     });
@@ -71,9 +69,11 @@ export default function ApplyForm() {
   };
 
   useEffect(() => {
-    if (state?.status === 200) {
+    if (!state) return;
+
+    if (state.status === 200) {
       setIsConfirm(true);
-    } else {
+    } else if (state.status !== undefined) {
       setIsAlert(true);
     }
   }, [state, reset]);
@@ -188,13 +188,13 @@ export default function ApplyForm() {
           문의접수하기
         </Button>
       </form>
-      {isConfirm && (
-        <ApplyModals
-          onCancel={onClose}
-          phone={getValues("phone")}
-          isAlert={isAlert}
-        />
-      )}
+
+      <ApplyModals
+        onCancel={onClose}
+        phone={getValues("phone")}
+        isConfirm={isConfirm}
+        isAlert={isAlert}
+      />
     </>
   );
 }

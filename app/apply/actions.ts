@@ -1,7 +1,7 @@
 "use server";
-import * as Sentry from "@sentry/nextjs";
 import db from "@/lib/db";
 import { applySchema } from "@/schemas/apply";
+import { logError } from "@/utils/logger";
 
 export default async function createApply(prev: unknown, formData: FormData) {
   // 빈 문자열이면 null을 반환하여 DB 무결성 유지
@@ -41,11 +41,11 @@ export default async function createApply(prev: unknown, formData: FormData) {
       message: "접수가 완료되었습니다.",
     };
   } catch (error) {
-    Sentry.captureException(error, {
-      tags: { module: "Apply" },
+    logError(error, {
+      module: "Apply",
+      message: "문의글 작성 중 오류 발생",
       extra: {
         formData: { ...inputData },
-        message: "문의글 작성 중 오류 발생",
         systemErr: error,
       },
     });
