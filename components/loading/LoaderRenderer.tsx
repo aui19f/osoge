@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/components/loading/DefaultLoading";
 import DoubleLoader from "@/components/loading/DoubleLoader";
 import { useLoadingStore } from "@/store/useLoading";
 import { usePathname } from "next/navigation";
@@ -16,7 +17,7 @@ export default function LoaderRenderer() {
 
   if (isLoading) {
     if (type === "page") return <DoubleLoader />;
-    if (type === "") return <DoubleLoader />;
+    if (type === "") return <Loading />;
   }
 
   return null;

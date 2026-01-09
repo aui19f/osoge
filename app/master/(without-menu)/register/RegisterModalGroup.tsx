@@ -2,6 +2,7 @@ import GifLoading from "@/components/loading/GifLoading";
 import Alert from "@/components/modal/Alert";
 import Confirm from "@/components/modal/Confirm";
 import Toast from "@/components/modal/Toast";
+import { formatPhoneNumber } from "@/utils/formatter/phone";
 
 interface RegisterModalGroupProps {
   isConfirm: boolean;
@@ -35,8 +36,8 @@ export default function RegisterModalGroup({
         <Confirm
           title="접수하시겠습니까?"
           icon={agree.length === 0 ? "caution" : "sms"}
-          cancel={onCloseConfirm}
-          ok={handleSave}
+          onCancel={onCloseConfirm}
+          onOk={handleSave}
         >
           <div className="text-center">
             {agree.length === 0 ? (
@@ -50,7 +51,7 @@ export default function RegisterModalGroup({
               </p>
             ) : (
               <>
-                <p className="mb-2">{phone}</p>
+                <p className="mb-2">{formatPhoneNumber(phone)}</p>
                 <p>
                   완료시 해당 번호로 안내메시지를 전송합니다.
                   <br />

@@ -14,6 +14,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Server Action 호출인지 확인
+  const isServerAction = request.headers.has("next-action");
+
+  //개발버전일땐, 잠시 넘기자
+  if (process.env.NODE_ENV === "development") {
+    console.log("🚀 Server Action 감지: 미들웨어 통과");
+    if (isServerAction) {
+      return NextResponse.next();
+    }
+  }
+  if (isServerAction) {
+    return NextResponse.next();
+  }
+
   const { pathname } = request.nextUrl;
   if (process.env.NODE_ENV === "development") {
     console.log("Middleware called for:", request.nextUrl.pathname);

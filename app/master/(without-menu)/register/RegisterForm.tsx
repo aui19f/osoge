@@ -1,100 +1,120 @@
 "use client";
-import { registerForm } from "@/app/master/(without-menu)/register/actions";
+import { createRegister } from "@/app/master/(without-menu)/register/actions";
 import RegisterModalGroup from "@/app/master/(without-menu)/register/RegisterModalGroup";
 import Button from "@/components/forms/Button";
 import Checkbox from "@/components/forms/Checkbox";
 import Keypad from "@/components/keyboard/Keypad";
 import PhoneInputDisplay from "@/components/keyboard/PhoneInputDisplay";
+import { RegisterInput } from "@/schemas/register";
 import { startTransition, useActionState, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const REGISTER_AGREE = [
   { id: "agree", label: "[필수] 개인정보 수집 및 이용동의" },
 ];
 
-export default function RegisterForm() {
-  const [state, actions] = useActionState(registerForm, null);
-
-  const [phone, setPhone] = useState("010");
-  const [agree, setAgree] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  //modal
+export default function RegisterForm({ storeId }: { storeId: string }) {
   const [isConfirm, setIsConfirm] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
 
-  const handleNumberClick = (num: string) => {
-    if (phone.length >= 11) return;
-    setPhone((prev) => prev + num);
+  const [state, actions, isPending] = useActionState(createRegister, null);
+  const { control, reset, handleSubmit, watch, getValues } =
+    useForm<RegisterInput>({
+      mode: "onTouched",
+      defaultValues: {
+        phone: "010",
+        agree: [],
+        storeId,
+      },
+    });
+
+  const onCheckValidity = () => {
+    setIsConfirm(true);
   };
 
-  const handleDelete = () => setPhone((prev) => prev.slice(0, -1));
-
-  const reset = () => {
-    setPhone("010");
-    setAgree([]);
+  const handleFinalSubmit = () => {
     setIsConfirm(false);
-    setIsAlert(false);
-  };
+    const data = getValues();
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(
+        key,
+        value === undefined || value === null ? "" : String(value)
+      );
+    });
 
-  const handleSubmit = (formData: FormData) => {
-    setIsLoading(true); // 로딩 시작 (GifLoading 표시)
-    setIsConfirm(false);
-    startTransition(async () => {
-      formData.set("phone", phone);
-      formData.set("agree", agree.toString());
+    startTransition(() => {
       actions(formData);
     });
   };
 
-  const agreeChange = (target: HTMLInputElement) => {
-    const { checked, value } = target;
-
-    if (checked) {
-      setAgree((prev) => [...prev, value]);
-    } else {
-      setAgree((prev) => prev.filter((item) => item !== value));
-    }
+  const handleAgreeChange = (
+    id: string,
+    currentValue: string[],
+    onChangeFn: (val: string[]) => void
+  ) => {
+    const nextValue = currentValue.includes(id)
+      ? currentValue.filter((item) => item !== id)
+      : [...currentValue, id];
+    onChangeFn(nextValue);
   };
+
+  const watchedNumber = watch("phone");
 
   useEffect(() => {
     if (state?.status === 200) {
       setIsAlert(true);
-      setIsLoading(false);
     }
   }, [state]);
 
   return (
     <>
       <form
-        action={handleSubmit}
+        onSubmit={handleSubmit(onCheckValidity)}
         className="top-0 bottom-0 left-0 right-0 z-50 flex flex-col h-screen gap-4 fixe"
       >
         <div className="p-4 mt-4">
-          <PhoneInputDisplay value={phone} />
+          <PhoneInputDisplay value={watchedNumber} />
         </div>
-
-        <Keypad
-          onNumberClick={handleNumberClick}
-          onDelete={handleDelete}
-          onSubmit={reset}
-        />
-
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <Keypad
+              onNumberClick={(num) => {
+                if (value.length < 11) onChange(value + num);
+              }}
+              onDelete={() => {
+                onChange(value.slice(0, -1));
+              }}
+              onSubmit={() => {
+                onChange("010");
+              }}
+            />
+          )}
+        ></Controller>
         <div>
-          <Checkbox
+          <Controller
             name="agree"
-            options={REGISTER_AGREE}
-            selected={agree}
-            className="font-bold text-sky-600"
-            onChange={(e) => agreeChange(e.target)}
-          />{" "}
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                options={REGISTER_AGREE}
+                selected={field.value}
+                onChange={(id) =>
+                  handleAgreeChange(id, field.value, field.onChange)
+                }
+              />
+            )}
+          />
+
           <p className="mt-1 text-sm">완료된 후 안내메시지를 전송합니다.</p>
         </div>
         <div className="flex-1"></div>
         <Button
-          type="button"
+          type="submit"
           variant="primary"
-          disabled={phone.length < 10}
-          onClick={() => setIsConfirm(true)}
+          disabled={watchedNumber.length < 10}
         >
           접수
         </Button>
@@ -103,13 +123,16 @@ export default function RegisterForm() {
       <RegisterModalGroup
         isConfirm={isConfirm}
         isAlert={isAlert}
-        isLoading={isLoading}
-        phone={phone}
-        agree={agree}
+        isLoading={isPending}
+        phone={getValues("phone")}
+        agree={getValues("agree")}
         state={state?.status || 0}
         onCloseConfirm={() => setIsConfirm(false)}
-        onCloseAlert={() => reset()}
-        onSave={() => handleSubmit(new FormData())}
+        onCloseAlert={() => {
+          setIsAlert(false);
+          reset();
+        }}
+        onSave={handleFinalSubmit}
       />
     </>
   );

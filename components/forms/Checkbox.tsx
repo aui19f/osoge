@@ -1,17 +1,17 @@
 "use client";
 
 interface CheckboxProps {
-  name: string;
   options: { id: string; label: string }[];
   selected: string[];
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: string) => void;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export default function Checkbox({
-  name,
   options,
   selected,
   onChange,
+  ref,
 }: CheckboxProps) {
   return (
     <div>
@@ -19,12 +19,12 @@ export default function Checkbox({
         <label key={option.id} className="flex items-center gap-2">
           <div className="relative flex items-center cursor-pointer">
             <input
-              name={name}
               type="checkbox"
+              ref={ref}
               value={option.id}
               className="w-6 h-6 transition-all border rounded shadow appearance-none cursor-pointer peer hover:shadow-md border-sky-600 checked:bg-sky-600 checked:border-sky-600"
               checked={selected.includes(option.id)}
-              onChange={onChange}
+              onChange={(e) => onChange(e.target.value)}
             />
             <span className="absolute text-white transform -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 top-1/2 left-1/2">
               <svg

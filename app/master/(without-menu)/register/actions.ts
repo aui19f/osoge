@@ -1,45 +1,52 @@
 "use server";
-import { getUser } from "@/app/actions/getUser";
+
 import db from "@/lib/db";
 import { registerSchema } from "@/schemas/register";
+import { logError } from "@/utils/logger";
 
-export async function registerForm(prev: unknown, formData: FormData) {
+export async function createRegister(prev: unknown, formData: FormData) {
+  // 1. 입력데이터 확인
+  const isAgree = formData.get("agree") === "agree";
+  const inputData = {
+    phone: formData.get("phone"),
+    agree: isAgree ? ["agree"] : [],
+    storeId: formData.get("storeId"),
+  };
+  console.log("inputData", inputData);
+
   try {
-    //1. 입력데이터 확인
-    const isAgree = Boolean(formData.get("agree") === "agree");
-    const inputData = {
-      phone: formData.get("phone"),
-      isAgree,
-    };
     const result = registerSchema.safeParse(inputData);
     if (!result.success) {
-      return {
-        status: 401,
-        message: "핸드폰번호를 확인해주세요.",
-      };
+      throw "입력데이터를 확인해주세요.";
     }
 
-    const { storeIds } = await getUser();
-    if (storeIds.length === 0) throw new Error("관리중인 매장이 없습니다.");
-
-    //디비저장
-    const createReceive = await db.receive.create({
+    //2. 매장 조회 (다시 조회할건지 아직 고민중)
+    //3. 디비저장
+    const createRegister = await db.receive.create({
       data: {
         phone: isAgree ? result?.data?.phone : null,
-        storeId: storeIds[0],
+        storeId: result.data.storeId,
+      },
+    });
+    return {
+      status: 200,
+      message: "접수가 완료되었습니다.",
+      items: createRegister,
+    };
+  } catch (error) {
+    logError(error, {
+      module: "Register",
+      message: "",
+      extra: {
+        formData: { ...inputData },
+        systemErr: error,
       },
     });
 
     return {
-      status: 200,
-      message: "접수가 완료되었습니다.",
-      data: createReceive,
-    };
-  } catch (error) {
-    return {
       status: 401,
-      message: "접수가 되지 않았습니다.",
-      error: error,
+      message: "입력데이터를 확인해주세요?",
+      error,
     };
   }
 }
