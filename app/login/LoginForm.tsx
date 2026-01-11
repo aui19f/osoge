@@ -6,12 +6,11 @@ import { useForm } from "react-hook-form";
 import loginAction from "@/app/login/actions";
 import { LoginInput, loginSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoadingStore } from "@/store/useLoading";
 
 export default function LoginForm() {
   const [state, actions, isPending] = useActionState(loginAction, null);
 
-  const { register, handleSubmit } = useForm<LoginInput>({
+  const { register, handleSubmit, setFocus } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     mode: "onTouched", // 성능: 불필요한 리렌더링 방지를 위해 터치 시에만 검증
   });
@@ -25,6 +24,11 @@ export default function LoginForm() {
       actions(formData);
     });
   };
+  useEffect(() => {
+    if (state && state.status !== 200) {
+      setFocus("email");
+    }
+  }, [state, setFocus]);
 
   return (
     <form

@@ -11,7 +11,7 @@ import { ApplyInput, applySchema } from "@/schemas/apply";
 import { useLoadingStore } from "@/store/useLoading";
 
 import { changeFormatKoPhoneNumber } from "@/utils/formatter/phone";
-import { changeBusinessNumber } from "@/utils/validator/business";
+import { changeBusinessNumber } from "@/utils/formatter/business";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

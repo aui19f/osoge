@@ -3,9 +3,9 @@ export default function LineItemSkeleton({ count }: { count: number }) {
     <ul>
       {Array(count)
         .fill(0)
-        .map((x) => (
+        .map((_, index) => (
           <li
-            key={x}
+            key={index}
             className="relative flex flex-col gap-2 px-2 py-4 border-b border-b-gray-200"
           >
             <div className="flex gap-2 ">

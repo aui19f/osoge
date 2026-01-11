@@ -1,81 +1,55 @@
-"use client";
-import { useState } from "react";
 import SearchBar from "@/components/search/SearchBar";
-import { SearchFilters } from "@/app/admin/apply/actions";
-import { AnimatePresence } from "framer-motion";
-import OptionDetails from "@/components/search/OptionDetails";
-import { useQuery } from "@tanstack/react-query";
-import { getListRegister } from "@/app/master/(with-menu)/list/actions";
-import dayjs from "dayjs";
-import LineItemSkeleton from "@/components/list/LIneListSkeleton";
 import LineItem from "@/components/list/LineItem";
+import { getListRegister } from "@/app/master/(with-menu)/list/actions";
+import { SearchBarInput, searchBarSchema } from "@/schemas/search";
+import { EnumStatus } from "@prisma/client";
+import { Suspense } from "react";
+import LineItemSkeleton from "@/components/list/LIneListSkeleton";
 
-export default function List() {
-  const [text, setText] = useState("");
-  const [filterOptions, setFilterOptions] = useState<SearchFilters>({
-    type: "day",
+export interface PageProps {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
+// 데이터를 직접 가져오는 컴포넌트 분리
+async function ListContents({ filters }: { filters: SearchBarInput }) {
+  const result = await getListRegister(filters);
+  return (
+    <ul>
+      {result?.items?.map((item) => (
+        <LineItem key={item.id} {...item} page="list" />
+      ))}
+    </ul>
+  );
+}
+
+export default async function ListPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+
+  const defaultFilters = {
+    type: (params.type as string) || "all",
     date: {
-      start: dayjs().startOf("day").toDate(),
-      end: dayjs().endOf("day").toDate(),
+      start: params.start ? new Date(params.start as string) : null,
+      end: params.end ? new Date(params.end as string) : null,
     },
-    status: ["READY", "PROGRESS", "COMPLETED", "CANCEL"],
-    sort: "desc",
-  });
-  const [isOption, setIsOption] = useState(false);
-
-  const { data, refetch, isFetching } = useQuery({
-    queryKey: ["recipes", text, filterOptions], // filters 상태에만 의존
-    queryFn: async () =>
-      await getListRegister({
-        ...filterOptions,
-        text,
-      }),
-    staleTime: 1000 * 60, // 1분 캐시 유지
-    // enabled: false, // 수동 실행
-    gcTime: 0, // 페이지 떠날 때 캐시 삭제
-  });
-
-  const wordSearch = async (e: string) => {
-    await setText(e);
-    await refetch();
+    status: params.status
+      ? (params.status as string).split(",").map((s) => s as EnumStatus)
+      : [EnumStatus.READY],
+    sort: (params.sort as string) || "desc",
+    word: (params.word as string) || "",
   };
 
-  const filterSearch = async (e: SearchFilters) => {
-    const { type, date, status, sort } = e;
-    setFilterOptions({ type, date, status, sort });
-    setIsOption(false);
-    await refetch();
-  };
+  const filters = searchBarSchema.parse(defaultFilters);
 
   return (
-    <>
-      <SearchBar
-        {...filterOptions}
-        word={text}
-        onFilter={() => setIsOption(true)}
-        onSearch={(e) => wordSearch(e)}
-      />
-      <AnimatePresence>
-        {isOption && (
-          <OptionDetails
-            onClose={() => setIsOption(false)}
-            onSearch={(e) => filterSearch(e)}
-            {...filterOptions}
-          />
-        )}
-      </AnimatePresence>
-
-      <ul>
-        {isFetching ? (
-          <LineItemSkeleton count={Math.floor(window.innerHeight / 100)} />
-        ) : data && data.items.length > 0 ? (
-          data.items.map((item) => (
-            <LineItem key={item.id} {...item} replyType={"apply"} />
-          ))
-        ) : (
-          <p className="m-4 text-center">데이터가 없습니다.</p>
-        )}
-      </ul>
-    </>
+    <main>
+      <SearchBar initialFilters={filters} />
+      <section>
+        <Suspense fallback={<LineItemSkeleton count={10} />}>
+          <ListContents filters={filters} />
+        </Suspense>
+      </section>
+    </main>
   );
 }
