@@ -20,17 +20,8 @@ export const STATUS_OPTIONS = Object.keys(EnumStatus).map((key) => {
 });
 
 // 상태 한글로 출력하기
-export const formatStatusKo = (status: string) => {
-  switch (status) {
-    case "READY":
-      return "준비";
-    case "PROGRESS":
-      return "진행";
-    case "COMPLETED":
-      return "완료";
-    case "CANCEL":
-      return "취소";
-  }
+export const printStatusLabel = (status: string | EnumStatus) => {
+  return STATUS_LABELS[status as EnumStatus] || status;
 };
 
 //상태별 색상 매핑

@@ -1,4 +1,17 @@
-export const START_SERVICE_YEAR = 2024;
-export const DATE_FORMAT = "YYYY/MM/DD";
-export const TIME_FORMAT = "HH:mm";
-export const DATE_TIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
+import { DateTarget } from "@/schemas/search";
+
+export const DATE_LABELS: Record<DateTarget, string> = {
+  day: "하루",
+  week: "일주일",
+  month: "월별",
+  all: "전체",
+};
+
+export const DATE_OPTIONS = Object.entries(DATE_LABELS).map(([id, label]) => ({
+  id: id as DateTarget,
+  label,
+}));
+
+export const printStatusLabel = (dateType: string | DateTarget) => {
+  return DATE_LABELS[dateType as DateTarget] || dateType;
+};

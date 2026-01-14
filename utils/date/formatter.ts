@@ -1,16 +1,4 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault("Asia/Seoul");
-
-export default dayjs.tz;
-
-/**
- * 상대적 날짜 표현 (30일 미만은 'n일 전', 이후는 날짜 표시)
- */
+// 상대적 날짜 표현 (30일 미만은 'n일 전', 이후는 날짜 표시)
 export function formatRelativeDate(date: string): string {
   const now = new Date();
   const propDate = new Date(date);
