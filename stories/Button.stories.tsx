@@ -1,8 +1,6 @@
 import Button from "@/components/forms/Button";
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-// import type { FormIButton } from "@/types/forms";
-
 const meta: Meta<typeof Button> = {
   title: "Forms/Button",
   component: Button,

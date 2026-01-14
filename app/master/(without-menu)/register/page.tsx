@@ -11,8 +11,7 @@ export default async function RegisterPage() {
       <p className="text-xl font-bold">
         {dayjs().format("YYYY년 M월 D일 dddd")}
       </p>
-      {/* <RegisterForm storeId={store?.id || ""} /> */}
-      <RegisterForm storeId={"405ea1a3-a053-4f0f-a9a3-bbc065ab7cf3"} />
+      <RegisterForm storeId={"9e97b969-ff73-4f5d-89e7-b357a38e5da2"} />
     </div>
   );
 }

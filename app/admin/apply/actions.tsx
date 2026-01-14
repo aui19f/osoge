@@ -1,23 +1,20 @@
 "use server";
 
 import db from "@/lib/db";
+import { DateTarget } from "@/types/common";
 import { SortOrder } from "@/utils/constants/sort";
 import { EnumStatus } from "@prisma/client";
 
-type DateRange = { start: Date; end: Date };
-type DateType = "day" | "week" | "month" | "all";
-
 export interface SearchFilters {
-  type: DateType;
-  date: DateRange;
+  type: DateTarget;
+  date: { start: Date; end: Date };
   status: EnumStatus[];
   sort: SortOrder;
+  word: string;
 }
-export interface SearchOption extends SearchFilters {
-  text: string;
-}
-export default async function getListApply(params: SearchOption) {
-  const { type, date, status, sort, text } = params;
+
+export default async function getListApply(params: SearchFilters) {
+  const { type, date, status, sort, word } = params;
 
   try {
     return {
@@ -34,17 +31,17 @@ export default async function getListApply(params: SearchOption) {
           status: {
             in: status,
           },
-          ...(text && {
+          ...(word && {
             OR: [
               {
                 name: {
-                  contains: text,
+                  contains: word,
                   mode: "insensitive",
                 },
               },
               {
                 phone: {
-                  contains: text,
+                  contains: word,
                   mode: "insensitive",
                 },
               },

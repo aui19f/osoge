@@ -30,7 +30,7 @@ export default function Apply() {
       }),
     staleTime: 1000 * 60, // 1분 캐시 유지
     enabled: false, // 수동 실행
-    gcTime: 0, // 페이지 떠날 때 캐시 삭제
+    // gcTime: 0, // 페이지 떠날 때 캐시 삭제
   });
 
   const filterSearch = async (e: SearchFilters) => {
@@ -69,7 +69,7 @@ export default function Apply() {
           <LineItemSkeleton count={Math.floor(window.innerHeight / 100)} />
         ) : data && data.items.length > 0 ? (
           data.items.map((item) => (
-            <LineItem key={item.id} {...item} replyType={"apply"} />
+            <LineItem key={item.id} {...item} page={"apply"} />
           ))
         ) : (
           <p className="m-4 text-center">데이터가 없습니다.</p>
