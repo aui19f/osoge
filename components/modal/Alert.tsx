@@ -23,7 +23,7 @@ export default function Alert({
 
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
       <ModalFooter>
-        <Button type="button" sizes="sm" variant="primary" onClick={onClose}>
+        <Button type="button" sizes="md" variant="primary" onClick={onClose}>
           확인
         </Button>
       </ModalFooter>

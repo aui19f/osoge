@@ -21,13 +21,15 @@ export function ModalHeader({ title, icon, onClose }: ModalHeaderProps) {
   return (
     <div className="flex items-center gap-2.5 px-4 py-8 bg-gray-100 relative">
       <div className="flex flex-col items-center justify-center flex-1 gap-4 ">
-        <Image
-          src={`/images/icons/modal/${icon}.png`}
-          width={48}
-          height={48}
-          alt="알림창"
-          className="bg-cover"
-        />
+        {icon && (
+          <Image
+            src={`/images/icons/modal/${icon}.png`}
+            width={48}
+            height={48}
+            alt="알림창"
+            className="bg-cover"
+          />
+        )}
 
         <h3 className={`text-xl font-bold ${textColor}`}>{title}</h3>
       </div>
