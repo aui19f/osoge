@@ -1,4 +1,4 @@
-import { formatStatusKo, STATUS_COLORS } from "@/utils/constants/status";
+import { STATUS_COLORS, STATUS_LABELS } from "@/utils/constants/status";
 import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +11,7 @@ export interface LineItemProps {
   page?: string;
   phone?: string;
   name: string | null;
+  sendCount: number;
 }
 
 export default function LineItem({
@@ -20,6 +21,7 @@ export default function LineItem({
   page,
   phone,
   name = "",
+  sendCount = 0,
 }: LineItemProps) {
   return (
     <li className="relative p-2 border-b border-b-gray-200 50">
@@ -28,7 +30,7 @@ export default function LineItem({
           <span
             className={`px-0.5 py-1 text-sm rounded-sm ${STATUS_COLORS[status]} `}
           >
-            {formatStatusKo(status)}
+            {STATUS_LABELS[status]}
           </span>
         </div>
 
@@ -53,7 +55,7 @@ export default function LineItem({
             </p>
           </div>
         </div>
-        {page && (
+        {phone && (
           <div className="flex items-center gap-2">
             <div>
               <Image
@@ -63,7 +65,7 @@ export default function LineItem({
                 alt="type"
               />
             </div>
-            <p>0</p>
+            <p>{sendCount || 0}</p>
           </div>
         )}
       </Link>

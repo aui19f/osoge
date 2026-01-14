@@ -4,7 +4,8 @@ import SearchFilter from "@/components/search/SearchFilter";
 import { SearchBarInput, searchBarSchema } from "@/schemas/search";
 import { DATE_LABELS } from "@/utils/constants/date";
 import { formatSortKo } from "@/utils/constants/sort";
-import { formatStatusKo } from "@/utils/constants/status";
+import { printStatusLabel } from "@/utils/constants/status";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { AnimatePresence } from "framer-motion";
@@ -96,7 +97,7 @@ export default function SearchBar({
               상태:
               {currentFilters.status?.map((x: string) => (
                 <span className="ml-0.5" key={x}>
-                  {formatStatusKo(x)}
+                  {printStatusLabel(x)}
                 </span>
               ))}
             </p>

@@ -1,9 +1,11 @@
-export type SearchType = "phone" | "receipt";
-export type DateType = {
+export type SearchWordTarget = "phone" | "receipt";
+
+export type DateFields = {
   year: string;
   month: string;
   day?: string;
 };
+
 export type FormOption = {
   id: string;
   label: string;

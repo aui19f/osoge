@@ -1,27 +1,12 @@
 import SearchBar from "@/components/search/SearchBar";
-import LineItem from "@/components/list/LineItem";
-import { getListRegister } from "@/app/master/(with-menu)/list/actions";
-import { SearchBarInput, searchBarSchema } from "@/schemas/search";
+import { searchBarSchema } from "@/schemas/search";
 import { EnumStatus } from "@prisma/client";
-import { Suspense } from "react";
-import LineItemSkeleton from "@/components/list/LIneListSkeleton";
+import ListContentsClient from "@/app/master/(with-menu)/list/listContents";
 
 export interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-}
-
-// 데이터를 직접 가져오는 컴포넌트 분리
-async function ListContents({ filters }: { filters: SearchBarInput }) {
-  const result = await getListRegister(filters);
-  return (
-    <ul>
-      {result?.items?.map((item) => (
-        <LineItem key={item.id} {...item} page="list" />
-      ))}
-    </ul>
-  );
 }
 
 export default async function ListPage({ searchParams }: PageProps) {
@@ -46,9 +31,7 @@ export default async function ListPage({ searchParams }: PageProps) {
     <main>
       <SearchBar initialFilters={filters} />
       <section>
-        <Suspense fallback={<LineItemSkeleton count={10} />}>
-          <ListContents filters={filters} />
-        </Suspense>
+        <ListContentsClient filters={filters} />
       </section>
     </main>
   );

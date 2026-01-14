@@ -1,9 +1,4 @@
-import { FormOption } from "@/types/common";
-import {
-  ButtonHTMLAttributes,
-  InputHTMLAttributes,
-  TextareaHTMLAttributes,
-} from "react";
+import { InputHTMLAttributes } from "react";
 
 export const variants = {
   primary: "bg-blue-400 border-blue-400 text-white",
@@ -13,7 +8,7 @@ export const variants = {
   dark: "bg-slate-600 border-slate-600 text-white",
   "dark-line": "border border-slate-600 text-slate-600",
   disabled: "bg-slate-400 border-slate-400 text-slate-500",
-} as const; // 'as const'를 사용 > 객체의 속성을 읽기 전용으로 만든다.(정확한 문자열 리터럴 타입으로 추론)
+}; //as const; // 'as const'를 사용 > 객체의 속성을 읽기 전용으로 만든다.(정확한 문자열 리터럴 타입으로 추론)
 
 export type Variant = keyof typeof variants;
 
@@ -25,48 +20,14 @@ export const size = {
 
 export type Size = keyof typeof size;
 
-// 체크박스, 라디오 버튼, 셀렉트 등 여러 값을 선택하는 컴포넌트의 공통 프롭
-export interface FormMultiProp<T = string[] | string> {
-  name: string;
-  options: FormOption[];
-  selected: T;
-  disabled?: boolean;
-  sizes?: Size;
-  className?: string;
-}
-
 // 텍스트 입력 필드나 단일 선택 컴포넌트의 공통 프롭
 export interface FormSingleProp {
   name: string;
   sizes?: Size;
 }
 
-// 내부적으론 type ChangeEventHandler<T = Element> = (event: React.ChangeEvent<T>) => void; 이렇게 작성되어있지만,
-// 직관적이게 보기 위해 아래와 같은 타입별로 나눔
-export interface FormCheckedbox extends FormMultiProp<string[]> {
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-export interface FormSelectbox extends FormMultiProp<string> {
-  onChange: React.ChangeEventHandler<HTMLSelectElement>;
-}
-
-export interface FormTextarea
-  extends FormSingleProp,
-    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "onChange"> {
-  onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
-}
-
 export interface FormInput
   extends FormSingleProp,
     Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "onChange"> {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-export interface FormIButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  onClick?: () => void;
-  variant?: Variant;
-  sizes?: Size;
-  className?: string;
 }

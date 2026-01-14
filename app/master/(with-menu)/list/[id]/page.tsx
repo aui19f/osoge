@@ -1,19 +1,14 @@
-"use client";
-export default function page() {}
-// import ItemDetails from "@/components/modal/ItemDetails";
-// import { useRouter } from "next/navigation";
-
-// export default function ListModalPage() {
-//   const router = useRouter();
-//   const onClose = () => {
-//     router.push("/master/list");
-//   };
-
-//   return (
-//     <div className="h-full p-4 bg-white">
-//       <div className="flex flex-col h-full border border-gray-200 rounded-md ">
-//         <ItemDetails onClose={onClose} />
-//       </div>
-//     </div>
-//   );
-// }
+import ItemDetails from "@/components/items/Details";
+import { use } from "react";
+export default function ListDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  return (
+    <div className="h-full bg-white">
+      <ItemDetails id={id} type="page" />
+    </div>
+  );
+}

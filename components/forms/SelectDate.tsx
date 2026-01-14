@@ -1,48 +1,46 @@
 "use client";
 import Select from "@/components/forms/Select";
-import { getDayList, getMonthList, getYearList } from "@/utils/helpers/date";
+import { DateFields } from "@/types/common";
+import {
+  getDayList,
+  getMonthList,
+  getYearList,
+} from "@/utils/date/select-options";
 
-interface selectDateProps {
-  year: string;
-  month: string;
-  day?: string;
-  onChange: (date: { year: string; month: string; day?: string }) => void;
+interface SelectDateProps {
+  value: DateFields;
+  onChange: (value: DateFields) => void;
 }
 
-export default function SelectDate({
-  year,
-  month,
-  day,
-  onChange,
-}: selectDateProps) {
-  const dateChange = (type: "year" | "month" | "day", value: string) => {
-    const params = {
-      year,
-      month,
-      day,
-    };
-    params[type] = value;
-    onChange(params);
+export default function SelectDate({ value, onChange }: SelectDateProps) {
+  const { year, month, day } = value;
+
+  const dateChange = (type: keyof DateFields, newValue: string) => {
+    onChange({
+      ...value,
+      [type]: newValue,
+    });
   };
+
   return (
     <div className="flex gap-1 [&>div]:flex-1">
       <Select
         options={getYearList()}
         selected={year}
-        onChange={(e) => dateChange("year", e)}
+        onChange={(val) => dateChange("year", val)}
       />
 
       <Select
         options={getMonthList()}
         selected={month}
-        onChange={(e) => dateChange("month", e)}
+        onChange={(val) => dateChange("month", val)}
       />
 
-      {day && (
+      {day !== undefined && (
         <Select
           options={[{ id: "all", label: "전체" }, ...getDayList()]}
           selected={day}
-          onChange={(e) => dateChange("day", e)}
+          onChange={(val) => dateChange("day", val)}
         />
       )}
     </div>

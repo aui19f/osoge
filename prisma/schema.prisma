@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("NEXT_PUBLIC_DATABASE_URL")
-  directUrl = env("NEXT_PUBLIC_DIRECT_URL")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -14,43 +14,11 @@ model users {
   created_at DateTime       @default(now()) @db.Timestamptz(6)
   updated_at DateTime?      @default(now()) @updatedAt @db.Timestamp(6)
   email      String         @unique
-  nickname   String?
   role       EnumRole       @default(GUEST)
   status     EnumUserStatus @default(JOIN)
   planId     String?
-  settings   settings?
   store      store[]
   plan       plan?          @relation(fields: [planId], references: [id])
-  comments   comments[]
-}
-
-model receive {
-  id         String     @id @default(uuid())
-  created_at DateTime   @default(now()) @db.Timestamp(6)
-  updated_at DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
-  status     EnumStatus @default(READY)
-
-  // 날짜 자동 생성 (YYMMDD)
-  receive_date String @default(dbgenerated("to_char(now(), 'YYMMDD')"))
-
-  // 1. DB에서 자동으로 생성되는 번호 (YYMMDD01 형식)
-  // lpad와 시퀀스를 사용하여 DB 레벨에서 생성되도록 설정
-  display_id String @default(dbgenerated("(to_char(now(), 'YYMMDD') || lpad(nextval('recive_seq')::text, 2, '0'))"))
-
-  // 시퀀스를 통한 순번 자동 할당
-  // 주의: 이는 전체 누적 순번입니다. (일일 초기화는 별도 작업 필요)
-  daily_seq Int @default(dbgenerated("nextval('recive_seq')"))
-
-  storeId          String
-  store            store              @relation(fields: [storeId], references: [id])
-  receiveStatusLog receiveStatusLog[]
-  phone            String?
-  sendCount        Int?               @default(0)
-
-  price         Int?       @default(0)
-  paymentMethod String?
-  completionAt  DateTime?
-  comments      comments[]
 }
 
 model store {
@@ -71,31 +39,35 @@ model store {
   usersId          String?
   receives         receive[]
   users            users?    @relation(fields: [usersId], references: [id])
-  status           String?   @default("") //
 }
 
-model settings {
-  id            String @id @default(uuid())
-  usersId       String @unique
-  statsPeriod   Int    @default(3)
-  average_start Int
-  average_end   Int
-  users         users  @relation(fields: [usersId], references: [id])
-}
-
-model receiveStatusLog {
+model receive {
   id         String     @id @default(uuid())
-  receiveId  String
-  status     EnumStatus
-  changed_at DateTime   @default(now())
-  receive    receive    @relation(fields: [receiveId], references: [id], onDelete: Cascade)
-}
+  created_at DateTime   @default(now()) @db.Timestamp(6)
+  updated_at DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
+  status     EnumStatus @default(READY)
 
-model plan {
-  id       String  @id @default(uuid())
-  name     String  @unique
-  features Json
-  users    users[]
+  // 날짜 자동 생성 (YYMMDD)
+  receive_date String @default(dbgenerated("to_char(now(), 'YYMMDD')"))
+
+  // 1. DB에서 자동으로 생성되는 번호 (YYMMDD01 형식)
+  // lpad와 시퀀스를 사용하여 DB 레벨에서 생성되도록 설정
+  display_id String @default(dbgenerated("(to_char(now(), 'YYMMDD') || lpad(nextval('recive_seq')::text, 2, '0'))"))
+
+  // 시퀀스를 통한 순번 자동 할당
+  // 주의: 이는 전체 누적 순번입니다. (일일 초기화는 별도 작업 필요)
+  daily_seq Int @default(dbgenerated("nextval('recive_seq')"))
+
+  phone     String?
+  sendCount Int?    @default(0)
+
+  price         Int?      @default(0)
+  paymentMethod String?   @default("none")
+  completionAt  DateTime?
+
+  storeId String
+  store   store   @relation(fields: [storeId], references: [id])
+  memo    String? @default("")
 }
 
 model apply {
@@ -108,20 +80,14 @@ model apply {
   biz_name       String?
   biz_num        String?
   biz_num_status String?
-  memo           String?
-  comments       comments[]
+  memo           String?    @default("")
 }
 
-model comments {
-  id         String   @id @default(uuid())
-  contents   String
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  apply      apply?   @relation(fields: [apply_id], references: [id])
-  users      users?   @relation(fields: [users_id], references: [id])
-  users_id   String?
-  apply_id   String?
-  receive    receive? @relation(fields: [receive_id], references: [id])
-  receive_id String?
+model plan {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  features Json
+  users    users[]
 }
 
 enum EnumRole {
