@@ -1,3 +1,4 @@
+import { EnumStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const applySchema = z.object({
@@ -25,3 +26,11 @@ export const applySchema = z.object({
 });
 
 export type ApplyInput = z.infer<typeof applySchema>;
+
+export const applyHistorySchema = z.object({
+  id: z.string(), // 이건 수정할 apply 아이디 -- apply_id에 속한내용
+  status: z.nativeEnum(EnumStatus, {
+    errorMap: () => ({ message: "올바른 상태값을 선택해주세요." }),
+  }),
+  memo: z.string(),
+});

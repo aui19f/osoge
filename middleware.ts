@@ -53,6 +53,7 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (process.env.NODE_ENV === "development") {
     console.log("=====middleware========\n", user, "\n===============");
   }
@@ -72,7 +73,7 @@ export async function middleware(request: NextRequest) {
   // 4. 권한(Role) 체크 로직
   const userRole = user?.app_metadata?.role?.toUpperCase() || "";
   if (process.env.NODE_ENV === "development") {
-    console.log("[[userRole]]", userRole);
+    console.log("[[[[[userRole]]]]]", userRole);
   }
 
   const roleBasedPaths = [

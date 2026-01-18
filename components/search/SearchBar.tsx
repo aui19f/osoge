@@ -2,8 +2,9 @@
 import Button from "@/components/forms/Button";
 import SearchFilter from "@/components/search/SearchFilter";
 import { SearchBarInput, searchBarSchema } from "@/schemas/search";
+
 import { DATE_LABELS } from "@/utils/constants/date";
-import { formatSortKo } from "@/utils/constants/sort";
+import { printSortLabel } from "@/utils/constants/sort";
 import { printStatusLabel } from "@/utils/constants/status";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +24,7 @@ export default function SearchBar({
   const pathname = usePathname(); // ⭐️ 현재 경로 (예: "/list", "/dashboard")를 가져옴
   const searchParams = useSearchParams();
   const [isFilter, setIsFilter] = useState(false);
+
   const methods = useForm<SearchBarInput>({
     resolver: zodResolver(searchBarSchema),
     mode: "onTouched",
@@ -103,7 +105,7 @@ export default function SearchBar({
             </p>
             <span>|</span>
             <p>
-              정렬:<span>{formatSortKo(sort)}</span>
+              정렬:<span>{printSortLabel(sort)}</span>
             </p>
           </div>
         </div>

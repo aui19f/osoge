@@ -1,15 +1,15 @@
 "use client";
 
-import createApply from "@/app/apply/actions";
+import { createApply } from "@/app/apply/actions";
 import ApplyModals from "@/app/apply/ApplyModals";
 import Button from "@/components/forms/Button";
 import Input from "@/components/forms/Input";
 import InputFormatted from "@/components/forms/InputFormatted";
 import Textarea from "@/components/forms/Textarea";
 import verifyBusinessStatus from "@/lib/api/verifyBusinessStatus";
+
 import { ApplyInput, applySchema } from "@/schemas/apply";
 import { useLoadingStore } from "@/store/useLoading";
-
 import { changeFormatKoPhoneNumber } from "@/utils/formatter/phone";
 import { changeBusinessNumber } from "@/utils/formatter/business";
 import { zodResolver } from "@hookform/resolvers/zod";

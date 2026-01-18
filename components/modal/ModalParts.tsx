@@ -19,7 +19,7 @@ export function ModalHeader({ title, icon, onClose }: ModalHeaderProps) {
   const textColor = ""; //= ICON_COLOR_MAP[icon as string] || "text-slate-900";
 
   return (
-    <div className="flex items-center gap-2.5 px-4 py-8 bg-gray-100 relative">
+    <div className="flex items-center gap-2.5 p-4 bg-gray-100 relative">
       <div className="flex flex-col items-center justify-center flex-1 gap-4 ">
         {icon && (
           <Image

@@ -19,6 +19,7 @@ model users {
   planId     String?
   store      store[]
   plan       plan?          @relation(fields: [planId], references: [id])
+  nickname   String?
 }
 
 model store {
@@ -59,7 +60,7 @@ model receive {
   daily_seq Int @default(dbgenerated("nextval('recive_seq')"))
 
   phone     String?
-  sendCount Int?    @default(0)
+  sendCount Int     @default(0)
 
   price         Int?      @default(0)
   paymentMethod String?   @default("none")
@@ -71,16 +72,28 @@ model receive {
 }
 
 model apply {
+  id              String          @id @default(uuid())
+  created_at      DateTime        @default(now()) @db.Timestamp(6)
+  updated_at      DateTime?       @default(now()) @updatedAt @db.Timestamp(6)
+  name            String?
+  phone           String
+  status          EnumStatus      @default(READY)
+  biz_name        String?
+  biz_num         String?
+  biz_num_status  String?
+  memo            String?
+  apply_histories apply_history[]
+}
+
+model apply_history {
   id             String     @id @default(uuid())
-  created_at     DateTime   @default(now()) @db.Timestamp(6)
-  updated_at     DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
-  name           String?
-  phone          String
-  status         EnumStatus @default(READY)
-  biz_name       String?
-  biz_num        String?
-  biz_num_status String?
-  memo           String?    @default("")
+  admin_id       String // 상담원 ID
+  admin_nickname String? // 상담원 닉네임 (기록 시점의 닉네임 보존용)
+  status         EnumStatus // 상담 후 변경된 상태
+  content        String     @db.Text // 상담 내용
+  created_at     DateTime   @default(now()) @db.Timestamp(6) // 상담일
+  apply_id       String // 어떤 신청 건에 대한 상담인지 (FK)
+  apply          apply      @relation(fields: [apply_id], references: [id], onDelete: Cascade)
 }
 
 model plan {

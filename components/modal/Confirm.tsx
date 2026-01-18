@@ -29,7 +29,7 @@ export default function Confirm({
 
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
 
-      <ModalFooter className="[&>button]:flex-1">
+      <ModalFooter>
         <Button type="button" variant="dark-line" onClick={onCancel}>
           {cancelLabel}
         </Button>
