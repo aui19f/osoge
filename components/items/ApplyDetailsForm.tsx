@@ -3,6 +3,7 @@ import {
   selectApplyByIdRes,
 } from "@/app/actions/apply";
 import { setApplyHistory } from "@/app/admin/apply/actions";
+
 import Button from "@/components/forms/Button";
 import Tabs from "@/components/forms/Tabs";
 import Textarea from "@/components/forms/Textarea";
@@ -25,7 +26,7 @@ interface DetailFormProps {
   onClose: () => void;
 }
 
-export default function ApplyDetailForm({
+export default function ApplyDetailsForm({
   id,
   item,
   type,

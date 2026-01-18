@@ -1,7 +1,8 @@
 "use client";
 
 import { getApplyById } from "@/app/admin/apply/actions";
-import ApplyDetailForm from "@/components/items/ApplyDetailsForm";
+import ApplyDetailsForm from "@/components/items/ApplyDetailsForm";
+
 import { ModalHeader } from "@/components/modal/ModalParts";
 import ModalSkeleton from "@/components/modal/ModalSkeleton";
 import { useQuery } from "@tanstack/react-query";
@@ -41,7 +42,7 @@ export default function ApplyDetails({
     <>
       <ModalHeader title={`${data?.item?.name || "-"}`} onClose={handleClose} />
       {data?.item && (
-        <ApplyDetailForm
+        <ApplyDetailsForm
           item={data.item}
           id={id}
           type={type}
