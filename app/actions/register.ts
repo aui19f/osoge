@@ -2,24 +2,16 @@
 
 import db from "@/lib/db";
 import { ReceiptFormValues } from "@/schemas/register";
-import { SortTarget } from "@/schemas/search";
-import { EnumStatus, Prisma } from "@prisma/client";
+import { SearchBarInputProps } from "@/schemas/search";
+import { Prisma } from "@prisma/client";
 
-// 목록 조회
-interface getListRegisterProps {
-  id: string;
-  status: EnumStatus[];
-  sort: SortTarget;
-  word: string;
-  created_at: { get: Date | null; lte: Date | null } | undefined;
-}
-export async function getListRegister({
+export async function selectListRegister({
   id,
   status,
   sort,
   word,
   created_at,
-}: getListRegisterProps) {
+}: SearchBarInputProps) {
   return await db.receive.findMany({
     where: {
       storeId: id,
@@ -49,12 +41,9 @@ export async function getListRegister({
     },
   });
 }
-export type GetListRegisterResponse = Prisma.PromiseReturnType<
-  typeof getListRegister
->;
 
 // 단일 조회 (상세)
-export async function getRegisterById(id: string) {
+export async function selectRegisterById(id: string) {
   return await db.receive.findUnique({
     where: {
       id,
@@ -62,10 +51,11 @@ export async function getRegisterById(id: string) {
   });
 }
 
-export type GetRegisterByIdResponse = Prisma.PromiseReturnType<
-  typeof getRegisterById
+export type selectRegisterByIdRes = Prisma.PromiseReturnType<
+  typeof selectRegisterById
 >;
-export type RegisterItem = NonNullable<GetRegisterByIdResponse>;
+
+export type selectRegisterByIdItemRes = NonNullable<selectRegisterByIdRes>;
 
 // 3. 수정 (Update)
 export async function updateRegister(params: ReceiptFormValues) {

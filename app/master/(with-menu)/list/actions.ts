@@ -6,6 +6,7 @@ import { updateReceiptSchema } from "@/schemas/register";
 import { SearchBarInput, searchBarSchema } from "@/schemas/search";
 import { logError } from "@/utils/logger";
 import * as RegisterDB from "@/app/actions/register";
+// import { ensureAuth } from "@/app/actions/auth";
 
 export async function getListRegister(params: SearchBarInput) {
   try {
@@ -22,8 +23,15 @@ export async function getListRegister(params: SearchBarInput) {
 
     // const { storeIds } = await getUser();
     // if (storeIds.length === 0) throw new Error("관리중인 매장이 없습니다.");
+    // const {
+    //   user: {
+    //     app_metadata: { storeIds },
+    //   },
+    // } = await ensureAuth();
 
-    const items = await RegisterDB.getListRegister({
+    // if (storeIds[0].length === 0) throw new Error("관리중인 매장이 없습니다.");
+
+    const items = await RegisterDB.selectListRegister({
       id: "9e97b969-ff73-4f5d-89e7-b357a38e5da2",
       status,
       sort,
@@ -54,7 +62,7 @@ export async function getRegisterById(id: string) {
     return {
       status: 200,
       message: "완료",
-      items: RegisterDB.getRegisterById(id),
+      items: RegisterDB.selectRegisterById(id),
     };
   } catch (error) {
     logError(error, {
@@ -68,7 +76,7 @@ export async function getRegisterById(id: string) {
   }
 }
 
-export async function updateRegister(prevState: unknown, formData: FormData) {
+export async function setRegister(prevState: unknown, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
 
   try {
@@ -93,9 +101,7 @@ export async function updateRegister(prevState: unknown, formData: FormData) {
     return {
       status: 200,
       message:
-        validatedFields.data.saveType === "send"
-          ? "전송되었습니다."
-          : "저장되었습니다.",
+        validatedFields.data.saveType === "send" ? "전송되었습니다." : "",
     };
   } catch (error) {
     logError(error, {

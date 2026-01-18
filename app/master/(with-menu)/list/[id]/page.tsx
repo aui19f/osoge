@@ -1,4 +1,4 @@
-import ItemDetails from "@/components/items/Details";
+import RegisterDetails from "@/components/items/RegisterDetails";
 import { use } from "react";
 export default function ListDetail({
   params,
@@ -7,8 +7,8 @@ export default function ListDetail({
 }) {
   const { id } = use(params);
   return (
-    <div className="h-full bg-white">
-      <ItemDetails id={id} type="page" />
+    <div className="h-full bg-white ">
+      <RegisterDetails id={id} type="page" />
     </div>
   );
 }

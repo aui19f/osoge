@@ -15,7 +15,7 @@ export default function ApplyDetails({
   type: string;
 }) {
   const router = useRouter();
-  const { data, isPending } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["apply", id],
     queryFn: async () => await getApplyById(id),
     staleTime: 1000 * 60 * 5, // 5분 동안은 캐시된 데이터가 "신선(fresh)"하다고 판단하여 DB를 재조회하지 않음
@@ -32,9 +32,13 @@ export default function ApplyDetails({
     }
   };
 
+  if (isLoading) {
+    return <>{type === "modal" && isLoading && <ModalSkeleton />}</>;
+  }
+
+  if (isError || !data) return <div>데이터를 불러올 수 없습니다.</div>;
   return (
     <>
-      {type === "modal" && isPending && <ModalSkeleton />}
       <ModalHeader title={`${data?.item?.name || "-"}`} onClose={handleClose} />
       {data?.item && (
         <ApplyDetailForm

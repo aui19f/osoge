@@ -43,7 +43,7 @@ export default function MinHeader() {
         ${
           isVisible
             ? "bg-gray-800/40 pointer-events-auto" // 보일 때
-            : "bg-gray-50/40 pointer-events-auto" // 숨길 때 (클릭 방지) opacity-0 pointer-events-none
+            : " pointer-events-auto" // bg-gray-50/40 숨길 때 (클릭 방지) opacity-0 pointer-events-none
         }
         min-h-[calc(4rem+env(safe-area-inset-top))] 
         pt-[env(safe-area-inset-top)]

@@ -3,12 +3,12 @@
 import { getRegisterById } from "@/app/master/(with-menu)/list/actions";
 
 import { ModalHeader } from "@/components/modal/ModalParts";
-import DetailForm from "@/components/items/DetailForm";
+import DetailForm from "@/components/items/RegisterDetailForm";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-export default function ItemDetails({
+import ModalSkeleton from "@/components/modal/ModalSkeleton";
+export default function RegisterDetails({
   id,
   type,
 }: {
@@ -17,7 +17,7 @@ export default function ItemDetails({
 }) {
   const router = useRouter();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["register", id],
     queryFn: async () => {
       const response = await getRegisterById(id);
@@ -42,12 +42,7 @@ export default function ItemDetails({
   };
 
   if (isLoading) {
-    return (
-      <>
-        <div className="p-4 border-b">로딩 중...</div> {/* 헤더 가짜 UI */}
-        <DetailSkeleton />
-      </>
-    );
+    return <>{type === "modal" && isLoading && <ModalSkeleton />}</>;
   }
 
   if (isError || !data) return <div>데이터를 불러올 수 없습니다.</div>;
@@ -59,27 +54,3 @@ export default function ItemDetails({
     </>
   );
 }
-
-// 단순한 스켈레톤 컴포넌트
-const DetailSkeleton = () => (
-  <div className="p-4 space-y-4">
-    {/* 헤더 부분 스켈레톤 */}
-    <motion.div
-      animate={{ opacity: [0.5, 1, 0.5] }}
-      transition={{ repeat: Infinity, duration: 1.5 }}
-      className="w-1/3 h-8 bg-gray-200 rounded"
-    />
-    <hr className="border-gray-100" />
-    {/* 폼 내용 스켈레톤 */}
-    <div className="space-y-2">
-      {[1, 2, 3, 4].map((i) => (
-        <motion.div
-          key={i}
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }}
-          className="w-full h-12 bg-gray-100 rounded"
-        />
-      ))}
-    </div>
-  </div>
-);

@@ -19,24 +19,28 @@ import Tabs from "@/components/forms/Tabs";
 import Textarea from "@/components/forms/Textarea";
 import ModalGroup from "@/components/items/ModalGroup";
 
-import { RegisterItem } from "@/app/actions/register";
-import { updateRegister } from "@/app/master/(with-menu)/list/actions";
+import { selectRegisterByIdItemRes } from "@/app/actions/register";
+import { setRegister } from "@/app/master/(with-menu)/list/actions";
 import { PAYMENTMETHOD_OPTIONS } from "@/utils/constants/money";
 import Toast from "@/components/modal/Toast";
 
-interface DetailFormProps {
+interface RegisterDetailsFormProps {
   id: string;
-  item: RegisterItem;
+  item: selectRegisterByIdItemRes;
   onClose: () => void;
 }
 
-export default function DetailForm({ id, item, onClose }: DetailFormProps) {
+export default function RegisterDetailsForm({
+  id,
+  item,
+  onClose,
+}: RegisterDetailsFormProps) {
   const [isModal, setIsModal] = useState(false);
   const [isToast, setIsToast] = useState(false);
   const [saveType, setSaveType] = useState<"save" | "send" | "">("");
   const [confirmData, setConfirmData] = useState<ReceiptFormValues>();
 
-  const [state, actions] = useActionState(updateRegister, null);
+  const [state, actions] = useActionState(setRegister, null);
 
   const {
     register,
