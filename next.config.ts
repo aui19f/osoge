@@ -27,6 +27,6 @@ export default withSentryConfig(withPWA(nextConfig), {
   silent: !process.env.CI,
   widenClientFileUpload: true,
   tunnelRoute: "/monitoring",
-  disableLogger: true,
-  automaticVercelMonitors: true,
+  // disableLogger: true,
+  // automaticVercelMonitors: true,
 });
