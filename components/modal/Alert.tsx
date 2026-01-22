@@ -7,7 +7,7 @@ import {
   ModalHeaderProps,
 } from "./ModalParts";
 
-interface ConfirmProps extends ModalHeaderProps {
+interface AlertProps extends ModalHeaderProps {
   children: React.ReactNode;
 }
 
@@ -16,11 +16,10 @@ export default function Alert({
   icon,
   children,
   onClose,
-}: ConfirmProps) {
+}: AlertProps) {
   return (
     <ModalBase size="sm" onBackdropClick={onClose}>
       {title && <ModalHeader title={title} icon={icon} />}
-
       <ModalBody className="border-b border-gray-300">{children}</ModalBody>
       <ModalFooter>
         <Button type="button" sizes="md" variant="primary" onClick={onClose}>

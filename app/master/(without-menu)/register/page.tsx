@@ -8,7 +8,7 @@ export default async function RegisterPage() {
 
   return (
     <div
-      className="flex flex-col gap-4 p-4 h-dvh overflow: hidden;"
+      className="flex flex-col gap-4 p-4 h-dvh overflow: hidden; bg-gray-50"
       style={{ touchAction: "manipulation" }}
     >
       <p className="text-xl font-bold">

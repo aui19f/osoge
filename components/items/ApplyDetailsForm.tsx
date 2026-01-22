@@ -156,7 +156,7 @@ export default function ApplyDetailsForm({
             </li>
           </ul>
         </ModalBody>
-        <ModalFooter className="[&>button]:flex-1">
+        <ModalFooter>
           <input {...register("id")} type="hidden" />
           <Button type="button" onClick={onClose}>
             취소

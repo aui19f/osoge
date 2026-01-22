@@ -19,7 +19,7 @@ export function ModalHeader({ title, icon, onClose }: ModalHeaderProps) {
   const textColor = ""; //= ICON_COLOR_MAP[icon as string] || "text-slate-900";
 
   return (
-    <div className="flex items-center gap-2.5 p-4 bg-gray-100 relative">
+    <div className="flex items-center gap-2.5 p-4 bg-gray-100 relative rounded-t-xl">
       <div className="flex flex-col items-center justify-center flex-1 gap-4 ">
         {icon && (
           <Image
@@ -60,12 +60,13 @@ export function ModalBody({ children, className = "" }: ModalBodyProps) {
 // Footer
 interface ModalFooterProps {
   children: React.ReactNode;
-  className?: string;
 }
 
-export function ModalFooter({ children, className = "" }: ModalFooterProps) {
+export function ModalFooter({ children }: ModalFooterProps) {
   return (
-    <div className={`flex items-center justify-end gap-2 p-2  ${className}`}>
+    <div
+      className={`flex items-center justify-end gap-2 p-2 [&>button]:flex-1`}
+    >
       {children}
     </div>
   );

@@ -71,8 +71,7 @@ export default function RegisterForm({ storeId }: { storeId: string }) {
     <>
       <form
         onSubmit={handleSubmit(onCheckValidity)}
-        className="flex flex-col flex-1 gap-4"
-        // top-0 bottom-0 left-0 right-0 z-50 flex flex-col h-screen
+        className="flex flex-col flex-1 gap-4 "
       >
         <div className="p-4 mt-4">
           <PhoneInputDisplay value={watchedNumber} />
@@ -111,7 +110,6 @@ export default function RegisterForm({ storeId }: { storeId: string }) {
 
           <p className="mt-1 text-sm">완료된 후 안내메시지를 전송합니다.</p>
         </div>
-        {/* <div className="flex-1"></div> */}
         <Button
           type="submit"
           variant="primary"
