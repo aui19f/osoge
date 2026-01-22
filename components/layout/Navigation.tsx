@@ -21,7 +21,7 @@ export default function Navigation({ menus }: { menus: ItemProps[] }) {
   };
 
   return (
-    <ul className="fixed bottom-0 left-0 right-0 flex h-16 bg-gray-100 border-t border-t-white dark:bg-gray-900 dark:border-t-black">
+    <ul className="fixed bottom-0 left-0 right-0 z-20 flex h-16 bg-gray-100 border-t border-t-white dark:bg-gray-900 dark:border-t-black">
       {menus.map((menu) => (
         <li
           key={menu.url.replace("/", "")}

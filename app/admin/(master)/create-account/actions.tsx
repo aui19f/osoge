@@ -44,7 +44,9 @@ export async function CreateAccountForm(prev: unknown, formData: FormData) {
       plan = await db.plan.create({
         data: {
           name: "BASICS",
-          features: { receipt: true, print: false, send: false },
+          print: true,
+          register: false,
+          send_message: false,
         },
       });
       Sentry.captureException(error, {

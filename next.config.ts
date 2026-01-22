@@ -29,4 +29,12 @@ export default withSentryConfig(withPWA(nextConfig), {
   tunnelRoute: "/monitoring",
   // disableLogger: true,
   // automaticVercelMonitors: true,
+  // 💡 핵심 보안 옵션:
+  // 빌드 후 소스 맵을 삭제하여 외부 노출을 차단합니다.
+  sourcemaps: {
+    // 빌드 후 생성된 소스 맵을 삭제하여 클라이언트에 노출되지 않게 함 (보안)
+    deleteSourcemapsAfterUpload: true,
+  },
+  // 에러 발생 시 React 컴포넌트 이름을 더 정확하게 보여줍니다.
+  reactComponentAnnotation: { enabled: true },
 });

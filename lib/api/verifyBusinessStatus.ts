@@ -11,7 +11,7 @@ export default async function verifyBusinessStatus(bizNum: string) {
 
     if (!res.ok) throw "리턴타입확인";
     const result = await res.json();
-    console.log("[[[[result]]]]", result);
+
     const { b_no, tax_type_cd } = result.data[0];
     return {
       b_no,

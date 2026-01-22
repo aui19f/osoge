@@ -7,7 +7,10 @@ export default async function RegisterPage() {
   dayjs.locale("ko");
 
   return (
-    <div className="flex flex-col h-screen gap-4 p-4">
+    <div
+      className="flex flex-col gap-4 p-4 h-dvh overflow: hidden;"
+      style={{ touchAction: "manipulation" }}
+    >
       <p className="text-xl font-bold">
         {dayjs().format("YYYY년 M월 D일 dddd")}
       </p>

@@ -11,6 +11,13 @@ export const STATUS_LABELS: Record<EnumStatus, string> = {
   [EnumStatus.CANCEL]: "취소",
 };
 
+export const STATUS_INIT_COUNT: Record<string, number> = {
+  READY: 0,
+  PROGRESS: 0,
+  COMPLETED: 0,
+  CANCEL: 0,
+};
+
 export const STATUS_OPTIONS = Object.keys(EnumStatus).map((key) => {
   const statusKey = key as EnumStatus;
   return {

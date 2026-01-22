@@ -4,6 +4,7 @@ import { loginSchema } from "@/schemas/auth";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { logError } from "@/utils/logger";
+import { isExpectedError } from "@/utils/error";
 
 export default async function loginAction(prev: unknown, formData: FormData) {
   // await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -28,11 +29,18 @@ export default async function loginAction(prev: unknown, formData: FormData) {
         password,
       });
 
-    if (authError || !authData.session || !authData.user) {
-      throw new Error(
-        "⚠️ 'signInWithPassword' 해당 사용자 정보를 찾을 수 없습니다."
-      );
+    // 에러 필터링 -- 아이디/비번 오타 등
+    if (authError) {
+      if (isExpectedError(authError)) {
+        return { status: 401, message: "아이디 또는 비밀번호가 틀렸습니다." };
+      }
+      throw authError; // 예상치 못한 에러(DB 장애 등)만 catch로 던짐
     }
+
+    if (!authData.session || !authData.user) {
+      throw new Error("세션 생성 실패");
+    }
+
     userRole = authData?.user?.app_metadata?.role?.toUpperCase() || "";
   } catch (error) {
     logError(error, {

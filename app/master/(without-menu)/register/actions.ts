@@ -12,7 +12,6 @@ export async function createRegister(prev: unknown, formData: FormData) {
     agree: isAgree ? ["agree"] : [],
     storeId: formData.get("storeId"),
   };
-  console.log("inputData", inputData);
 
   try {
     const result = registerSchema.safeParse(inputData);

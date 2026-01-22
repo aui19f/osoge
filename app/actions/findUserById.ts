@@ -18,7 +18,7 @@ export async function findUserById(userId: string) {
         },
       },
     });
-    console.log("data", data);
+
     return data;
   } catch (error) {
     console.error("❌ Failed to fetch user with store:", error);

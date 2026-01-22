@@ -22,10 +22,17 @@ export const logError = (error: unknown, context: LogContext): void => {
 
   if (process.env.NODE_ENV === "production") {
     Sentry.captureException(error, {
+      //태그: 대시보드에서 필터링할 때 사용 (module별 분류)
       tags: { module },
+      // 컨텍스트: 에러와 관련된 상세 정보를 그룹화하여 저장
+      contexts: {
+        context_info: {
+          description: message,
+          ...extra,
+        },
+      },
+      //추가 데이터: 시스템 메시지나 스택 트레이스 등
       extra: {
-        description: message,
-        ...extra,
         systemMsg: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
       },

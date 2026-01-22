@@ -88,3 +88,85 @@ export async function updateRegister(params: ReceiptFormValues) {
 
 // // 4. 삭제 (Delete)
 // export async function deleteRegister(id: string) { ... }
+
+export async function getReceiveStatsStatistics(
+  storeId: string,
+  threeMonthsAgo: Date,
+  startOfToday: Date
+) {
+  const statsByStatus = await db.receive.groupBy({
+    by: ["status"],
+    where: {
+      storeId: storeId,
+      created_at: {
+        gte: threeMonthsAgo,
+      },
+    },
+    _count: {
+      _all: true,
+    },
+  });
+
+  // 3. 오늘 기준 총 접수 카운트
+  const todayTotalCount = await db.receive.count({
+    where: {
+      storeId: storeId,
+      created_at: {
+        gte: startOfToday,
+      },
+    },
+  });
+
+  // 데이터 가공
+  const threeMonthTotal = statsByStatus.reduce(
+    (acc, curr) => acc + curr._count._all,
+    0
+  );
+  const statusCounts = statsByStatus.reduce((acc, curr) => {
+    acc[curr.status] = curr._count._all;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return {
+    threeMonthTotal,
+    statusCounts, // { READY: 10, PROGRESS: 5, DONE: 20, CANCEL: 2 } 형식
+    todayTotalCount,
+  };
+}
+
+interface countByDate {
+  storeId: string;
+  startDate: Date;
+  endDate: Date;
+}
+export async function selectThreeMonthStats(params: countByDate) {
+  const { storeId, startDate, endDate } = params;
+  return await db.receive.groupBy({
+    by: ["status"],
+    where: {
+      storeId: storeId,
+      created_at: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+    _count: {
+      _all: true,
+    },
+  });
+}
+
+export async function selectTodayRegisterCount(params: countByDate) {
+  const { storeId, startDate, endDate } = params;
+  const count = await db.receive.count({
+    where: {
+      storeId: storeId,
+      created_at: {
+        gte: startDate,
+        lte: endDate,
+      },
+    },
+  });
+
+  return count;
+}
