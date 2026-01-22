@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+# 글로벌 gitignore (~/.gitignore_global)에서 actions.ts 를 무시
+# -> 이 프로젝트에서만 예외 처리 (글로벌 유지)
+!**/actions.ts
+
 # debug
 npm-debug.log*
 yarn-debug.log*
