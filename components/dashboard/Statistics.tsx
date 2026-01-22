@@ -1,6 +1,6 @@
 "use client";
 
-import { getThreeMonthStats } from "@/app/master/(with-menu)/actions";
+import { getThreeMonthStats } from "@/app/master/(with-menu)/list/actions";
 import StatisticsSkeleton from "@/components/dashboard/StatisticsSkeleton";
 import { printStatusLabel } from "@/utils/constants/status";
 import { useQuery } from "@tanstack/react-query";

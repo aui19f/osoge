@@ -36,5 +36,5 @@ export default withSentryConfig(withPWA(nextConfig), {
     deleteSourcemapsAfterUpload: true,
   },
   // 에러 발생 시 React 컴포넌트 이름을 더 정확하게 보여줍니다.
-  reactComponentAnnotation: { enabled: true },
+  // reactComponentAnnotation: { enabled: true },
 });

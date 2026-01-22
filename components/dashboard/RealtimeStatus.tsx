@@ -1,5 +1,6 @@
 "use client";
-import { getTodayHourlyStats } from "@/app/master/(with-menu)/actions";
+
+import { getTodayHourlyStats } from "@/app/master/(with-menu)/list/actions";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";

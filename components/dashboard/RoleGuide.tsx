@@ -1,6 +1,7 @@
 "use client";
 import { selectMasterRoleRes } from "@/app/actions/users";
-import { getBaseUserInfo } from "@/app/master/(with-menu)/actions";
+import { getBaseUserInfo } from "@/app/admin/management/actions";
+
 import { printPlanLabel } from "@/utils/constants/plan";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
