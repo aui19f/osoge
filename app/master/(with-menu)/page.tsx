@@ -22,11 +22,7 @@ export default function Master() {
       </div>
       <div className="z-10 flex flex-col h-full gap-4 px-4">
         <RoleGuide userId={userId} />
-        <Link
-          href="/master/register"
-          target="_blank"
-          rel="noopener noreferrer" // 보안과 성능을 위해 권장됩니다.
-        >
+        <Link href="/master/register" target="_blank" rel="noopener noreferrer">
           <div className="w-full px-8 py-4 font-bold text-center text-white transition-all duration-300 border rounded-full backdrop-blur-xl border-white/40 bg-linear-to-br from-blue-400/80 to-purple-600/60 ">
             접수 시작하기
           </div>
