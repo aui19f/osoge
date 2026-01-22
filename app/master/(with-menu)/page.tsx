@@ -1,8 +1,8 @@
 import Link from "next/link";
-import RoleGuide from "@/components/dashbaord/RoleGuide";
-import Statistics from "@/components/dashbaord/Statistics";
-import ChartSection from "@/components/dashbaord/ChartSection";
-import RealtimeStatus from "@/components/dashbaord/RealtimeStatus";
+import RoleGuide from "@/components/dashboard/RoleGuide";
+import Statistics from "@/components/dashboard/Statistics";
+import ChartSection from "@/components/dashboard/ChartSection";
+import RealtimeStatus from "@/components/dashboard/RealtimeStatus";
 import Image from "next/image";
 
 export default function Master() {
