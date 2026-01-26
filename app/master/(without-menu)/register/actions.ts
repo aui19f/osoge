@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/schemas/register";
 import { logError } from "@/utils/logger";
 
@@ -21,7 +21,7 @@ export async function createRegister(prev: unknown, formData: FormData) {
 
     //2. 매장 조회 (다시 조회할건지 아직 고민중)
     //3. 디비저장
-    const createRegister = await db.receive.create({
+    const createRegister = await prisma.receive.create({
       data: {
         phone: isAgree ? result?.data?.phone : null,
         storeId: result.data.storeId,

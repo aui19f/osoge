@@ -1,8 +1,8 @@
-import db from "@/lib/db";
 import * as Sentry from "@sentry/nextjs";
 import { createClient } from "@/lib/supabase/server";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
+import { prisma } from "@/lib/prisma";
 
 // 캐시 타입 정의
 let cachedUser: SupabaseAuthUser | null = null;
@@ -57,7 +57,7 @@ export async function getLoginUser(): Promise<UserWithStores | null> {
 }
 
 export const getDBUser = async (id: string): Promise<UserWithStores | null> => {
-  return db.users.findUnique({
+  return prisma.users.findUnique({
     where: { id },
     include: {
       store: {

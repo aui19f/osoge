@@ -1,7 +1,7 @@
 "use server";
 
-import db from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 
 // 로그인
 
@@ -17,7 +17,7 @@ import { Prisma } from "@prisma/client";
  * @returns
  */
 export async function selectMasterRole(userId: string) {
-  return await db.users.findUnique({
+  return await prisma.users.findUnique({
     where: { id: userId },
     select: {
       store: {

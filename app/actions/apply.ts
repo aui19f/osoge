@@ -1,14 +1,15 @@
 "use server";
 
 import { ensureAuth } from "@/app/actions/auth";
-import db from "@/lib/db";
+import { prisma } from "@/lib/prisma";
+
 import { ApplyInput } from "@/schemas/apply";
 import { SearchBarInputProps } from "@/schemas/search";
 import { EnumStatus, Prisma } from "@prisma/client";
 
 export async function createApply(params: ApplyInput) {
   const { name, phone, company, memo, biz_num, biz_num_status } = params;
-  return await db.apply.create({
+  return await prisma.apply.create({
     data: {
       name,
       phone,
@@ -26,7 +27,7 @@ export async function selectListApply({
   word,
   created_at,
 }: SearchBarInputProps) {
-  return await db.apply.findMany({
+  return await prisma.apply.findMany({
     where: {
       ...(created_at && created_at.get && created_at.lte && { ...created_at }),
       status: {
@@ -81,7 +82,7 @@ export async function selectListApply({
 }
 
 export async function selectApplyById(id: string) {
-  return await db.apply.findUnique({
+  return await prisma.apply.findUnique({
     where: { id },
     select: {
       id: true,
@@ -118,7 +119,7 @@ export interface createApplyHistoryProps {
   memo: string;
 }
 export async function updateApply(id: string, status: EnumStatus) {
-  return await db.apply.update({
+  return await prisma.apply.update({
     where: { id },
     data: { status },
   });
@@ -129,7 +130,7 @@ export async function insertApplyHistory(params: createApplyHistoryProps) {
     user: { email = "" },
   } = await ensureAuth();
 
-  return await db.apply_history.create({
+  return await prisma.apply_history.create({
     data: {
       admin_id: email,
       admin_nickname: email.split("@")[0],

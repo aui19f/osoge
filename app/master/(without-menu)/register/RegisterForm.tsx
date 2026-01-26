@@ -10,7 +10,7 @@ import { startTransition, useActionState, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const REGISTER_AGREE = [
-  { id: "agree", label: "[필수] 개인정보 수집 및 이용동의" },
+  { id: "agree1", label: "[필수] 개인정보 수집 및 이용동의" },
 ];
 
 export default function RegisterForm({ storeId }: { storeId: string }) {

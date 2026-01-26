@@ -1,14 +1,14 @@
 // lib/actions/user.ts
 "use server";
 
-import db from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 /**
  * 특정 유저의 상세 정보와 스토어 ID를 조회합니다.
  */
 export async function findUserById(userId: string) {
   try {
-    const data = await db.users.findUnique({
+    const data = await prisma.users.findUnique({
       where: {
         id: userId,
       },

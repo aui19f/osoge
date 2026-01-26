@@ -1,7 +1,6 @@
 // app/actions/auth.ts
 "use server";
 
-import db from "@/lib/db";
 import { createClient } from "@/lib/supabase/server";
 
 /**

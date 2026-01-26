@@ -1,9 +1,10 @@
 "use server";
 
-import db from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 import { ReceiptFormValues } from "@/schemas/register";
 import { SearchBarInputProps } from "@/schemas/search";
-import { Prisma } from "@prisma/client";
+// import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client"; // 타입 계산용 (Type)
 
 export async function selectListRegister({
   id,
@@ -12,7 +13,7 @@ export async function selectListRegister({
   word,
   created_at,
 }: SearchBarInputProps) {
-  return await db.receive.findMany({
+  return await prisma.receive.findMany({
     where: {
       storeId: id,
       ...(created_at && created_at.get && created_at.lte && { ...created_at }),
@@ -44,7 +45,7 @@ export async function selectListRegister({
 
 // 단일 조회 (상세)
 export async function selectRegisterById(id: string) {
-  return await db.receive.findUnique({
+  return await prisma.receive.findUnique({
     where: {
       id,
     },
@@ -62,7 +63,7 @@ export async function updateRegister(params: ReceiptFormValues) {
   const { id, price, paymentMethod, status, memo, saveType } = params;
 
   try {
-    return await db.receive.update({
+    return await prisma.receive.update({
       where: { id },
       data: {
         price,
@@ -94,7 +95,7 @@ export async function getReceiveStatsStatistics(
   threeMonthsAgo: Date,
   startOfToday: Date
 ) {
-  const statsByStatus = await db.receive.groupBy({
+  const statsByStatus = await prisma.receive.groupBy({
     by: ["status"],
     where: {
       storeId: storeId,
@@ -108,7 +109,7 @@ export async function getReceiveStatsStatistics(
   });
 
   // 3. 오늘 기준 총 접수 카운트
-  const todayTotalCount = await db.receive.count({
+  const todayTotalCount = await prisma.receive.count({
     where: {
       storeId: storeId,
       created_at: {
@@ -141,7 +142,7 @@ interface countByDate {
 }
 export async function selectThreeMonthStats(params: countByDate) {
   const { storeId, startDate, endDate } = params;
-  return await db.receive.groupBy({
+  return await prisma.receive.groupBy({
     by: ["status"],
     where: {
       storeId: storeId,
@@ -158,7 +159,7 @@ export async function selectThreeMonthStats(params: countByDate) {
 
 export async function selectTodayRegisterCount(params: countByDate) {
   const { storeId, startDate, endDate } = params;
-  const count = await db.receive.count({
+  const count = await prisma.receive.count({
     where: {
       storeId: storeId,
       created_at: {
