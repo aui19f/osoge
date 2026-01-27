@@ -39,7 +39,9 @@ body {
     @apply text-gray-200;
   }
 }
-
+input{
+  padding-left: 4px;
+}
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea,
@@ -53,6 +55,7 @@ input,
 button,
 select,
 textarea .form-tabs {
+
   @apply rounded-sm  
   disabled:bg-slate-200 disabled:text-slate-400 disabled:border-0 
   placeholder:text-slate-300;
@@ -83,3 +86,4 @@ textarea .form-tabs {
     -webkit-appearance: none;
   }
 }
+

@@ -12,10 +12,11 @@ export async function selectListRegister({
   word,
   created_at,
 }: SearchBarInputProps) {
+  
   return await db.receive.findMany({
     where: {
       storeId: id,
-      ...(created_at && created_at.get && created_at.lte && { ...created_at }),
+      ...(created_at && created_at.gte && created_at.lte && { ...created_at }),
       status: {
         in: status,
       },
