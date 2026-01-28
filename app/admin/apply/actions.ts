@@ -15,7 +15,7 @@ export async function getListApply(params: SearchBarInput) {
       type === "all"
         ? undefined
         : {
-            get: date.start,
+            gte: date.start,
             lte: date.end,
           };
     const items = await ApplyDb.selectListApply({

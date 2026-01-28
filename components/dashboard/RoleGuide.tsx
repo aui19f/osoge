@@ -17,7 +17,7 @@ export default function RoleGuide({ userId }: { userId: string }) {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
-    select: (response) => response.items,
+    select: (response) => response.items
   });
 
   if (isLoading)
