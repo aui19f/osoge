@@ -1,6 +1,7 @@
 import Confirm from "@/components/modal/Confirm";
 import ModalBase from "@/components/modal/ModalBase";
 import { ReceiptFormValues } from "@/schemas/register";
+import { printPaymentMethod } from "@/utils/constants/money";
 import { printStatusLabel } from "@/utils/constants/status";
 
 interface ModalGroupProps {
@@ -38,7 +39,7 @@ export default function ModalGroup({
                 {paymentMethod && paymentMethod !== "none" && (
                   <div className="flex">
                     <p className="w-20 font-bold">결제방법</p>
-                    <p>{paymentMethod}</p>
+                    <p>{printPaymentMethod(paymentMethod)}</p>
                   </div>
                 )}
                 <div className="flex">
@@ -77,7 +78,7 @@ export default function ModalGroup({
                 {paymentMethod && paymentMethod !== "none" && (
                   <div className="flex">
                     <p className="w-20 font-bold">결제방법</p>
-                    <p>{paymentMethod}</p>
+                    <p>{printPaymentMethod(paymentMethod)}</p>
                   </div>
                 )}
                 <div className="flex">

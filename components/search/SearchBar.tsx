@@ -41,9 +41,9 @@ export default function SearchBar({
       return DATE_LABELS[type];
     }
     if (date?.start && date?.end) {
-      const start = dayjs(date.start).format("YYYY/MM/DD HH:mm");
-      const end = dayjs(date.end).format("YYYY/MM/DD HH:mm");
-      return `${start} ~ ${end}`;
+      const start = dayjs(date.start).format("YYYY/MM/DD");
+      const end = dayjs(date.end).format("YYYY/MM/DD");
+      return `${start}~${end}`;
     }
     return "날짜 선택";
   };
@@ -91,22 +91,19 @@ export default function SearchBar({
 
           <div className="flex gap-1 py-1 text-sm text-slate-400">
             <p>
-              날짜: <span>{renderDateText()}</span>
+              {renderDateText()}
             </p>
             <span>|</span>
 
             <p>
-              상태:
+              
               {currentFilters.status?.map((x: string) => (
                 <span className="ml-0.5" key={x}>
                   {printStatusLabel(x)}
                 </span>
               ))}
             </p>
-            <span>|</span>
-            <p>
-              정렬:<span>{printSortLabel(sort)}</span>
-            </p>
+            <span>|</span><p>{printSortLabel(sort)}</p>
           </div>
         </div>
         <AnimatePresence>

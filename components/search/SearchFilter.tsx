@@ -126,7 +126,7 @@ export default function SearchFilter({ onClose }: SearchFilterProps) {
       </div>
       <div className="p-4 space-y-2 bg-white rounded-md">
         <p className="text-lg font-bold">
-          조회기간[{dayjs(draft.date.start).format("MM")}]
+          조회기간
         </p>
         <Tabs
           options={DATE_OPTIONS}

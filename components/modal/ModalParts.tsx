@@ -54,7 +54,7 @@ interface ModalBodyProps {
 }
 
 export function ModalBody({ children, className = "" }: ModalBodyProps) {
-  return <div className={`p-4 ${className}`}>{children}</div>;
+  return <div className={`bg-white flex-1 p-4 ${className}`}>{children}</div>;
 }
 
 // Footer

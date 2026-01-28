@@ -15,9 +15,11 @@ export default function Navigation({ menus }: { menus: ItemProps[] }) {
   const { setLoading } = useLoadingStore();
   const pathname = usePathname();
 
-  const isActive = (path: string) => {
-    if (pathname === path) return true;
-    return false;
+  const isActive = (menuUrl: string) => {
+    if (menuUrl === "/master") {
+      return pathname === "/master";
+    }
+    return pathname.startsWith(menuUrl);
   };
 
   return (

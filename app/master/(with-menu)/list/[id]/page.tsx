@@ -7,7 +7,7 @@ export default function ListDetail({
 }) {
   const { id } = use(params);
   return (
-    <div className="h-full bg-white ">
+    <div className="flex flex-col w-full h-full bg-white [&>div:first-child]:rounded-none">
       <RegisterDetails id={id} type="page" />
     </div>
   );

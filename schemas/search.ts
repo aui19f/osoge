@@ -20,7 +20,7 @@ export interface SearchBarInputProps {
   status: EnumStatus[];
   sort: SortTarget;
   word: string;
-  created_at: { get: Date | null; lte: Date | null } | undefined;
+  created_at: { gte: Date | null; lte: Date | null } | undefined;
 }
 
 export const itemDetailSchema = searchBarSchema.extend({

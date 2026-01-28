@@ -93,114 +93,114 @@ export default function RegisterDetailsForm({
         onSubmit={handleSubmit(onSubmitClick)}
         className="flex flex-col h-full"
       >
-        <div className="flex-1 ">
-          <ModalBody>
-            <ul className="[&>li]:flex [&>li]:items-center [&>li]:gap-2 space-y-4 flex-1">
-              <li>
-                <p className="w-20 font-bold">접수일</p>
-                <p className="flex-1">
-                  {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
-                </p>
-              </li>
+        
+      <ModalBody>
+        <ul className="[&>li]:flex [&>li]:items-center [&>li]:gap-2 space-y-4 flex-1">
+          <li>
+            <p className="w-20 font-bold">접수일</p>
+            <p className="flex-1">
+              {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
+            </p>
+          </li>
 
-              {item?.completionAt && (
-                <li>
-                  <p className="w-20 font-bold">완료일</p>
-                  <p className="flex-1">
-                    {dayjs(item.completionAt).format("YYYY-MM-DD HH:mm")}{" "}
-                    <span className="font-bold">
-                      (+
-                      {dayjs(item?.completionAt).diff(
-                        dayjs(item?.created_at),
-                        "day"
-                      )}
-                      일)
-                    </span>
-                  </p>
-                </li>
-              )}
-
-              {item?.phone && (
-                <li>
-                  <p className="w-20 font-bold">핸드폰</p>
-                  <p className="flex-1">
-                    {formatPhoneNumber(String(item?.phone))}
-                  </p>
-                </li>
-              )}
-
-              <li className="[&>div]:flex-1">
-                <p className="w-20 font-bold">가격</p>
-
-                <div>
-                  <Controller
-                    name="price"
-                    control={control}
-                    render={({ field }) => (
-                      <NumberInput
-                        {...field}
-                        placeholder="금액을 입력하세요" // 이제 placeholder가 잘 보입니다.
-                      />
-                    )}
-                  />
-                  <p className="text-sm text-red-400">
-                    0으로 입력 시, 고객에게 전달되는 가격정보는 비공개됩니다.
-                  </p>
-                </div>
-              </li>
-
-              <li className="[&>ul]:flex-1">
-                <p className="w-20 font-bold">방법</p>
-                <Controller
-                  name="paymentMethod"
-                  control={control}
-                  render={({ field }) => (
-                    <Tabs
-                      options={PAYMENTMETHOD_OPTIONS.filter(
-                        (option) => option.id !== "none"
-                      )}
-                      selected={field.value}
-                      onChange={(option) => {
-                        field.onChange(
-                          field.value === option ? "none" : option
-                        );
-                      }}
-                    />
+          {item?.completionAt && (
+            <li>
+              <p className="w-20 font-bold">완료일</p>
+              <p className="flex-1">
+                {dayjs(item.completionAt).format("YYYY-MM-DD HH:mm")}{" "}
+                <span className="font-bold">
+                  (+
+                  {dayjs(item?.completionAt).diff(
+                    dayjs(item?.created_at),
+                    "day"
                   )}
-                />
-              </li>
+                  일)
+                </span>
+              </p>
+            </li>
+          )}
 
-              <li className="[&>ul]:flex-1">
-                <p className="w-20 font-bold">상태</p>
-                <Controller
-                  name="status"
-                  control={control}
-                  render={({ field }) => (
-                    <Tabs
-                      options={STATUS_OPTIONS}
-                      selected={field.value}
-                      onChange={field.onChange}
-                    />
-                  )}
-                />
-              </li>
+          {item?.phone && (
+            <li>
+              <p className="w-20 font-bold">핸드폰</p>
+              <p className="flex-1">
+                {formatPhoneNumber(String(item?.phone))}
+              </p>
+            </li>
+          )}
 
-              <li className="">
-                <p className="w-20 font-bold">메모</p>
-                <div className="flex-1 [&>textarea]:w-full">
-                  <Controller
-                    name="memo"
-                    control={control}
-                    render={({ field }) => (
-                      <Textarea {...field} placeholder="메모" />
-                    )}
+          <li className="[&>div]:flex-1">
+            <p className="w-20 font-bold">가격</p>
+
+            <div>
+              <Controller
+                name="price"
+                control={control}
+                render={({ field }) => (
+                  <NumberInput
+                    {...field}
+                    placeholder="금액을 입력하세요" // 이제 placeholder가 잘 보입니다.
                   />
-                  <p className="text-sm">해당 내용은 전송되지 않습니다.</p>
-                </div>
-              </li>
-            </ul>
-          </ModalBody>
-        </div>
+                )}
+              />
+              <p className="text-sm text-red-400">
+                0으로 입력 시, 고객에게 전달되는 가격정보는 비공개됩니다.
+              </p>
+            </div>
+          </li>
+
+          <li className="[&>ul]:flex-1">
+            <p className="w-20 font-bold">방법</p>
+            <Controller
+              name="paymentMethod"
+              control={control}
+              render={({ field }) => (
+                <Tabs
+                  options={PAYMENTMETHOD_OPTIONS.filter(
+                    (option) => option.id !== "none"
+                  )}
+                  selected={field.value}
+                  onChange={(option) => {
+                    field.onChange(
+                      field.value === option ? "none" : option
+                    );
+                  }}
+                />
+              )}
+            />
+          </li>
+
+          <li className="[&>ul]:flex-1">
+            <p className="w-20 font-bold">상태</p>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Tabs
+                  options={STATUS_OPTIONS}
+                  selected={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          </li>
+
+          <li className="">
+            <p className="w-20 font-bold">메모</p>
+            <div className="flex-1 [&>textarea]:w-full">
+              <Controller
+                name="memo"
+                control={control}
+                render={({ field }) => (
+                  <Textarea {...field} placeholder="메모" />
+                )}
+              />
+              <p className="text-sm">해당 내용은 전송되지 않습니다.</p>
+            </div>
+          </li>
+        </ul>
+      </ModalBody>
+        
 
         <ModalFooter>
           <input {...register("id")} type="hidden" />

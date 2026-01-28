@@ -3,7 +3,6 @@
 import { prisma } from "@/lib/prisma";
 import { ReceiptFormValues } from "@/schemas/register";
 import { SearchBarInputProps } from "@/schemas/search";
-// import { Prisma } from "@prisma/client";
 import type { Prisma } from "@prisma/client"; // 타입 계산용 (Type)
 
 export async function selectListRegister({
@@ -13,10 +12,12 @@ export async function selectListRegister({
   word,
   created_at,
 }: SearchBarInputProps) {
+
   return await prisma.receive.findMany({
+
     where: {
       storeId: id,
-      ...(created_at && created_at.get && created_at.lte && { ...created_at }),
+      ...(created_at && created_at.gte && created_at.lte && { ...created_at }),
       status: {
         in: status,
       },

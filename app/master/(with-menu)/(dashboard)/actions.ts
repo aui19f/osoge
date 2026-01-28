@@ -14,16 +14,42 @@ const getCachedMasterRole = (userId: string) =>
 
 export async function getBaseUserInfo(userId: string) {
   try {
+    // 1. 캐시 또는 DB에서 데이터 가져오기
     const result = await getCachedMasterRole(userId);
-    const { store, plan } = result || { plan: {}, store: [] };
-    const { name = "", biz_type = "" } = store[0];
 
+    // 2. 데이터가 아예 없는 경우 (DB에 유저 정보가 없을 때)
+    if (!result) {
+      return {
+        status: 404,
+        message: "사용자 정보를 찾을 수 없습니다.",
+        items: null,
+      };
+    }
+
+    // 3. 안전하게 구조 분해 할당 (기본값 설정)
+    const { store = [], plan = {} } = result;
+    
+    // store가 배열이므로 첫 번째 요소가 있는지 체크
+    const firstStore = store[0] || { name: "", biz_type: "" };
+    const { name, biz_type } = firstStore;
+
+    // 4. 최종 성공 리턴 (정상적인 데이터 합치기)
     return {
       status: 200,
-      items: { ...plan, ...{ name, biz_type } },
+      items: { 
+        ...plan, 
+        name, 
+        biz_type 
+      },
     };
+
   } catch (error) {
-    console.log("error", error);
-    return { status: 500, items: null };
+    // 5. 예상치 못한 에러 발생 시 리턴
+    console.error("User Info Action Error:", error);
+    return { 
+      status: 500, 
+      message: "서버 내부 오류가 발생했습니다.", 
+      items: null 
+    };
   }
 }

@@ -64,8 +64,11 @@ export default function RegisterForm({ storeId }: { storeId: string }) {
   useEffect(() => {
     if (state?.status === 200) {
       setIsAlert(true);
+      reset();
+    }else if(state?.status === 401){
+      setIsAlert(true);
     }
-  }, [state]);
+  }, [state,reset]);
 
   return (
     <>
@@ -129,7 +132,6 @@ export default function RegisterForm({ storeId }: { storeId: string }) {
         onCloseConfirm={() => setIsConfirm(false)}
         onCloseAlert={() => {
           setIsAlert(false);
-          reset();
         }}
         onSave={handleFinalSubmit}
       />
