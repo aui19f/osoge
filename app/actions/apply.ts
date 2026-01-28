@@ -29,7 +29,7 @@ export async function selectListApply({
 }: SearchBarInputProps) {
   return await prisma.apply.findMany({
     where: {
-      ...(created_at && created_at.get && created_at.lte && { ...created_at }),
+      ...(created_at && created_at.gte && created_at.lte && { ...created_at }),
       status: {
         in: status,
       },
