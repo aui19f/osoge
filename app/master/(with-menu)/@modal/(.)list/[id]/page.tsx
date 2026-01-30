@@ -1,16 +1,17 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import RegisterDetails from "@/components/items/RegisterDetails";
 import { motion } from "framer-motion";
 import ModalMotionBase from "@/components/modal/ModalMotionBase";
 export default function ListDetail() {
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
   const itemId = Array.isArray(id) ? id[0] : id;
 
   return (
-    <ModalMotionBase>
+    <ModalMotionBase onBackdropClick={()=>router.back()}>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -27,7 +28,7 @@ export default function ListDetail() {
           damping: 30,
           stiffness: 300,
         }}
-        className="w-full max-w-lg bg-white rounded-t-[30px] shadow-2xl h-[85vh] flex flex-col"
+        className="w-full max-w-lg bg-white rounded-t-[30px] shadow-2xl h-[90vh] overflow-auto flex flex-col"
       >
         {itemId && <RegisterDetails id={itemId} type="modal" />}
       </motion.div>

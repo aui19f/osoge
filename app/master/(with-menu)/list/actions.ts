@@ -132,7 +132,7 @@ export async function setRegister(prevState: unknown, formData: FormData) {
     return {
       status: 200,
       message:
-        validatedFields.data.saveType === "send" ? "전송되었습니다." : "",
+        validatedFields.data.saveType === "send" ? "전송되었습니다." : "저장되었습니다.",
     };
   } catch (error) {
     logError(error, {

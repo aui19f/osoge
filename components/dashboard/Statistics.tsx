@@ -2,10 +2,15 @@
 
 import { getThreeMonthStats } from "@/app/master/(with-menu)/list/actions";
 import StatisticsSkeleton from "@/components/dashboard/StatisticsSkeleton";
+import { useLoadingStore } from "@/store/useLoading";
 import { printStatusLabel } from "@/utils/constants/status";
+
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function Statistics({ storeId }: { storeId: string }) {
+  const router = useRouter();
+  const {setLoading} = useLoadingStore();
   const { data, isLoading } = useQuery({
     queryKey: ["three-month-stats", storeId],
     queryFn: async () => await getThreeMonthStats(storeId),
@@ -15,6 +20,11 @@ export default function Statistics({ storeId }: { storeId: string }) {
     refetchOnMount: false, // 페이지 재진입 시 재요청 금지
   });
 
+  const onChangeUrl = (status: string) =>{
+    setLoading(true);
+    router.push(`/master/list?type=all&status=${status}&sort=desc`);
+    
+  }
   if (isLoading) return <StatisticsSkeleton />;
 
   return (
@@ -24,9 +34,10 @@ export default function Statistics({ storeId }: { storeId: string }) {
       <ul className="grid grid-cols-2 gap-4 w-full max-w-md mx-auto *:**:dark:text-gray-400">
         {data?.items &&
           Object.entries(data?.items).map(([status, count]) => (
-            <li
+            <li 
               key={status}
               className="relative flex items-center justify-center flex-1 group"
+              onClick={()=>onChangeUrl(status)}
             >
               <div className="absolute inset-0 transition-all duration-500 bg-blue-400/20 rounded-3xl blur-2xl group-hover:bg-pink-400/30 " />
 
